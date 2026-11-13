@@ -1247,3 +1247,326 @@
   .uq-pub-card { padding: 24px 20px; }
   .uq-pub-acc-body { padding-left: 18px; }
 }
+
+/* ==========================================================================
+   Vitrine complète — Applications / Technologie / Équipe / Actus / Contact
+   ========================================================================== */
+
+/* ---------- Cartes applications ---------- */
+.uq-land-card--app {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 220px;
+}
+
+.uq-land-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2px;
+}
+
+.uq-land-app-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #070a12;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+}
+
+.uq-land-statut {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+}
+.uq-land-statut--live {
+  color: #34d399;
+  background: rgba(52, 211, 153, 0.12);
+  border-color: rgba(52, 211, 153, 0.35);
+}
+.uq-land-statut--dev {
+  color: #fbbf24;
+  background: rgba(251, 191, 36, 0.1);
+  border-color: rgba(251, 191, 36, 0.3);
+}
+.uq-land-statut--soon {
+  color: #94a3b8;
+  background: rgba(148, 163, 184, 0.1);
+  border-color: rgba(148, 163, 184, 0.25);
+}
+
+.uq-land-card--app .uq-land-card-desc { flex: 1; }
+.uq-land-card-cta--soon {
+  color: rgba(238, 241, 248, 0.4);
+  cursor: default;
+}
+.uq-land-card-cta--soon:hover { color: rgba(238, 241, 248, 0.4); }
+
+/* ---------- Grille technologie ---------- */
+.uq-land-tech-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px 80px;
+}
+
+.uq-land-tech {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 18px;
+  padding: 26px 22px;
+  backdrop-filter: blur(12px);
+  transition: border-color 0.3s ease, transform 0.3s ease, background 0.3s ease;
+}
+.uq-land-tech:hover {
+  border-color: rgba(251, 191, 36, 0.4);
+  background: rgba(255, 255, 255, 0.06);
+  transform: translateY(-4px);
+}
+.uq-land-tech-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fbbf24;
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.18), rgba(251, 191, 36, 0.05));
+  border: 1px solid rgba(251, 191, 36, 0.3);
+  margin-bottom: 14px;
+}
+.uq-land-tech h3 {
+  font-family: 'Iowan Old Style', Palatino, Georgia, serif;
+  font-size: 19px;
+  font-weight: 600;
+  color: #fff;
+  margin: 0 0 8px;
+}
+.uq-land-tech p {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: rgba(238, 241, 248, 0.6);
+  margin: 0;
+}
+
+/* ---------- Équipe ---------- */
+.uq-land-equipe {
+  padding: 90px 24px;
+}
+.uq-land-equipe-inner {
+  max-width: 860px;
+  margin: 0 auto;
+  display: flex;
+  gap: 34px;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 24px;
+  padding: 44px 48px;
+  backdrop-filter: blur(12px);
+}
+.uq-land-equipe-avatar {
+  flex: 0 0 auto;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Iowan Old Style', Palatino, Georgia, serif;
+  font-size: 40px;
+  font-weight: 700;
+  color: #070a12;
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  box-shadow: 0 16px 40px rgba(251, 191, 36, 0.25);
+}
+.uq-land-equipe-nom {
+  font-family: 'Iowan Old Style', Palatino, Georgia, serif;
+  font-size: 30px;
+  font-weight: 600;
+  color: #fff;
+  margin: 8px 0 4px;
+}
+.uq-land-equipe-role {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #fbbf24;
+  margin-bottom: 12px;
+}
+.uq-land-equipe-bio {
+  font-size: 14.5px;
+  line-height: 1.7;
+  color: rgba(238, 241, 248, 0.65);
+  margin: 0;
+}
+
+/* ---------- Actualités ---------- */
+.uq-land-actu-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px 90px;
+}
+.uq-land-actu {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 18px;
+  padding: 26px 24px;
+  transition: border-color 0.3s ease, transform 0.3s ease;
+}
+.uq-land-actu:hover {
+  border-color: rgba(251, 191, 36, 0.35);
+  transform: translateY(-3px);
+}
+.uq-land-actu-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+.uq-land-actu-tag {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fbbf24;
+  background: rgba(251, 191, 36, 0.1);
+  border: 1px solid rgba(251, 191, 36, 0.3);
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+.uq-land-actu-date {
+  font-size: 12px;
+  color: rgba(238, 241, 248, 0.45);
+}
+.uq-land-actu h3 {
+  font-family: 'Iowan Old Style', Palatino, Georgia, serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+  margin: 0 0 8px;
+}
+.uq-land-actu p {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: rgba(238, 241, 248, 0.6);
+  margin: 0;
+}
+
+/* ---------- Contact ---------- */
+.uq-land-contact {
+  padding: 90px 24px;
+}
+.uq-land-contact-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: start;
+}
+.uq-land-contact-mail {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 26px;
+  padding: 12px 20px;
+  border-radius: 14px;
+  border: 1px solid rgba(251, 191, 36, 0.35);
+  background: rgba(251, 191, 36, 0.08);
+  color: #fbbf24;
+  text-decoration: none;
+  font-size: 14.5px;
+  font-weight: 600;
+  transition: background 0.25s ease, transform 0.25s ease;
+}
+.uq-land-contact-mail:hover {
+  background: rgba(251, 191, 36, 0.15);
+  transform: translateY(-2px);
+}
+.uq-land-contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 22px;
+  padding: 30px;
+  backdrop-filter: blur(14px);
+}
+.uq-land-contact-form input,
+.uq-land-contact-form textarea {
+  width: 100%;
+  background: rgba(7, 10, 18, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 13px 16px;
+  color: #eef1f8;
+  font-size: 14.5px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  resize: vertical;
+}
+.uq-land-contact-form input::placeholder,
+.uq-land-contact-form textarea::placeholder {
+  color: rgba(238, 241, 248, 0.35);
+}
+.uq-land-contact-form input:focus,
+.uq-land-contact-form textarea:focus {
+  border-color: rgba(251, 191, 36, 0.55);
+  box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.12);
+}
+
+/* ---------- Footer enrichi ---------- */
+.uq-land-foot-cols {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  padding: 26px 0;
+}
+.uq-land-foot-nav {
+  display: flex;
+  gap: 22px;
+  flex-wrap: wrap;
+}
+.uq-land-foot-nav a {
+  color: rgba(238, 241, 248, 0.6);
+  text-decoration: none;
+  font-size: 13.5px;
+  transition: color 0.2s ease;
+}
+.uq-land-foot-nav a:hover { color: #fbbf24; }
+
+/* ---------- Mobile ---------- */
+@media (max-width: 900px) {
+  .uq-land-tech-grid { grid-template-columns: repeat(2, 1fr); padding: 0 16px 60px; }
+  .uq-land-actu-grid { grid-template-columns: 1fr; padding: 0 16px 60px; }
+  .uq-land-equipe { padding: 60px 16px; }
+  .uq-land-equipe-inner { flex-direction: column; text-align: center; padding: 36px 24px; gap: 22px; }
+  .uq-land-contact { padding: 60px 16px; }
+  .uq-land-contact-inner { grid-template-columns: 1fr; gap: 36px; }
+  .uq-land-contact-form { padding: 22px; }
+  .uq-land-foot-cols { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .uq-land-foot-nav { gap: 16px; }
+}
+
+@media (max-width: 560px) {
+  .uq-land-tech-grid { grid-template-columns: 1fr; }
+}

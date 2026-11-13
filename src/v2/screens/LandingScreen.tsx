@@ -2,99 +2,158 @@
 // LandingScreen — vitrine officielle UQ Platform / UFUNDI QUOTIDIEN
 // ============================================================================
 //
-// Design « cinématique » : hero plein écran avec mesh dégradé animé,
-// dot-grid, reveal au scroll, marquee, visuels produits (Unsplash libre).
-// Identité distincte de l'app UQZ.
+// Site vitrine professionnel : hero, applications, vision, technologie,
+// équipe, actualités, contact, footer. Identité cinématique (mesh, dot-grid,
+// grain SVG, or) distincte de l'app UQZ.
 //
-// Deep links : /?ecran=verification|politiques|creation (gérés par V2App)
+// Deep links : /?ecran=verification|politiques|faq|aide|creation
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { LogoUQ } from '../../components/ui/LogoUQ';
 import { Icon } from '../components/Icon';
 import '../styles/landing.css';
 
-interface Product {
-  id: string;
+interface Application {
   nom: string;
-  badge: string;
-  description: string;
+  role: string;
+  statut: 'Disponible' | 'En développement' | 'À venir';
   icon: string;
-  image: string;
   accent: string;
-  cta?: { label: string; href?: string; externe?: boolean };
-  details: string[];
+  lien?: { label: string; href?: string; externe?: boolean };
 }
 
-const PRODUITS: Product[] = [
+const APPLICATIONS: Application[] = [
   {
-    id: 'uqz',
     nom: 'UQZ',
-    badge: 'Super-app',
-    description:
-      'L’application tout-en-un : fil social, messagerie, market P2P mobile, boutiques et Studio pour créer votre vitrine.',
+    role: 'La super-app : identité, social, trading, chat, Zando — le hub central.',
+    statut: 'En développement',
     icon: 'users',
-    image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=70',
-    accent: '#ff6b6b',
-    cta: { label: 'Télécharger l’APK', href: '/dl/uqz.apk' },
-    details: ['Fil & stories', 'Chat & appels', 'Marché P2P mobile', 'Boutiques & Studio'],
+    accent: '#fb7185',
+    lien: { label: 'Télécharger l’APK', href: '/dl/uqz.apk' },
   },
   {
-    id: 'borb',
+    nom: 'UQ Chat',
+    role: 'Messagerie P2P, statuts et échanges sécurisés entre membres.',
+    statut: 'En développement',
+    icon: 'chat',
+    accent: '#60a5fa',
+  },
+  {
+    nom: 'UQ Studio',
+    role: 'Publication solo, mini-sites et boutiques en ligne.',
+    statut: 'En développement',
+    icon: 'palette',
+    accent: '#c084fc',
+  },
+  {
     nom: 'BORB',
-    badge: 'Wallet & Nœud',
-    description:
-      'Portefeuille numérique et nœud financier : ledger, escrow, ordres P2P signés Ed25519 et réserves vérifiables.',
+    role: 'Wallet virtuel et nœud financier : ledger, escrow, ordres signés Ed25519.',
+    statut: 'En développement',
     icon: 'wallet',
-    image: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=1200&q=70',
-    accent: '#2ee6a8',
-    cta: {
+    accent: '#34d399',
+    lien: {
       label: 'Ouvrir le wallet',
       href: 'https://uq-borb-node.onrender.com/wallet',
       externe: true,
     },
-    details: ['Clés Ed25519', 'Escrow & ordres', 'Marché fiat', 'Preuves humaines'],
   },
   {
-    id: 'uqauth',
-    nom: 'UQ AUTH',
-    badge: 'Identité',
-    description:
-      'Identité numérique UQ : création de compte, KYC, 2FA, récupération, sessions et appareils — la clé de tout l’écosystème.',
-    icon: 'key',
-    image: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1200&q=70',
+    nom: 'UQ Trading',
+    role: 'Carnet d’ordres P2P, conversion BORB, marché fiat.',
+    statut: 'En développement',
+    icon: 'coin',
+    accent: '#fbbf24',
+  },
+  {
+    nom: 'UQ Learn',
+    role: 'Formation, tutoriels et certification.',
+    statut: 'À venir',
+    icon: 'book',
+    accent: '#38bdf8',
+  },
+  {
+    nom: 'UQ Health',
+    role: 'Santé, rendez-vous et téléconsultation.',
+    statut: 'À venir',
+    icon: 'heart',
+    accent: '#f472b6',
+  },
+  {
+    nom: 'UQ Gov',
+    role: 'Services publics et démarches administratives.',
+    statut: 'À venir',
+    icon: 'building',
     accent: '#a78bfa',
-    details: ['Compte UQ confidentiel', 'KYC vérifié', '2FA & appareils', 'Récupération sûre'],
-  },
-  {
-    id: 'uqmail',
-    nom: 'UQ Mail',
-    badge: 'Messagerie',
-    description:
-      'Boîte mail professionnelle adossée à l’identité UQ : envoi et réception par Postfix/Dovecot, stockage et interface UQ.',
-    icon: 'mail',
-    image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=70',
-    accent: '#5ab0ff',
-    details: ['Adresse @uq', 'Anti-spam DKIM', 'Interface UQ', 'Liée au compte UQ'],
   },
 ];
 
-const VALEURS = [
+const PILIERS = [
   {
     icon: 'shield',
     titre: 'Souveraineté',
-    texte: 'Vos données, vos clés, vos règles. Chaque service est conçu pour que l’utilisateur garde le contrôle.',
+    texte: 'Tes données t’appartiennent. Ton identité est protégée. Ton argent est sécurisé.',
+  },
+  {
+    icon: 'bolt',
+    titre: 'Portabilité',
+    texte: 'Fonctionne sur tous les appareils, même sans internet. Du smartphone au serveur.',
+  },
+  {
+    icon: 'users',
+    titre: 'Communauté',
+    texte: 'Une plateforme construite avec et pour les Africains.',
+  },
+];
+
+const TECHNOS = [
+  {
+    icon: 'shield',
+    titre: 'BORB',
+    texte: 'Notre score de sécurisation de la monnaie : une réserve invisible, stable et vérifiable.',
+  },
+  {
+    icon: 'rng',
+    titre: 'Blockchain légère',
+    texte: 'Une chaîne cryptographique portable (50 Mo max) qui ne grossit jamais.',
+  },
+  {
+    icon: 'phone',
+    titre: 'Mode offline',
+    texte: 'Fonctionne sans internet et se synchronise à la reconnexion.',
   },
   {
     icon: 'lock',
-    titre: 'Sécurité d’abord',
-    texte: 'Signatures Ed25519, KYC, 2FA, preuves humaines et audit : la confiance se construit, elle ne se décrète pas.',
-  },
-  {
-    icon: 'building',
-    titre: 'Proximité',
-    texte: 'Un groupe d’entrepreneurs éditeurs, à l’écoute des marchés locaux et des usages réels du quotidien.',
+    titre: 'Sécurité',
+    texte: 'Chiffrement, PIN, signatures Ed25519, KYC et vérification humaine.',
   },
 ];
+
+const ACTUS = [
+  {
+    date: 'Nov. 2025',
+    tag: 'Produit',
+    titre: 'UQZ entre en bêta fermée',
+    texte: 'Le hub social, la messagerie et le market P2P mobile sont testés en conditions réelles.',
+  },
+  {
+    date: 'Oct. 2025',
+    tag: 'Infrastructure',
+    titre: 'Nœud BORB : escrow et ordres signés',
+    texte: 'Le moteur d’ordres P2P est déployé avec signatures Ed25519 et réserves vérifiables.',
+  },
+  {
+    date: 'Oct. 2025',
+    tag: 'Produit',
+    titre: 'UQ Mail : l’architecture est arrêtée',
+    texte: 'Boîte mail professionnelle adossée à l’identité UQ — Postfix/Dovecot côté serveur.',
+  },
+];
+
+const STATUT_STYLE: Record<Application['statut'], string> = {
+  'Disponible': 'uq-land-statut--live',
+  'En développement': 'uq-land-statut--dev',
+  'À venir': 'uq-land-statut--soon',
+};
 
 export function LandingScreen({
   onLogin,
@@ -104,6 +163,7 @@ export function LandingScreen({
   onCreateAccount: () => void;
 }) {
   const rootRef = useRef<HTMLDivElement>(null);
+  const [contact, setContact] = useState({ nom: '', email: '', message: '' });
 
   // Reveal au scroll (IntersectionObserver)
   useEffect(() => {
@@ -119,11 +179,23 @@ export function LandingScreen({
           }
         }
       },
-      { threshold: 0.12 }
+      { threshold: 0.1 }
     );
     els.forEach((el) => io.observe(el));
     return () => io.disconnect();
   }, []);
+
+  const envoyerContact = () => {
+    const sujet = encodeURIComponent(`Contact site — ${contact.nom || 'visiteur'}`);
+    const corps = encodeURIComponent(
+      `Nom : ${contact.nom}\nEmail : ${contact.email}\n\n${contact.message}`
+    );
+    window.location.href = `mailto:contact@uqplatform.com?subject=${sujet}&body=${corps}`;
+  };
+
+  const scrollVers = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
 
   return (
     <div className="uq-land" ref={rootRef}>
@@ -156,8 +228,10 @@ export function LandingScreen({
             </div>
           </div>
           <nav className="uq-land-nav">
-            <a href="#produits">Produits</a>
-            <a href="#groupe">Le groupe</a>
+            <a href="#applications" onClick={(e) => { e.preventDefault(); scrollVers('applications'); }}>Applications</a>
+            <a href="#vision" onClick={(e) => { e.preventDefault(); scrollVers('vision'); }}>Vision</a>
+            <a href="#technologie" onClick={(e) => { e.preventDefault(); scrollVers('technologie'); }}>Technologie</a>
+            <a href="#contact" onClick={(e) => { e.preventDefault(); scrollVers('contact'); }}>Contact</a>
           </nav>
           <div className="uq-land-head-actions">
             <button type="button" className="uq-land-link" onClick={onLogin}>
@@ -173,7 +247,7 @@ export function LandingScreen({
           </div>
         </header>
 
-        {/* ---------- Hero plein écran ---------- */}
+        {/* ---------- Hero ---------- */}
         <section className="uq-land-hero">
           <div className="uq-land-hero-inner">
             <div className="uq-land-hero-copy uq-land-reveal">
@@ -182,16 +256,16 @@ export function LandingScreen({
                 Groupe d’entrepreneurs — éditeurs de logiciels &amp; APK
               </div>
               <h1 className="uq-land-title">
-                Des outils numériques
+                Une plateforme,
                 <br />
-                <em>qui appartiennent</em>
+                des <em>applications</em>,
                 <br />
-                à leurs utilisateurs.
+                une vision.
               </h1>
               <p className="uq-land-lead">
-                UFUNDI QUOTIDIEN conçoit et publie des applications et services
-                souverains : réseau social, wallet numérique, identité
-                sécurisée et messagerie — un seul compte UQ pour tout relier.
+                UQ Platform édite des logiciels et applications mobiles pensés
+                pour l’Afrique. Sécurité, portabilité, innovation — un seul
+                compte UQ pour tout relier.
               </p>
               <div className="uq-land-hero-cta">
                 <button
@@ -204,13 +278,13 @@ export function LandingScreen({
                 <button
                   type="button"
                   className="uq-land-btn uq-land-btn--ghost uq-land-btn--lg"
-                  onClick={onLogin}
+                  onClick={() => scrollVers('applications')}
                 >
-                  Se connecter
+                  Découvrir nos applications
                 </button>
               </div>
               <div className="uq-land-hero-meta">
-                <span><strong>04</strong> produits</span>
+                <span><strong>08</strong> applications</span>
                 <span className="uq-land-meta-sep" />
                 <span><strong>01</strong> identité UQ</span>
                 <span className="uq-land-meta-sep" />
@@ -238,7 +312,7 @@ export function LandingScreen({
                 <Icon name="shield" size={15} /> KYC &amp; 2FA
               </div>
               <div className="uq-land-chip uq-land-chip--3">
-                <Icon name="mail" size={15} /> UQ Mail
+                <Icon name="chat" size={15} /> UQ Chat
               </div>
             </div>
           </div>
@@ -256,117 +330,87 @@ export function LandingScreen({
                 <span>BORB</span><i />
                 <span>UQ AUTH</span><i />
                 <span>UQ MAIL</span><i />
+                <span>UQ CHAT</span><i />
+                <span>UQ STUDIO</span><i />
               </div>
             ))}
           </div>
         </div>
 
-        {/* ---------- Bandeau confiance ---------- */}
-        <section className="uq-land-trust">
-          <div className="uq-land-trust-inner">
-            <span className="uq-land-trust-label">Conçu pour la confiance</span>
-            <div className="uq-land-trust-items">
-              <span className="uq-land-trust-item"><Icon name="shield" size={15} /> Chiffrement Ed25519</span>
-              <span className="uq-land-trust-item"><Icon name="lock" size={15} /> Sessions &amp; 2FA</span>
-              <span className="uq-land-trust-item"><Icon name="globe" size={15} /> Auto-hébergé</span>
-              <span className="uq-land-trust-item"><Icon name="check" size={15} /> Vérification humaine</span>
-            </div>
-          </div>
-        </section>
-
-        {/* ---------- Produits ---------- */}
-        <section className="uq-land-produits" id="produits">
+        {/* ---------- Applications ---------- */}
+        <section className="uq-land-produits" id="applications">
           <div className="uq-land-section-head uq-land-reveal">
-            <span className="uq-land-section-kicker">Nos produits</span>
+            <span className="uq-land-section-kicker">Nos applications</span>
             <h2 className="uq-land-section-title">
-              Un écosystème,
+              Chaque fonctionnalité
               <br />
-              quatre expériences.
+              est une application à part entière.
             </h2>
+            <p className="uq-land-section-sub">
+              UQZ est le hub central — mais chaque brique (chat, studio, wallet,
+              trading, learn, health, gov) est une application indépendante,
+              développée avec soin.
+            </p>
           </div>
 
-          <div className="uq-land-grid">
-            {PRODUITS.map((p, i) => (
+          <div className="uq-land-grid uq-land-grid--apps">
+            {APPLICATIONS.map((p, i) => (
               <article
-                key={p.id}
-                className="uq-land-card uq-land-reveal"
-                style={{ ['--reveal-delay' as never]: `${i * 90}ms` }}
+                key={p.nom}
+                className="uq-land-card uq-land-card--app uq-land-reveal"
+                style={{ ['--reveal-delay' as never]: `${(i % 4) * 80}ms` }}
               >
-                <div className="uq-land-card-media">
-                  <img src={p.image} alt={p.nom} loading="lazy" />
-                  <div className="uq-land-card-media-fade" />
-                  <span className="uq-land-card-badge">{p.badge}</span>
-                  <span className="uq-land-card-icon">
-                    <Icon name={p.icon as never} size={18} />
+                <div className="uq-land-card-top">
+                  <span
+                    className="uq-land-app-icon"
+                    style={{ background: `linear-gradient(135deg, ${p.accent}, ${p.accent}88)` }}
+                  >
+                    <Icon name={p.icon as never} size={20} />
                   </span>
+                  <span className={`uq-land-statut ${STATUT_STYLE[p.statut]}`}>{p.statut}</span>
                 </div>
-                <div className="uq-land-card-body">
-                  <h3 className="uq-land-card-nom">{p.nom}</h3>
-                  <p className="uq-land-card-desc">{p.description}</p>
-                  <ul className="uq-land-card-details">
-                    {p.details.map((d) => (
-                      <li key={d}>
-                        <Icon name="check" size={12} /> {d}
-                      </li>
-                    ))}
-                  </ul>
-                  {p.id === 'uqauth' ? (
-                    <button
-                      type="button"
-                      className="uq-land-card-cta"
-                      onClick={onCreateAccount}
-                    >
-                      Créer un compte UQ <Icon name="forward" size={14} />
-                    </button>
-                  ) : p.cta?.href ? (
-                    <a
-                      className="uq-land-card-cta"
-                      href={p.cta.href}
-                      {...(p.cta.externe ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                    >
-                      {p.cta.label} <Icon name="external" size={14} />
-                    </a>
-                  ) : (
-                    <span className="uq-land-card-cta uq-land-card-cta--soon">
-                      Bientôt disponible
-                    </span>
-                  )}
-                </div>
-                <span
-                  className="uq-land-card-accent"
-                  style={{ background: p.accent }}
-                  aria-hidden="true"
-                />
+                <h3 className="uq-land-card-nom">{p.nom}</h3>
+                <p className="uq-land-card-desc">{p.role}</p>
+                {p.lien?.href ? (
+                  <a
+                    className="uq-land-card-cta"
+                    href={p.lien.href}
+                    {...(p.lien.externe ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                  >
+                    {p.lien.label} <Icon name="external" size={14} />
+                  </a>
+                ) : (
+                  <span className="uq-land-card-cta uq-land-card-cta--soon">
+                    {p.statut === 'À venir' ? 'Bientôt disponible' : 'En savoir plus'}
+                  </span>
+                )}
               </article>
             ))}
           </div>
         </section>
 
-        {/* ---------- Le groupe ---------- */}
-        <section className="uq-land-groupe" id="groupe">
-          <div className="uq-land-groupe-bg" aria-hidden="true">
-            <div className="uq-land-blob uq-land-blob--5" />
-          </div>
+        {/* ---------- Vision ---------- */}
+        <section className="uq-land-groupe" id="vision">
           <div className="uq-land-groupe-inner">
             <div className="uq-land-groupe-intro uq-land-reveal">
               <span className="uq-land-section-kicker uq-land-section-kicker--light">
-                Le groupe
+                Notre vision
               </span>
               <h2 className="uq-land-groupe-title">
-                UFUNDI QUOTIDIEN,
+                En Afrique, le numérique
                 <br />
-                éditeurs du quotidien.
+                est fragmenté. Nous changeons ça.
               </h2>
               <p className="uq-land-groupe-texte">
-                Nous sommes un groupe d’entrepreneurs et d’éditeurs de
-                logiciels. Nous construisons des applications mobiles, des
-                services web et des infrastructures qui appartiennent à leurs
-                utilisateurs — la technologie au service des personnes, pas
-                l’inverse.
+                Les solutions numériques sont souvent fragmentées, coûteuses et
+                peu adaptées aux réalités locales. UQ Platform construit une
+                super-app qui regroupe identité, argent, commerce, éducation et
+                santé — chaque fonctionnalité étant une application indépendante,
+                pensée pour fonctionner même sans internet.
               </p>
             </div>
             <div className="uq-land-valeurs">
-              {VALEURS.map((v, i) => (
+              {PILIERS.map((v, i) => (
                 <div
                   key={v.titre}
                   className="uq-land-valeur uq-land-reveal"
@@ -385,45 +429,145 @@ export function LandingScreen({
           </div>
         </section>
 
-        {/* ---------- CTA final ---------- */}
-        <section className="uq-land-final">
-          <div className="uq-land-final-inner uq-land-reveal">
-            <h2 className="uq-land-final-title">
-              Prêt à entrer
+        {/* ---------- Technologie ---------- */}
+        <section className="uq-land-produits uq-land-produits--tech" id="technologie">
+          <div className="uq-land-section-head uq-land-reveal">
+            <span className="uq-land-section-kicker">Notre technologie</span>
+            <h2 className="uq-land-section-title">
+              UQ n’est pas une app de plus.
               <br />
-              <em>dans l’écosystème ?</em>
+              C’est une infrastructure.
             </h2>
-            <p>
-              Créez votre compte UQ en quelques minutes — une seule identité
-              pour UQZ, BORB, UQ AUTH et UQ Mail.
-            </p>
-            <div className="uq-land-hero-cta">
-              <button
-                type="button"
-                className="uq-land-btn uq-land-btn--primary uq-land-btn--lg"
-                onClick={onCreateAccount}
+          </div>
+          <div className="uq-land-tech-grid">
+            {TECHNOS.map((t, i) => (
+              <div
+                key={t.titre}
+                className="uq-land-tech uq-land-reveal"
+                style={{ ['--reveal-delay' as never]: `${i * 90}ms` }}
               >
-                Créer un compte UQ <Icon name="forward" size={17} />
-              </button>
-              <button
-                type="button"
-                className="uq-land-btn uq-land-btn--ghost uq-land-btn--lg"
-                onClick={onLogin}
-              >
-                Se connecter
-              </button>
+                <span className="uq-land-tech-icon">
+                  <Icon name={t.icon as never} size={20} />
+                </span>
+                <h3>{t.titre}</h3>
+                <p>{t.texte}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ---------- Équipe ---------- */}
+        <section className="uq-land-equipe">
+          <div className="uq-land-equipe-inner uq-land-reveal">
+            <div className="uq-land-equipe-avatar">EN</div>
+            <div className="uq-land-equipe-info">
+              <span className="uq-land-section-kicker">L’équipe</span>
+              <h2 className="uq-land-equipe-nom">Eliezer Nsarhaza</h2>
+              <div className="uq-land-equipe-role">Fondateur &amp; CEO — UFUNDI QUOTIDIEN</div>
+              <p className="uq-land-equipe-bio">
+                Développeur et entrepreneur congolais, passionné par
+                l’innovation et la souveraineté numérique. UQ Platform est son
+                projet : bâtir des outils qui appartiennent à leurs utilisateurs.
+              </p>
             </div>
+          </div>
+        </section>
+
+        {/* ---------- Actualités ---------- */}
+        <section className="uq-land-produits uq-land-produits--actu">
+          <div className="uq-land-section-head uq-land-reveal">
+            <span className="uq-land-section-kicker">Actualités</span>
+            <h2 className="uq-land-section-title">
+              UQ est vivant,
+              <br />
+              actif et transparent.
+            </h2>
+          </div>
+          <div className="uq-land-actu-grid">
+            {ACTUS.map((a, i) => (
+              <article
+                key={a.titre}
+                className="uq-land-actu uq-land-reveal"
+                style={{ ['--reveal-delay' as never]: `${i * 100}ms` }}
+              >
+                <div className="uq-land-actu-meta">
+                  <span className="uq-land-actu-tag">{a.tag}</span>
+                  <span className="uq-land-actu-date">{a.date}</span>
+                </div>
+                <h3>{a.titre}</h3>
+                <p>{a.texte}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        {/* ---------- Contact ---------- */}
+        <section className="uq-land-contact" id="contact">
+          <div className="uq-land-contact-inner">
+            <div className="uq-land-contact-info uq-land-reveal">
+              <span className="uq-land-section-kicker uq-land-section-kicker--light">Contact</span>
+              <h2 className="uq-land-groupe-title">
+                Parlons de
+                <br />
+                <em>votre projet.</em>
+              </h2>
+              <p className="uq-land-groupe-texte">
+                Investisseurs, partenaires, médias ou utilisateurs : nous
+                lisons chaque message.
+              </p>
+              <div className="uq-land-contact-mail">
+                <Icon name="mail" size={18} />
+                <a href="mailto:contact@uqplatform.com">contact@uqplatform.com</a>
+              </div>
+            </div>
+            <form
+              className="uq-land-contact-form uq-land-reveal"
+              onSubmit={(e) => { e.preventDefault(); envoyerContact(); }}
+            >
+              <input
+                type="text"
+                placeholder="Votre nom"
+                value={contact.nom}
+                onChange={(e) => setContact({ ...contact, nom: e.target.value })}
+                required
+              />
+              <input
+                type="email"
+                placeholder="Votre email"
+                value={contact.email}
+                onChange={(e) => setContact({ ...contact, email: e.target.value })}
+                required
+              />
+              <textarea
+                placeholder="Votre message"
+                rows={4}
+                value={contact.message}
+                onChange={(e) => setContact({ ...contact, message: e.target.value })}
+                required
+              />
+              <button type="submit" className="uq-land-btn uq-land-btn--primary uq-land-btn--lg">
+                Envoyer le message <Icon name="send" size={16} />
+              </button>
+            </form>
           </div>
         </section>
 
         {/* ---------- Pied ---------- */}
         <footer className="uq-land-foot">
-          <div className="uq-land-foot-brand">
-            <LogoUQ size={34} />
-            <div>
-              <div className="uq-land-brand-name">UQ Platform</div>
-              <div className="uq-land-brand-sub">par UFUNDI QUOTIDIEN</div>
+          <div className="uq-land-foot-cols">
+            <div className="uq-land-foot-brand">
+              <LogoUQ size={34} />
+              <div>
+                <div className="uq-land-brand-name">UQ Platform</div>
+                <div className="uq-land-brand-sub">par UFUNDI QUOTIDIEN</div>
+              </div>
             </div>
+            <nav className="uq-land-foot-nav">
+              <a href="#applications" onClick={(e) => { e.preventDefault(); scrollVers('applications'); }}>Applications</a>
+              <a href="#vision" onClick={(e) => { e.preventDefault(); scrollVers('vision'); }}>Vision</a>
+              <a href="#technologie" onClick={(e) => { e.preventDefault(); scrollVers('technologie'); }}>Technologie</a>
+              <a href="#contact" onClick={(e) => { e.preventDefault(); scrollVers('contact'); }}>Contact</a>
+            </nav>
           </div>
           <div className="uq-land-foot-links">
             <button type="button" onClick={() => window.open('/?ecran=politiques&sujet=conditions-utilisation', '_blank', 'noopener')}>
