@@ -1,29 +1,119 @@
 /* ============================================================================
    LandingScreen — vitrine UQ Platform / UFUNDI QUOTIDIEN
-   Identité « institutionnelle » : ivoire, encre, navy, or — serif éditorial.
-   Distincte de l'app UQZ (pas de glass, pas de nébuleuse).
+   Design cinématique : hero plein écran, mesh dégradé animé, dot-grid,
+   grain SVG, téléphone flottant, marquee, scroll-reveal.
+   Mode PC immersif + mobile adapté. Distinct de l'app UQZ.
    ============================================================================ */
 
 .uq-land {
   position: fixed;
   inset: 0;
-  background: #f4f1ea;
-  color: #141a24;
+  background: #070a12;
+  color: #eef1f8;
   font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
   overflow: hidden;
 }
 
 .uq-land-scroll {
+  position: relative;
+  z-index: 2;
   height: 100%;
   overflow-y: auto;
   overscroll-behavior: contain;
   scrollbar-width: thin;
-  scrollbar-color: rgba(20, 26, 36, 0.25) transparent;
+  scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
 }
 
-/* ---------- Typographie display ---------- */
+/* ---------- Fond animé ---------- */
+.uq-land-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.uq-land-mesh { position: absolute; inset: 0; }
+
+.uq-land-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(110px);
+  will-change: transform;
+}
+
+.uq-land-blob--1 {
+  width: 55vmax; height: 55vmax;
+  top: -20vmax; left: -12vmax;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.5), transparent 65%);
+  animation: uq-land-float1 22s ease-in-out infinite alternate;
+}
+
+.uq-land-blob--2 {
+  width: 48vmax; height: 48vmax;
+  bottom: -18vmax; right: -10vmax;
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.32), transparent 65%);
+  animation: uq-land-float2 26s ease-in-out infinite alternate;
+}
+
+.uq-land-blob--3 {
+  width: 36vmax; height: 36vmax;
+  top: 30%; left: 55%;
+  background: radial-gradient(circle, rgba(217, 70, 239, 0.22), transparent 65%);
+  animation: uq-land-float3 30s ease-in-out infinite alternate;
+}
+
+.uq-land-blob--4 {
+  width: 30vmax; height: 30vmax;
+  bottom: 10%; left: 15%;
+  background: radial-gradient(circle, rgba(245, 158, 11, 0.16), transparent 65%);
+  animation: uq-land-float1 34s ease-in-out infinite alternate-reverse;
+}
+
+.uq-land-blob--5 {
+  width: 45vmax; height: 45vmax;
+  top: -15vmax; right: -15vmax;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.3), transparent 65%);
+}
+
+@keyframes uq-land-float1 {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to   { transform: translate3d(6vmax, 4vmax, 0) scale(1.12); }
+}
+@keyframes uq-land-float2 {
+  from { transform: translate3d(0, 0, 0) scale(1.05); }
+  to   { transform: translate3d(-5vmax, -3vmax, 0) scale(0.95); }
+}
+@keyframes uq-land-float3 {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-7vmax, 5vmax, 0) scale(1.15); }
+}
+
+/* Dot-grid */
+.uq-land-dots {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+  background-size: 34px 34px;
+  mask-image: radial-gradient(ellipse 90% 70% at 50% 20%, #000 30%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 20%, #000 30%, transparent 75%);
+}
+
+/* Grain SVG */
+.uq-land-grain {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+}
+
+/* ---------- Typo ---------- */
 .uq-land-title,
-.uq-land-groupe-title {
+.uq-land-section-title,
+.uq-land-groupe-title,
+.uq-land-final-title {
   font-family: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, 'Times New Roman', serif;
   font-weight: 600;
   letter-spacing: -0.02em;
@@ -34,20 +124,17 @@
   display: flex;
   align-items: center;
   gap: 28px;
-  padding: 22px clamp(20px, 5vw, 56px);
-  border-bottom: 1px solid rgba(20, 26, 36, 0.1);
-  background: rgba(244, 241, 234, 0.85);
-  backdrop-filter: blur(10px);
+  padding: 20px clamp(20px, 5vw, 56px);
   position: sticky;
   top: 0;
-  z-index: 20;
+  z-index: 30;
+  background: rgba(7, 10, 18, 0.55);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
 }
 
-.uq-land-brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
+.uq-land-brand { display: flex; align-items: center; gap: 12px; }
 
 .uq-land-brand-name {
   font-size: 17px;
@@ -57,29 +144,24 @@
 }
 
 .uq-land-brand-sub {
-  font-size: 10.5px;
+  font-size: 10px;
   font-weight: 700;
-  letter-spacing: 2.4px;
+  letter-spacing: 2.6px;
   text-transform: uppercase;
-  color: #8a7a4e;
+  color: #c9a94f;
   margin-top: 3px;
 }
 
-.uq-land-nav {
-  display: flex;
-  gap: 26px;
-  margin-left: 24px;
-}
+.uq-land-nav { display: flex; gap: 26px; margin-left: 20px; }
 
 .uq-land-nav a {
   font-size: 13.5px;
   font-weight: 600;
-  color: #4a5261;
+  color: rgba(238, 241, 248, 0.6);
   text-decoration: none;
   transition: color 0.18s ease;
 }
-
-.uq-land-nav a:hover { color: #141a24; }
+.uq-land-nav a:hover { color: #fff; }
 
 .uq-land-head-actions {
   margin-left: auto;
@@ -94,46 +176,70 @@
   padding: 8px 4px;
   font-size: 13.5px;
   font-weight: 600;
-  color: #4a5261;
+  color: rgba(238, 241, 248, 0.65);
   cursor: pointer;
   transition: color 0.18s ease;
 }
+.uq-land-link:hover { color: #fff; }
 
-.uq-land-link:hover { color: #141a24; }
-
+/* ---------- Boutons ---------- */
 .uq-land-btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 9px;
   padding: 12px 22px;
-  border-radius: 10px;
+  border-radius: 12px;
   font-size: 14px;
   font-weight: 700;
   border: 1px solid transparent;
   cursor: pointer;
   text-decoration: none;
-  transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.2s ease, background 0.2s ease;
+  transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease, background 0.2s ease, border-color 0.2s ease;
+  white-space: nowrap;
 }
-
 .uq-land-btn:active { transform: scale(0.97); }
 
-.uq-land-btn--primary {
-  color: #f4f1ea;
-  background: #101828;
-  box-shadow: 0 8px 22px rgba(16, 24, 40, 0.22);
-}
+.uq-land-btn--lg { padding: 15px 28px; font-size: 15px; border-radius: 14px; }
 
+.uq-land-btn--primary {
+  color: #070a12;
+  background: linear-gradient(120deg, #fbbf24, #f59e0b);
+  box-shadow: 0 8px 28px rgba(245, 158, 11, 0.35);
+}
 .uq-land-btn--primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 30px rgba(16, 24, 40, 0.3);
-  background: #0b1220;
+  box-shadow: 0 14px 38px rgba(245, 158, 11, 0.5);
+}
+
+.uq-land-btn--ghost {
+  color: #eef1f8;
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(10px);
+}
+.uq-land-btn--ghost:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-2px);
 }
 
 /* ---------- Hero ---------- */
 .uq-land-hero {
-  max-width: 1180px;
+  min-height: calc(100vh - 76px);
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.uq-land-hero-inner {
+  max-width: 1280px;
   margin: 0 auto;
-  padding: clamp(56px, 10vh, 110px) clamp(20px, 5vw, 56px) clamp(40px, 7vh, 72px);
+  padding: clamp(32px, 6vh, 72px) clamp(20px, 5vw, 56px);
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: clamp(32px, 5vw, 72px);
+  align-items: center;
 }
 
 .uq-land-hero-eyebrow {
@@ -144,36 +250,53 @@
   font-weight: 700;
   letter-spacing: 1.8px;
   text-transform: uppercase;
-  color: #6d7688;
+  color: rgba(238, 241, 248, 0.6);
+  padding: 9px 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
   margin-bottom: 30px;
 }
 
 .uq-land-eyebrow-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #b08d3e;
-  box-shadow: 0 0 0 4px rgba(176, 141, 62, 0.18);
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #fbbf24;
+  box-shadow: 0 0 12px rgba(251, 191, 36, 0.8);
+  animation: uq-land-pulse 2.4s ease-in-out infinite;
+}
+@keyframes uq-land-pulse {
+  0%, 100% { box-shadow: 0 0 8px rgba(251, 191, 36, 0.6); }
+  50%      { box-shadow: 0 0 18px rgba(251, 191, 36, 1); }
 }
 
 .uq-land-title {
-  font-size: clamp(38px, 6.2vw, 72px);
-  line-height: 1.04;
+  font-size: clamp(40px, 6.4vw, 76px);
+  line-height: 1.02;
   margin: 0 0 26px;
-  max-width: 900px;
 }
 
 .uq-land-title em {
   font-style: italic;
-  color: #0d5c46;
+  background: linear-gradient(100deg, #fbbf24, #fb7185 60%, #a78bfa);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .uq-land-lead {
-  max-width: 600px;
+  max-width: 540px;
   margin: 0 0 36px;
   font-size: clamp(15.5px, 1.9vw, 18px);
   line-height: 1.65;
-  color: #4a5261;
+  color: rgba(238, 241, 248, 0.62);
+}
+
+.uq-land-hero-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 40px;
 }
 
 .uq-land-hero-meta {
@@ -182,150 +305,288 @@
   gap: 18px;
   font-size: 13px;
   font-weight: 600;
-  color: #6d7688;
-  letter-spacing: 0.4px;
+  color: rgba(238, 241, 248, 0.5);
+}
+.uq-land-hero-meta strong { color: #fff; font-size: 15px; margin-right: 5px; }
+.uq-land-meta-sep { width: 34px; height: 1px; background: rgba(255, 255, 255, 0.2); }
+
+.uq-land-scroll-hint {
+  position: absolute;
+  bottom: 26px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 26px; height: 42px;
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
+  border-radius: 14px;
+}
+.uq-land-scroll-hint span {
+  position: absolute;
+  top: 8px; left: 50%;
+  width: 4px; height: 8px;
+  margin-left: -2px;
+  border-radius: 3px;
+  background: #fbbf24;
+  animation: uq-land-wheel 1.8s ease-in-out infinite;
+}
+@keyframes uq-land-wheel {
+  0%   { transform: translateY(0); opacity: 1; }
+  70%  { transform: translateY(14px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 0; }
 }
 
-.uq-land-hero-meta strong {
-  color: #141a24;
-  font-size: 15px;
-  margin-right: 5px;
+/* ---------- Visuel hero : téléphone + chips ---------- */
+.uq-land-hero-visual {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  min-height: 420px;
 }
 
-.uq-land-meta-sep {
-  width: 34px;
-  height: 1px;
-  background: rgba(20, 26, 36, 0.2);
+.uq-land-phone {
+  width: min(270px, 60vw);
+  aspect-ratio: 9 / 19;
+  border-radius: 38px;
+  padding: 10px;
+  background: linear-gradient(160deg, #2a2f3a, #12151d 60%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow:
+    0 40px 90px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(255, 255, 255, 0.05) inset,
+    0 0 80px rgba(99, 102, 241, 0.18);
+  transform: rotate(-4deg);
+  animation: uq-land-phone-float 7s ease-in-out infinite;
+}
+@keyframes uq-land-phone-float {
+  0%, 100% { transform: rotate(-4deg) translateY(0); }
+  50%      { transform: rotate(-3deg) translateY(-14px); }
 }
 
-/* ---------- Ruban défilant ---------- */
+.uq-land-phone-screen {
+  position: relative;
+  width: 100%; height: 100%;
+  border-radius: 30px;
+  overflow: hidden;
+  background: linear-gradient(165deg, #0d1220 0%, #1a1030 55%, #0a1a24 100%);
+}
+
+.uq-land-phone-notch {
+  position: absolute;
+  top: 10px; left: 50%;
+  transform: translateX(-50%);
+  width: 76px; height: 20px;
+  border-radius: 12px;
+  background: #05070c;
+  z-index: 2;
+}
+
+.uq-land-phone-ui {
+  position: absolute;
+  inset: 0;
+  padding: 40px 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.uq-land-phone-bar {
+  height: 12px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #fbbf24, #fb7185, #a78bfa);
+  opacity: 0.85;
+}
+
+.uq-land-phone-card {
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(6px);
+}
+.uq-land-phone-card--a { height: 74px; }
+.uq-land-phone-card--b { height: 52px; opacity: 0.8; }
+.uq-land-phone-card--c { height: 40px; opacity: 0.6; }
+
+.uq-land-chip {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 14px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #eef1f8;
+  background: rgba(13, 18, 32, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.4);
+  animation: uq-land-chip-float 6s ease-in-out infinite;
+}
+.uq-land-chip svg { color: #fbbf24; }
+.uq-land-chip--1 { top: 8%;  left: -4%;  animation-delay: -1s; }
+.uq-land-chip--2 { top: 44%; right: -6%; animation-delay: -3s; }
+.uq-land-chip--3 { bottom: 6%; left: 6%;   animation-delay: -5s; }
+
+@keyframes uq-land-chip-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-10px); }
+}
+
+/* ---------- Marquee ---------- */
 .uq-land-ribbon {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  padding: 20px 0;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.uq-land-ribbon-track {
+  display: flex;
+  width: max-content;
+  animation: uq-land-marquee 26s linear infinite;
+}
+.uq-land-ribbon:hover .uq-land-ribbon-track { animation-play-state: paused; }
+
+.uq-land-ribbon-group {
   display: flex;
   align-items: center;
   gap: 34px;
-  padding: 18px 0;
-  border-top: 1px solid rgba(20, 26, 36, 0.12);
-  border-bottom: 1px solid rgba(20, 26, 36, 0.12);
-  overflow: hidden;
-  white-space: nowrap;
-  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  padding-right: 34px;
 }
 
-.uq-land-ribbon span {
+.uq-land-ribbon-group span {
   font-family: 'Iowan Old Style', Palatino, Georgia, serif;
-  font-size: 21px;
+  font-size: 22px;
   font-weight: 600;
-  letter-spacing: 3px;
+  letter-spacing: 4px;
   text-transform: uppercase;
-  color: rgba(20, 26, 36, 0.35);
+  color: rgba(238, 241, 248, 0.4);
+  white-space: nowrap;
+}
+.uq-land-ribbon-group i {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: #fbbf24;
+  flex: none;
 }
 
-.uq-land-ribbon i {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #b08d3e;
-  flex: none;
+@keyframes uq-land-marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
 }
 
 /* ---------- Sections ---------- */
 .uq-land-produits {
-  max-width: 1180px;
+  max-width: 1280px;
   margin: 0 auto;
-  padding: clamp(48px, 8vh, 84px) clamp(20px, 5vw, 56px);
+  padding: clamp(60px, 10vh, 110px) clamp(20px, 5vw, 56px);
 }
 
-.uq-land-section-head {
-  margin-bottom: 40px;
-}
+.uq-land-section-head { margin-bottom: 48px; }
 
 .uq-land-section-kicker {
   display: block;
   font-size: 12px;
   font-weight: 700;
-  letter-spacing: 2.2px;
+  letter-spacing: 2.4px;
   text-transform: uppercase;
-  color: #8a7a4e;
-  margin-bottom: 12px;
+  color: #c9a94f;
+  margin-bottom: 14px;
 }
-
-.uq-land-section-kicker--light { color: #c9a94f; }
+.uq-land-section-kicker--light { color: #fbbf24; }
 
 .uq-land-section-title {
-  font-family: 'Iowan Old Style', Palatino, Georgia, serif;
-  font-size: clamp(28px, 4vw, 44px);
-  font-weight: 600;
-  line-height: 1.12;
-  letter-spacing: -0.01em;
+  font-size: clamp(30px, 4.6vw, 52px);
+  line-height: 1.08;
   margin: 0;
 }
 
 /* ---------- Cartes produits ---------- */
 .uq-land-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(255px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 24px;
 }
 
 .uq-land-card {
   position: relative;
   display: flex;
   flex-direction: column;
-  padding: 28px 26px 26px;
-  border-radius: 18px;
-  background: #fffdf8;
-  border: 1px solid rgba(20, 26, 36, 0.12);
-  box-shadow: 0 1px 2px rgba(20, 26, 36, 0.05);
-  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.28s ease, border-color 0.28s ease;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(14px);
+  overflow: hidden;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s ease, box-shadow 0.3s ease;
 }
-
 .uq-land-card:hover {
-  transform: translateY(-6px);
-  border-color: rgba(20, 26, 36, 0.28);
-  box-shadow: 0 22px 48px rgba(20, 26, 36, 0.12);
+  transform: translateY(-8px);
+  border-color: rgba(255, 255, 255, 0.22);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5);
 }
 
-.uq-land-card-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 22px;
+.uq-land-card-media {
+  position: relative;
+  height: 190px;
+  overflow: hidden;
 }
+.uq-land-card-media img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.uq-land-card:hover .uq-land-card-media img { transform: scale(1.07); }
 
-.uq-land-card-index {
-  font-family: Georgia, serif;
-  font-size: 15px;
-  font-weight: 600;
-  color: #b08d3e;
-  letter-spacing: 1px;
+.uq-land-card-media-fade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 40%, rgba(7, 10, 18, 0.85));
 }
 
 .uq-land-card-badge {
+  position: absolute;
+  top: 14px; left: 14px;
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 1.4px;
   text-transform: uppercase;
-  color: #6d7688;
-  border: 1px solid rgba(20, 26, 36, 0.16);
-  padding: 5px 10px;
+  color: #fff;
+  padding: 6px 11px;
   border-radius: 999px;
+  background: rgba(7, 10, 18, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(8px);
 }
 
 .uq-land-card-icon {
-  width: 48px;
-  height: 48px;
+  position: absolute;
+  bottom: 12px; right: 14px;
+  width: 42px; height: 42px;
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #f4f1ea;
-  background: #101828;
-  margin-bottom: 20px;
+  color: #070a12;
+  background: #fbbf24;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.uq-land-card-accent {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  opacity: 0.9;
+}
+
+.uq-land-card-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 22px 22px 24px;
 }
 
 .uq-land-card-nom {
   margin: 0 0 8px;
-  font-size: 25px;
+  font-size: 26px;
   font-weight: 800;
   letter-spacing: -0.3px;
 }
@@ -334,7 +595,7 @@
   margin: 0 0 18px;
   font-size: 13.5px;
   line-height: 1.6;
-  color: #4a5261;
+  color: rgba(238, 241, 248, 0.58);
   flex: 1;
 }
 
@@ -342,22 +603,20 @@
   list-style: none;
   margin: 0 0 22px;
   padding: 16px 0 0;
-  border-top: 1px solid rgba(20, 26, 36, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.09);
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px 12px;
 }
-
 .uq-land-card-details li {
   display: flex;
   align-items: center;
   gap: 7px;
   font-size: 12px;
   font-weight: 500;
-  color: #3c4454;
+  color: rgba(238, 241, 248, 0.72);
 }
-
-.uq-land-card-details svg { color: #0d5c46; flex: none; }
+.uq-land-card-details svg { color: #34d399; flex: none; }
 
 .uq-land-card-cta {
   display: flex;
@@ -368,134 +627,209 @@
   border-radius: 12px;
   font-size: 13.5px;
   font-weight: 700;
-  color: #f4f1ea;
-  background: #101828;
-  border: 1px solid #101828;
+  color: #070a12;
+  background: #fbbf24;
+  border: 1px solid #fbbf24;
   text-decoration: none;
   cursor: pointer;
-  transition: background 0.2s ease, transform 0.2s ease;
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
-
 .uq-land-card-cta:hover {
-  background: #0b1220;
+  background: #fcd34d;
   transform: translateY(-1px);
+  box-shadow: 0 10px 26px rgba(251, 191, 36, 0.3);
 }
-
 .uq-land-card-cta--soon {
-  color: #8a7a4e;
+  color: rgba(238, 241, 248, 0.45);
   background: transparent;
-  border: 1px dashed rgba(138, 122, 78, 0.5);
+  border: 1px dashed rgba(255, 255, 255, 0.25);
   cursor: default;
 }
+.uq-land-card-cta--soon:hover { transform: none; background: transparent; box-shadow: none; }
 
-.uq-land-card-cta--soon:hover { transform: none; background: transparent; }
-
-/* ---------- Bandeau groupe ---------- */
+/* ---------- Groupe ---------- */
 .uq-land-groupe {
-  background: #101828;
-  color: #e8e4d8;
+  position: relative;
+  background: #0a0e1a;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  overflow: hidden;
 }
+.uq-land-groupe-bg { position: absolute; inset: 0; }
 
 .uq-land-groupe-inner {
-  max-width: 1180px;
+  position: relative;
+  max-width: 1280px;
   margin: 0 auto;
-  padding: clamp(56px, 9vh, 96px) clamp(20px, 5vw, 56px);
+  padding: clamp(60px, 10vh, 110px) clamp(20px, 5vw, 56px);
   display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-  gap: clamp(32px, 6vw, 80px);
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  gap: clamp(36px, 6vw, 88px);
   align-items: start;
 }
 
 .uq-land-groupe-title {
-  font-size: clamp(30px, 4.4vw, 52px);
-  line-height: 1.08;
-  margin: 14px 0 24px;
-  color: #f4f1ea;
+  font-size: clamp(32px, 4.8vw, 56px);
+  line-height: 1.06;
+  margin: 16px 0 26px;
+  color: #fff;
 }
 
 .uq-land-groupe-texte {
   margin: 0;
   font-size: 15.5px;
   line-height: 1.75;
-  color: rgba(232, 228, 216, 0.68);
-  max-width: 520px;
+  color: rgba(238, 241, 248, 0.6);
+  max-width: 540px;
 }
 
-.uq-land-valeurs {
-  display: grid;
-  gap: 26px;
+.uq-land-valeurs { display: grid; gap: 28px; }
+
+.uq-land-valeur {
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+  padding: 22px 24px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  backdrop-filter: blur(10px);
+  transition: border-color 0.25s ease, transform 0.25s ease;
+}
+.uq-land-valeur:hover {
+  border-color: rgba(251, 191, 36, 0.35);
+  transform: translateX(4px);
 }
 
-.uq-land-valeur svg {
-  color: #c9a94f;
-  margin-bottom: 10px;
+.uq-land-valeur-icon {
+  flex: none;
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #070a12;
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
 }
 
 .uq-land-valeur h3 {
-  margin: 0 0 8px;
-  font-size: 17px;
+  margin: 0 0 6px;
+  font-size: 16.5px;
   font-weight: 800;
-  letter-spacing: 0.2px;
-  color: #f4f1ea;
+  color: #fff;
 }
-
 .uq-land-valeur p {
   margin: 0;
   font-size: 13.5px;
-  line-height: 1.65;
-  color: rgba(232, 228, 216, 0.6);
+  line-height: 1.6;
+  color: rgba(238, 241, 248, 0.55);
 }
+
+/* ---------- CTA final ---------- */
+.uq-land-final {
+  position: relative;
+  padding: clamp(70px, 12vh, 130px) clamp(20px, 5vw, 56px);
+  text-align: center;
+}
+
+.uq-land-final-inner { max-width: 720px; margin: 0 auto; }
+
+.uq-land-final-title {
+  font-size: clamp(34px, 5.4vw, 60px);
+  line-height: 1.05;
+  margin: 0 0 22px;
+  color: #fff;
+}
+.uq-land-final-title em {
+  font-style: italic;
+  color: #fbbf24;
+}
+
+.uq-land-final p {
+  margin: 0 0 36px;
+  font-size: 16px;
+  line-height: 1.65;
+  color: rgba(238, 241, 248, 0.6);
+}
+.uq-land-final .uq-land-hero-cta { justify-content: center; margin-bottom: 0; }
 
 /* ---------- Pied ---------- */
 .uq-land-foot {
-  max-width: 1180px;
+  position: relative;
+  max-width: 1280px;
   margin: 0 auto;
   padding: 40px clamp(20px, 5vw, 56px) 48px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
   display: flex;
   flex-direction: column;
   gap: 22px;
-}
-
-.uq-land-foot-brand {
-  display: flex;
   align-items: center;
-  gap: 12px;
+  text-align: center;
 }
 
-.uq-land-foot-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 24px;
-}
+.uq-land-foot-brand { display: flex; align-items: center; gap: 12px; }
+
+.uq-land-foot-links { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: center; }
 
 .uq-land-foot-links button {
   background: none;
   border: none;
   padding: 4px 0;
-  color: #4a5261;
+  color: rgba(238, 241, 248, 0.5);
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
   text-decoration: underline;
   text-underline-offset: 3px;
-  text-decoration-color: rgba(20, 26, 36, 0.25);
+  text-decoration-color: rgba(255, 255, 255, 0.2);
 }
+.uq-land-foot-links button:hover { color: #fff; }
 
-.uq-land-foot-links button:hover { color: #141a24; }
+.uq-land-foot-copy { font-size: 12px; color: rgba(238, 241, 248, 0.3); }
 
-.uq-land-foot-copy {
-  font-size: 12px;
-  color: #8a7a4e;
-  letter-spacing: 0.3px;
+/* ---------- Scroll reveal ---------- */
+.uq-land-reveal {
+  opacity: 0;
+  transform: translateY(34px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.uq-land-reveal--in {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* ---------- Mobile ---------- */
-@media (max-width: 760px) {
-  .uq-land-head { flex-wrap: wrap; gap: 14px; padding: 16px 20px; }
-  .uq-land-nav { display: none; }
+@media (max-width: 900px) {
+  .uq-land-hero-inner { grid-template-columns: 1fr; text-align: center; }
+  .uq-land-lead { margin-left: auto; margin-right: auto; }
+  .uq-land-hero-cta { justify-content: center; }
+  .uq-land-hero-meta { justify-content: center; }
+  .uq-land-hero-visual { min-height: 340px; margin-top: 8px; }
+  .uq-land-phone { width: min(230px, 56vw); }
+  .uq-land-chip--1 { left: 0; }
+  .uq-land-chip--2 { right: 0; }
   .uq-land-groupe-inner { grid-template-columns: 1fr; }
-  .uq-land-btn { width: 100%; justify-content: center; }
-  .uq-land-head-actions .uq-land-btn { width: auto; }
+  .uq-land-scroll-hint { display: none; }
+}
+
+@media (max-width: 640px) {
+  .uq-land-head { flex-wrap: wrap; gap: 12px; padding: 14px 18px; }
+  .uq-land-nav { display: none; }
+  .uq-land-head-actions { width: 100%; }
+  .uq-land-head-actions .uq-land-link { display: none; }
+  .uq-land-head-actions .uq-land-btn { width: 100%; }
+  .uq-land-hero-cta .uq-land-btn { width: 100%; }
   .uq-land-card-details { grid-template-columns: 1fr; }
-  .uq-land-ribbon { gap: 22px; }
+  .uq-land-ribbon-group { gap: 22px; padding-right: 22px; }
+  .uq-land-ribbon-group span { font-size: 17px; letter-spacing: 3px; }
+}
+
+/* ---------- Accessibilité : pas d'animation si réduit ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .uq-land-blob, .uq-land-phone, .uq-land-chip, .uq-land-eyebrow-dot,
+  .uq-land-scroll-hint span, .uq-land-ribbon-track {
+    animation: none !important;
+  }
+  .uq-land-reveal { opacity: 1; transform: none; transition: none; }
 }
