@@ -71,6 +71,19 @@ const COUNTRIES: { code: string; name: string }[] = [
 
 const NOM_RE = /^[\p{L}][\p{L}\s'.-]*$/u;
 
+/** Indicatif international par code pays — le champ téléphone s'y cale. */
+const INDICATIFS: Record<string, string> = {
+  CD: '+243', CG: '+242', CI: '+225', SN: '+221', CM: '+237', BJ: '+229',
+  TG: '+228', GA: '+241', MG: '+261', RW: '+250', BI: '+257', UG: '+256',
+  TZ: '+255', KE: '+254', NG: '+234', GH: '+233', ZA: '+27', AO: '+244',
+  ZM: '+260', ZW: '+263', ML: '+223', BF: '+226', NE: '+227', TD: '+235',
+  GN: '+224', MA: '+212', BE: '+32', FR: '+33', CA: '+1', US: '+1', HT: '+509',
+};
+
+/** Première lettre de chaque mot en majuscule (noms propres). */
+const capitaliser = (value: string): string =>
+  value.replace(/(^|[\s'-])([\p{L}])/gu, (_m, sep: string, l: string) => sep + l.toUpperCase());
+
 /** Meme regle que validate_prenom / validate_nom cote Rust. */
 function validerNom(value: string, label: string, min: number): string {
   const cleaned = value.trim();
@@ -300,6 +313,25 @@ export function CreateAccountScreen({ onBack, onGoLogin }: Props) {
   const securityReady = !securityError;
 
   const phoneReady = Boolean(preuve) || Boolean(numero?.valide);
+
+  // Indicatif déduit du pays choisi à l'écran naissance — le téléphone se cale dessus.
+  const indicatifTel = INDICATIFS[form.pays] || '';
+  const paysTel = COUNTRIES.find((c) => c.code === form.pays);
+
+  /** Met en forme la saisie téléphone : préfixe l'indicatif du pays si absent. */
+  const handleTelephone = (raw: string) => {
+    let value = raw.replace(/[^\d+\s()-]/g, '');
+    const saisie = value.trim();
+    if (saisie && !saisie.startsWith('+') && indicatifTel) {
+      const chiffres = saisie.replace(/\D/g, '');
+      const indicatifChiffres = indicatifTel.slice(1);
+      if (chiffres && !chiffres.startsWith(indicatifChiffres)) {
+        value = `${indicatifTel} ${chiffres}`;
+      }
+    }
+    set('telephone', value);
+    analyserNumero(value);
+  };
 
   // ===== Verification du numero : plan local, aucun fournisseur payant =====
   const timerNumero = useRef<number | undefined>(undefined);
@@ -546,6 +578,7 @@ export function CreateAccountScreen({ onBack, onGoLogin }: Props) {
                         <input
                           value={form.prenom}
                           onChange={(event) => set('prenom', event.target.value)}
+                          onBlur={() => setForm((c) => ({ ...c, prenom: capitaliser(c.prenom) }))}
                           placeholder="Jean"
                           autoComplete="given-name"
                           maxLength={50}
@@ -560,6 +593,7 @@ export function CreateAccountScreen({ onBack, onGoLogin }: Props) {
                         <input
                           value={form.nom}
                           onChange={(event) => set('nom', event.target.value)}
+                          onBlur={() => setForm((c) => ({ ...c, nom: capitaliser(c.nom) }))}
                           placeholder="Mukendi"
                           autoComplete="family-name"
                           maxLength={50}
@@ -635,6 +669,7 @@ export function CreateAccountScreen({ onBack, onGoLogin }: Props) {
                         <input
                           value={form.lieu_naissance}
                           onChange={(event) => set('lieu_naissance', event.target.value)}
+                          onBlur={() => setForm((c) => ({ ...c, lieu_naissance: capitaliser(c.lieu_naissance) }))}
                           placeholder="Kinshasa"
                           maxLength={100}
                         />
@@ -648,6 +683,7 @@ export function CreateAccountScreen({ onBack, onGoLogin }: Props) {
                         <input
                           value={form.profession}
                           onChange={(event) => set('profession', event.target.value)}
+                          onBlur={() => setForm((c) => ({ ...c, profession: capitaliser(c.profession) }))}
                           placeholder="Commerçante, développeur, étudiant…"
                           maxLength={60}
                         />
@@ -805,16 +841,25 @@ export function CreateAccountScreen({ onBack, onGoLogin }: Props) {
 
                   <div className="v2-auth-step">
                     <label className="v2-auth-field">
-                      <span className="v2-auth-label">Numéro de téléphone</span>
+                      <span className="v2-auth-label">
+                        Numéro de téléphone
+                        {paysTel && (
+                          <span className="v2-auth-hint" style={{ marginLeft: 8, textTransform: 'none', letterSpacing: 0 }}>
+                            · {paysTel.name} {indicatifTel}
+                          </span>
+                        )}
+                      </span>
                       <div className="v2-input-group">
                         <Icon name="phone" size={18} className="v2-auth-icon" />
                         <input
                           value={form.telephone}
-                          onChange={(event) => {
-                            set('telephone', event.target.value);
-                            analyserNumero(event.target.value);
+                          onChange={(event) => handleTelephone(event.target.value)}
+                          onFocus={() => {
+                            if (!form.telephone && indicatifTel) {
+                              set('telephone', `${indicatifTel} `);
+                            }
                           }}
-                          placeholder="+243 81 000 0000"
+                          placeholder={`${indicatifTel || '+243'} 81 000 0000`}
                           inputMode="tel"
                           autoComplete="tel"
                         />
