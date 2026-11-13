@@ -1,0 +1,314 @@
+/* ============================================================================
+   auth-cine.css — reskin cinématique des écrans Connexion / Création de compte
+   ============================================================================
+   Garde tout le markup et la logique v2-auth-* : seules les surcouches
+   visuelles changent. Identité identique à la vitrine (mesh, dot-grid,
+   grain, or #fbbf24, glass sombre). PC : carte centrée large ; mobile :
+   plein écran.
+   ============================================================================ */
+
+.uq-cine {
+  position: fixed;
+  inset: 0;
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  background: #070a12;
+  color: #eef1f8;
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+}
+
+.uq-cine-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* ---------- Cadre ---------- */
+.uq-cine .v2-frame {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  background: transparent;
+  overflow: hidden;
+}
+
+/* ---------- Cache les halos v2, le fond cine prend le relais ---------- */
+.uq-cine .v2-auth-halo { display: none; }
+
+.uq-cine .v2-auth {
+  position: relative;
+  isolation: isolate;
+  background: transparent;
+}
+
+.uq-cine .v2-auth-body {
+  position: relative;
+  z-index: 2;
+  padding: calc(30px + env(safe-area-inset-top)) 20px calc(20px + env(safe-area-inset-bottom));
+}
+
+.uq-cine .v2-auth-shell {
+  width: 100%;
+  max-width: 560px;
+  gap: 18px;
+}
+
+@media (min-width: 900px) {
+  .uq-cine .v2-auth-shell { max-width: 620px; }
+  .uq-cine .v2-auth-card { max-width: 520px; margin: 0 auto; }
+  /* Neutralise le « cadre téléphone » v2 sur grand écran : fond plein, sans carte arrondie. */
+  .uq-cine .v2-frame {
+    height: 100%;
+    max-width: none;
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+  }
+  .uq-cine.v2-root { padding: 0; background: #070a12; }
+}
+
+/* ---------- En-tête ---------- */
+.uq-cine .v2-auth-logo {
+  width: 76px;
+  height: 76px;
+  border: 1px solid rgba(251, 191, 36, 0.3);
+  border-radius: 26%;
+  background: rgba(7, 10, 18, 0.6);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.5), 0 0 40px rgba(251, 191, 36, 0.12);
+  animation: none;
+}
+
+.uq-cine .v2-auth-title {
+  font-family: 'Iowan Old Style', Palatino, Georgia, serif;
+  font-size: 30px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  background: none;
+  -webkit-text-fill-color: #fff;
+  color: #fff;
+}
+
+.uq-cine .v2-auth-subtitle {
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 2.2px;
+  text-transform: uppercase;
+  color: #c9a94f;
+}
+
+/* ---------- Carte ---------- */
+.uq-cine .v2-auth-card {
+  max-width: 460px;
+  padding: 30px 28px;
+  border-radius: 22px;
+  background: rgba(13, 18, 32, 0.66);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+@media (max-width: 380px) {
+  .uq-cine .v2-auth-card { padding: 22px 18px; }
+}
+
+.uq-cine .v2-auth-card-title {
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: #fff;
+}
+
+.uq-cine .v2-auth-card-hint {
+  color: rgba(238, 241, 248, 0.55);
+}
+
+.uq-cine .v2-auth-hint {
+  color: rgba(238, 241, 248, 0.55);
+}
+
+/* ---------- Compte affiché ---------- */
+.uq-cine .v2-auth-account {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+}
+
+.uq-cine .v2-auth-account-num { color: #fcd34d; }
+
+/* ---------- Champs ---------- */
+.uq-cine .v2-auth-label {
+  color: rgba(238, 241, 248, 0.65);
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  font-size: 11px;
+}
+
+.uq-cine .v2-auth-field .v2-input,
+.uq-cine .v2-auth-field .v2-input-group {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 13px;
+  color: #eef1f8;
+}
+
+.uq-cine .v2-auth-field .v2-input::placeholder,
+.uq-cine .v2-auth-field .v2-input-group input::placeholder {
+  color: rgba(238, 241, 248, 0.32);
+}
+
+.uq-cine .v2-auth-field .v2-input:focus,
+.uq-cine .v2-auth-field .v2-input-group:focus-within {
+  border-color: rgba(251, 191, 36, 0.55);
+  box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.12);
+}
+
+.uq-cine .v2-auth-icon { color: #c9a94f; }
+
+.uq-cine .v2-input-group input { color: #eef1f8; }
+
+/* ---------- Boutons ---------- */
+.uq-cine .v2-auth-cta,
+.uq-cine .v2-btn--primary {
+  background: linear-gradient(120deg, #fbbf24, #f59e0b);
+  color: #070a12;
+  border: none;
+  border-radius: 14px;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  box-shadow: 0 10px 28px rgba(245, 158, 11, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.25s ease, filter 0.2s ease;
+}
+.uq-cine .v2-auth-cta:hover:not(:disabled),
+.uq-cine .v2-btn--primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 38px rgba(245, 158, 11, 0.45);
+  filter: brightness(1.05);
+}
+.uq-cine .v2-auth-cta:disabled,
+.uq-cine .v2-btn--primary:disabled {
+  opacity: 0.45;
+  box-shadow: none;
+}
+
+.uq-cine .v2-btn--outline {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: #eef1f8;
+  border-radius: 13px;
+}
+.uq-cine .v2-btn--outline:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.11);
+}
+
+.uq-cine .v2-auth-link {
+  color: rgba(238, 241, 248, 0.6);
+}
+.uq-cine .v2-auth-link:hover { color: #fbbf24; }
+
+.uq-cine .v2-auth-back {
+  color: rgba(238, 241, 248, 0.65);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 11px;
+  padding: 8px 12px;
+  align-self: flex-start;
+}
+.uq-cine .v2-auth-back:hover { background: rgba(255, 255, 255, 0.1); color: #fff; }
+
+/* ---------- Divers ---------- */
+.uq-cine .v2-auth-error {
+  color: #fca5a5;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.22);
+  border-radius: 12px;
+}
+
+.uq-cine .v2-auth-locked-icon,
+.uq-cine .v2-auth-success-icon {
+  color: #070a12;
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  border-radius: 50%;
+  width: 58px; height: 58px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.uq-cine .v2-auth-timer {
+  font-size: 30px;
+  font-weight: 800;
+  color: #fbbf24;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Progression création de compte */
+.uq-cine .v2-auth-progress span {
+  background: rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+}
+.uq-cine .v2-auth-progress span[data-done='true'] {
+  background: linear-gradient(90deg, #fbbf24, #f59e0b);
+  box-shadow: 0 0 12px rgba(251, 191, 36, 0.4);
+}
+
+/* Pied / menus / feuilles */
+.uq-cine .v2-auth-foot,
+.uq-cine .v2-auth-foot-links,
+.uq-cine .v2-auth-menu {
+  color: rgba(238, 241, 248, 0.6);
+}
+.uq-cine .v2-auth-menu {
+  background: rgba(13, 18, 32, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
+  backdrop-filter: blur(18px);
+}
+.uq-cine .v2-auth-menu button {
+  color: #eef1f8;
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+.uq-cine .v2-auth-menu button[data-strong='true'] { color: #fbbf24; }
+.uq-cine .v2-auth-menu-icon {
+  background: rgba(251, 191, 36, 0.12);
+  color: #fbbf24;
+}
+
+/* Feuilles (mot de passe oublié, légal, IA, puzzle humain) */
+.uq-cine .v2-sheet {
+  background: rgba(10, 14, 26, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #eef1f8;
+}
+.uq-cine .v2-sheet-title { color: #fff; }
+.uq-cine .v2-sheet .v2-btn--primary,
+.uq-cine .v2-sheet .v2-auth-cta {
+  background: linear-gradient(120deg, #fbbf24, #f59e0b);
+  color: #070a12;
+}
+
+/* Inputs génériques dans les feuilles */
+.uq-cine .v2-sheet .v2-input,
+.uq-cine .v2-sheet .v2-input-group {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #eef1f8;
+  border-radius: 12px;
+}
+
+.uq-cine .v2-human-puzzle,
+.uq-cine .v2-human-content {
+  color: #eef1f8;
+}
+
+/* Sécurité d'ordre : .v2-root peut être chargé après — on force le fond cine. */
+.uq-cine.v2-root { background: #070a12; }

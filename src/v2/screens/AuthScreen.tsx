@@ -8,6 +8,7 @@ import { useSession } from '../lib/session';
 import { enregistrerPasskey, etatBiometrie, lireCleAppareil } from '../lib/webauthn';
 import { LogoUQ } from '../../components/ui/LogoUQ';
 import { AuthAiSheet } from '../components/AuthAiSheet';
+import '../styles/auth-cine.css';
 import {
   authFinalize,
   authForgotPassword,
@@ -937,10 +938,23 @@ export function AuthScreen({ onCreateAccount, prefill, onBack }: AuthScreenProps
   const fieldError = error && !locked;
 
   return (
-    <div className="v2-root" data-theme="dark">
+    <div className="uq-cine v2-root" data-theme="dark">
       <div className="v2-frame v2-auth">
-        <div className="v2-auth-halo" data-tone="red" />
-        <div className="v2-auth-halo" data-tone="blue" />
+        <div className="uq-cine-bg" aria-hidden="true">
+          <div className="uq-land-mesh">
+            <div className="uq-land-blob uq-land-blob--1" />
+            <div className="uq-land-blob uq-land-blob--2" />
+            <div className="uq-land-blob uq-land-blob--3" />
+          </div>
+          <div className="uq-land-dots" />
+          <svg className="uq-land-grain" aria-hidden="true">
+            <filter id="uq-cine-noise">
+              <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch" />
+              <feColorMatrix type="saturate" values="0" />
+            </filter>
+            <rect width="100%" height="100%" filter="url(#uq-cine-noise)" />
+          </svg>
+        </div>
 
         <div className="v2-body v2-auth-body">
           <div className="v2-auth-shell">

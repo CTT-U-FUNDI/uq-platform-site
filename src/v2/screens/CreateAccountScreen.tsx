@@ -20,6 +20,7 @@ import {
 } from '../lib/api';
 import { HumanScenePuzzle } from '../components/HumanScenePuzzle';
 import { Sheet } from '../components/Ui';
+import '../styles/auth-cine.css';
 
 // ====================
 // Parcours en six ecrans, dans l'ordre demande.
@@ -469,10 +470,23 @@ export function CreateAccountScreen({ onBack, onGoLogin }: Props) {
   ];
 
   return (
-    <div className="v2-root" data-theme="dark">
+    <div className="uq-cine v2-root" data-theme="dark">
       <div className="v2-frame v2-auth">
-        <div className="v2-auth-halo" data-tone="red" />
-        <div className="v2-auth-halo" data-tone="blue" />
+        <div className="uq-cine-bg" aria-hidden="true">
+          <div className="uq-land-mesh">
+            <div className="uq-land-blob uq-land-blob--1" />
+            <div className="uq-land-blob uq-land-blob--2" />
+            <div className="uq-land-blob uq-land-blob--3" />
+          </div>
+          <div className="uq-land-dots" />
+          <svg className="uq-land-grain" aria-hidden="true">
+            <filter id="uq-cine-noise-create">
+              <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch" />
+              <feColorMatrix type="saturate" values="0" />
+            </filter>
+            <rect width="100%" height="100%" filter="url(#uq-cine-noise-create)" />
+          </svg>
+        </div>
 
         <div className="v2-body v2-auth-body">
           <div className="v2-auth-shell">
