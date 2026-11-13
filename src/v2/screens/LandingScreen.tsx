@@ -261,6 +261,19 @@ export function LandingScreen({
           </div>
         </div>
 
+        {/* ---------- Bandeau confiance ---------- */}
+        <section className="uq-land-trust">
+          <div className="uq-land-trust-inner">
+            <span className="uq-land-trust-label">Conçu pour la confiance</span>
+            <div className="uq-land-trust-items">
+              <span className="uq-land-trust-item"><Icon name="shield" size={15} /> Chiffrement Ed25519</span>
+              <span className="uq-land-trust-item"><Icon name="lock" size={15} /> Sessions &amp; 2FA</span>
+              <span className="uq-land-trust-item"><Icon name="globe" size={15} /> Auto-hébergé</span>
+              <span className="uq-land-trust-item"><Icon name="check" size={15} /> Vérification humaine</span>
+            </div>
+          </div>
+        </section>
+
         {/* ---------- Produits ---------- */}
         <section className="uq-land-produits" id="produits">
           <div className="uq-land-section-head uq-land-reveal">
