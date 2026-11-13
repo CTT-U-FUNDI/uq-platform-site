@@ -432,6 +432,12 @@ export function LandingScreen({
             <button type="button" onClick={() => window.open('/?ecran=politiques&sujet=confidentialite', '_blank', 'noopener')}>
               Politique de confidentialité
             </button>
+            <button type="button" onClick={() => window.open('/?ecran=faq', '_blank', 'noopener')}>
+              FAQ
+            </button>
+            <button type="button" onClick={() => window.open('/?ecran=aide', '_blank', 'noopener')}>
+              Aide &amp; guides
+            </button>
             <button type="button" onClick={onLogin}>
               Espace membre
             </button>

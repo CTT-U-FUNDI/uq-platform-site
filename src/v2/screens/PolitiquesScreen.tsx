@@ -10,7 +10,7 @@ import { useState } from 'react';
 import { Card, Hint, IconTile, List, Row, ScreenHeader, SectionTitle } from '../components/Ui';
 import type { IconName } from '../components/Icon';
 
-interface Matiere {
+export interface Matiere {
   slug: string;
   titre: string;
   icon: IconName;
@@ -20,13 +20,13 @@ interface Matiere {
   inspire?: string;
 }
 
-interface PartiePolitiques {
+export interface PartiePolitiques {
   id: string;
   titre: string;
   matieres: Matiere[];
 }
 
-const PARTIES: PartiePolitiques[] = [
+export const PARTIES: PartiePolitiques[] = [
   {
     id: 'cadre',
     titre: 'Cadre légal et fondamentaux',
@@ -241,7 +241,7 @@ const PARTIES: PartiePolitiques[] = [
 ];
 
 /** Les 17 parties du système — référence, pas des pages à part. */
-const PARTIES_SYSTEME = [
+export const PARTIES_SYSTEME = [
   'UQ',
   'ZANDO',
   'UQ STUDIO',
@@ -261,7 +261,7 @@ const PARTIES_SYSTEME = [
   'FRAIS UQ',
 ];
 
-function trouverMatiere(slug: string): { matiere: Matiere; partie: string } | null {
+export function trouverMatiere(slug: string): { matiere: Matiere; partie: string } | null {
   for (const partie of PARTIES) {
     const matiere = partie.matieres.find((m) => m.slug === slug);
     if (matiere) return { matiere, partie: partie.titre };

@@ -30,6 +30,7 @@ import { KycScreen } from './screens/KycScreen';
 import { OwnerVaultScreen } from './screens/OwnerVaultScreen';
 import { ProfileAnalyticsScreen } from './screens/ProfileAnalyticsScreen';
 import { PolitiquesScreen } from './screens/PolitiquesScreen';
+import { PublicPages } from './screens/PublicPages';
 import { RevenezBientotScreen } from './screens/RevenezBientotScreen';
 import { MailScreen } from './screens/MailScreen';
 import { SmsScreen } from './screens/SmsScreen';
@@ -423,9 +424,15 @@ function Shell() {
           ecranDemande === 'verification' ? (
             // Page officielle « revenez bientôt » — continuation post-création.
             <RevenezBientotScreen onBack={() => setEcranDemande(null)} />
-          ) : ecranDemande === 'politiques' ? (
-            // Politiques & règles officielles (conditions, confidentialité…).
-            <PolitiquesScreen
+          ) : ecranDemande === 'politiques' || ecranDemande === 'faq' || ecranDemande === 'aide' || ecranDemande === 'aide-politiques' ? (
+            // Pages publiques officielles — identité cinématique de la vitrine.
+            <PublicPages
+              pageInitial={
+                ecranDemande === 'faq' ? 'faq'
+                : ecranDemande === 'aide' ? 'aide'
+                : ecranDemande === 'aide-politiques' ? 'menu'
+                : 'politiques'
+              }
               sujetInitial={sujetInitial}
               onBack={() => setEcranDemande(null)}
             />

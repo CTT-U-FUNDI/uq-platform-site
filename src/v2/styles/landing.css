@@ -877,3 +877,373 @@
   }
   .uq-land-reveal { opacity: 1; transform: none; transition: none; }
 }
+
+/* ============================================================================
+   Pages publiques — Politiques / FAQ / Aide (même identité cinématique)
+   ============================================================================ */
+
+.uq-pub { overflow: hidden; }
+
+.uq-pub-scroll {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
+}
+
+.uq-pub-head {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px clamp(18px, 4vw, 48px);
+  background: rgba(7, 10, 18, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.uq-pub-back {
+  flex: none;
+  width: 38px; height: 38px;
+  border-radius: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #eef1f8;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  cursor: pointer;
+  transition: background 0.18s ease, transform 0.18s ease;
+}
+.uq-pub-back:hover { background: rgba(255, 255, 255, 0.14); transform: translateX(-2px); }
+
+.uq-pub-head-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+
+.uq-pub-head-txt { min-width: 0; }
+.uq-pub-head-title {
+  font-size: 15px;
+  font-weight: 800;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.uq-pub-head-sub {
+  font-size: 11px;
+  color: rgba(238, 241, 248, 0.5);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.uq-pub-main {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: clamp(32px, 6vh, 64px) clamp(18px, 4vw, 48px) 80px;
+}
+
+.uq-pub-intro { margin-bottom: 44px; }
+.uq-pub-intro > p {
+  margin: 14px 0 0;
+  font-size: 15.5px;
+  line-height: 1.65;
+  color: rgba(238, 241, 248, 0.6);
+  max-width: 620px;
+}
+
+.uq-pub-page-title {
+  font-family: 'Iowan Old Style', Palatino, Georgia, serif;
+  font-size: clamp(32px, 5vw, 52px);
+  font-weight: 600;
+  line-height: 1.08;
+  margin: 14px 0 0;
+  color: #fff;
+}
+
+.uq-pub-section { margin-bottom: 40px; }
+
+.uq-pub-section-title {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2.2px;
+  text-transform: uppercase;
+  color: #c9a94f;
+  margin: 0 0 16px;
+}
+
+.uq-pub-list {
+  display: grid;
+  gap: 12px;
+}
+
+.uq-pub-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  text-align: left;
+  padding: 16px 18px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+  transition: border-color 0.22s ease, transform 0.22s ease, background 0.22s ease;
+}
+.uq-pub-item:hover {
+  border-color: rgba(251, 191, 36, 0.35);
+  background: rgba(255, 255, 255, 0.07);
+  transform: translateX(4px);
+}
+
+.uq-pub-item-icon {
+  flex: none;
+  width: 40px; height: 40px;
+  border-radius: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #070a12;
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+}
+
+.uq-pub-item-txt {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.uq-pub-item-title { font-size: 14.5px; font-weight: 700; color: #fff; }
+.uq-pub-item-sub {
+  font-size: 12px;
+  line-height: 1.45;
+  color: rgba(238, 241, 248, 0.5);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.uq-pub-item-chev,
+.uq-pub-menu-chev { color: rgba(238, 241, 248, 0.4); flex: none; }
+
+/* Cartes détail */
+.uq-pub-card {
+  padding: 30px 28px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+}
+.uq-pub-card--flat { padding: 22px 24px; }
+
+.uq-pub-card-icon {
+  width: 46px; height: 46px;
+  border-radius: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #070a12;
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  margin-bottom: 18px;
+}
+
+.uq-pub-card-title {
+  font-family: 'Iowan Old Style', Palatino, Georgia, serif;
+  font-size: clamp(26px, 4vw, 38px);
+  font-weight: 600;
+  margin: 0 0 6px;
+  color: #fff;
+}
+.uq-pub-card-partie {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  color: #c9a94f;
+  margin-bottom: 24px;
+}
+.uq-pub-card-body h2 {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  color: rgba(238, 241, 248, 0.55);
+  margin: 0 0 12px;
+}
+.uq-pub-card-body p {
+  margin: 0 0 10px;
+  font-size: 15px;
+  line-height: 1.7;
+  color: rgba(238, 241, 248, 0.75);
+}
+.uq-pub-card-ref { font-size: 12.5px !important; color: rgba(238, 241, 248, 0.45) !important; }
+
+.uq-pub-systeme {
+  margin: 0 0 10px !important;
+  font-size: 13.5px !important;
+  line-height: 1.8 !important;
+  color: rgba(238, 241, 248, 0.65) !important;
+}
+
+.uq-pub-note {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 22px;
+  padding: 14px 18px;
+  border-radius: 13px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #fcd34d;
+  background: rgba(251, 191, 36, 0.08);
+  border: 1px solid rgba(251, 191, 36, 0.2);
+}
+.uq-pub-note svg { flex: none; }
+
+/* Accordéons FAQ / Aide */
+.uq-pub-acc {
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  overflow: hidden;
+  transition: border-color 0.22s ease;
+}
+.uq-pub-acc--open { border-color: rgba(251, 191, 36, 0.35); }
+
+.uq-pub-acc-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 17px 18px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  color: #fff;
+}
+.uq-pub-acc-head > span:first-child {
+  flex: 1;
+  font-size: 14.5px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+.uq-pub-acc-head svg:last-child { color: #fbbf24; flex: none; }
+
+.uq-pub-acc-title { flex: 1; }
+
+.uq-pub-acc-body {
+  padding: 0 18px 18px 72px;
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: rgba(238, 241, 248, 0.65);
+}
+
+.uq-pub-steps {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+  counter-reset: etape;
+  display: grid;
+  gap: 12px;
+}
+.uq-pub-steps li {
+  counter-increment: etape;
+  position: relative;
+  padding-left: 34px;
+}
+.uq-pub-steps li::before {
+  content: counter(etape);
+  position: absolute;
+  left: 0; top: 1px;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 800;
+  color: #070a12;
+  background: #fbbf24;
+}
+
+/* Menu d'accueil */
+.uq-pub-menu {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 18px;
+}
+
+.uq-pub-menu-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 28px 26px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  cursor: pointer;
+  text-align: left;
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.25s ease, box-shadow 0.25s ease;
+}
+.uq-pub-menu-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(251, 191, 36, 0.4);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+}
+
+.uq-pub-menu-icon {
+  width: 50px; height: 50px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #070a12;
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  margin-bottom: 6px;
+}
+
+.uq-pub-menu-title {
+  font-family: 'Iowan Old Style', Palatino, Georgia, serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: #fff;
+}
+.uq-pub-menu-sub {
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: rgba(238, 241, 248, 0.55);
+}
+.uq-pub-menu-chev {
+  position: absolute;
+  top: 26px; right: 24px;
+  color: rgba(238, 241, 248, 0.4);
+}
+
+@media (max-width: 640px) {
+  .uq-pub-head { padding: 12px 14px; gap: 10px; }
+  .uq-pub-head-brand span { display: none; }
+  .uq-pub-head-sub { display: none; }
+  .uq-pub-main { padding: 28px 16px 64px; }
+  .uq-pub-card { padding: 24px 20px; }
+  .uq-pub-acc-body { padding-left: 18px; }
+}
