@@ -15,9 +15,23 @@
   display: flex;
   justify-content: center;
   overflow: hidden;
-  background: #070a12;
+  background: #060b16;
   color: #eef1f8;
   font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+}
+
+/* Palette propre aux écrans d'auth : bleu nuit + cyan + or (distincte de la vitrine). */
+.uq-cine .uq-land-blob--1 {
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.34), transparent 65%);
+}
+.uq-cine .uq-land-blob--2 {
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.22), transparent 65%);
+}
+.uq-cine .uq-land-blob--3 {
+  background: radial-gradient(circle, rgba(251, 191, 36, 0.12), transparent 65%);
+}
+.uq-cine .uq-land-dots {
+  background-image: radial-gradient(rgba(148, 163, 184, 0.14) 1px, transparent 1px);
 }
 
 .uq-cine-bg {
@@ -60,9 +74,47 @@
   gap: 18px;
 }
 
+/* ---------- Panneau de marque (PC uniquement) ---------- */
+.uq-cine-side { display: none; }
+
 @media (min-width: 900px) {
-  .uq-cine .v2-auth-shell { max-width: 620px; }
-  .uq-cine .v2-auth-card { max-width: 520px; margin: 0 auto; }
+  /* Layout pro : marque à gauche, formulaire à droite. */
+  .uq-cine .v2-auth-shell {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: 56px;
+    align-items: center;
+    width: 100%;
+    max-width: 1120px;
+    margin: auto 0;
+    text-align: left;
+  }
+  .uq-cine .uq-cine-side {
+    display: flex;
+    flex-direction: column;
+    grid-column: 1;
+    grid-row: 1 / span 12;
+    padding-right: 12px;
+  }
+  /* Le header garde le bouton « retour » ; logo/titre vivent dans le panneau de marque. */
+  .uq-cine .v2-auth-head {
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+  }
+  .uq-cine .v2-auth-head .v2-auth-logo,
+  .uq-cine .v2-auth-head .v2-auth-title,
+  .uq-cine .v2-auth-head .v2-auth-subtitle { display: none; }
+  .uq-cine .v2-auth-progress { grid-column: 2; justify-self: start; }
+  .uq-cine .v2-auth-card {
+    grid-column: 2;
+    max-width: 520px;
+    margin: 0;
+    width: 100%;
+  }
+  .uq-cine .v2-auth-foot { grid-column: 2; }
+
   /* Neutralise le « cadre téléphone » v2 sur grand écran : fond plein, sans carte arrondie. */
   .uq-cine .v2-frame {
     height: 100%;
@@ -71,7 +123,77 @@
     border: none;
     box-shadow: none;
   }
-  .uq-cine.v2-root { padding: 0; background: #070a12; }
+  .uq-cine.v2-root { padding: 0; background: #060b16; }
+}
+
+/* ---------- Styles du panneau de marque ---------- */
+.uq-cine-side-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  align-self: flex-start;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  color: #c9a94f;
+  padding: 8px 15px;
+  border-radius: 999px;
+  border: 1px solid rgba(251, 191, 36, 0.25);
+  background: rgba(251, 191, 36, 0.07);
+  margin-bottom: 26px;
+}
+.uq-cine-side-eyebrow svg { color: #fbbf24; }
+
+.uq-cine-side-title {
+  font-family: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, 'Times New Roman', serif;
+  font-size: clamp(34px, 3.6vw, 52px);
+  font-weight: 600;
+  line-height: 1.06;
+  letter-spacing: -0.015em;
+  margin: 0 0 20px;
+  color: #fff;
+}
+.uq-cine-side-title em {
+  font-style: italic;
+  background: linear-gradient(100deg, #fbbf24, #f59e0b);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.uq-cine-side-text {
+  margin: 0 0 30px;
+  font-size: 15px;
+  line-height: 1.65;
+  color: rgba(238, 241, 248, 0.6);
+  max-width: 400px;
+}
+
+.uq-cine-side-list {
+  list-style: none;
+  margin: 0 0 34px;
+  padding: 0;
+  display: grid;
+  gap: 13px;
+}
+.uq-cine-side-list li {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: rgba(238, 241, 248, 0.75);
+}
+.uq-cine-side-list svg { color: #34d399; flex: none; }
+
+.uq-cine-side-foot {
+  margin-top: auto;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: rgba(238, 241, 248, 0.3);
 }
 
 /* ---------- En-tête ---------- */
@@ -311,4 +433,4 @@
 }
 
 /* Sécurité d'ordre : .v2-root peut être chargé après — on force le fond cine. */
-.uq-cine.v2-root { background: #070a12; }
+.uq-cine.v2-root { background: #060b16; }

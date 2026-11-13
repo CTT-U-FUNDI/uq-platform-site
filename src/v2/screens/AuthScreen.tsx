@@ -958,6 +958,26 @@ export function AuthScreen({ onCreateAccount, prefill, onBack }: AuthScreenProps
 
         <div className="v2-body v2-auth-body">
           <div className="v2-auth-shell">
+            <aside className="uq-cine-side">
+              <div className="uq-cine-side-eyebrow">
+                <Icon name="shield" size={14} /> Espace sécurisé UQ
+              </div>
+              <h2 className="uq-cine-side-title">
+                Votre identité,
+                <br />
+                <em>vos clés, vos règles.</em>
+              </h2>
+              <p className="uq-cine-side-text">
+                Un seul compte UQ pour UQZ, BORB, UQ AUTH et UQ Mail.
+                Vos données restent les vôtres.
+              </p>
+              <ul className="uq-cine-side-list">
+                <li><Icon name="lock" size={15} /> Chiffrement Ed25519 &amp; 2FA</li>
+                <li><Icon name="wallet" size={15} /> Wallet BORB souverain</li>
+                <li><Icon name="mail" size={15} /> UQ Mail professionnel</li>
+              </ul>
+              <div className="uq-cine-side-foot">UFUNDI QUOTIDIEN — uqplatform.com</div>
+            </aside>
             <header className="v2-auth-head">
               {onBack && (
                 <button

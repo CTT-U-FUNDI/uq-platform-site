@@ -522,6 +522,26 @@ export function CreateAccountScreen({ onBack, onGoLogin }: Props) {
 
         <div className="v2-body v2-auth-body">
           <div className="v2-auth-shell">
+            <aside className="uq-cine-side">
+              <div className="uq-cine-side-eyebrow">
+                <Icon name="sparkles" size={14} /> Rejoignez l’écosystème
+              </div>
+              <h2 className="uq-cine-side-title">
+                Un compte.
+                <br />
+                <em>Tout un écosystème.</em>
+              </h2>
+              <p className="uq-cine-side-text">
+                Votre identité UQ en 2 minutes — réseau social, wallet,
+                messagerie et plus, sans données vendues.
+              </p>
+              <ul className="uq-cine-side-list">
+                <li><Icon name="user" size={15} /> Identité vérifiable (KYC)</li>
+                <li><Icon name="shield" size={15} /> Sécurité &amp; 2FA intégrées</li>
+                <li><Icon name="zap" size={15} /> Activation wallet en un clic</li>
+              </ul>
+              <div className="uq-cine-side-foot">UFUNDI QUOTIDIEN — uqplatform.com</div>
+            </aside>
             <header className="v2-auth-head">
               <LogoUQ size={80} className="v2-auth-logo" />
               <div className="v2-auth-title">UQ Platform</div>
