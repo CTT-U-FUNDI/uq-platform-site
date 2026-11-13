@@ -1,0 +1,482 @@
+﻿/* ====================
+   KYC FLOW — Thème Sombre Élégant Rouge + Bleu
+   Auto-adaptatif (clair/sombre selon système)
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+  /* Fonds */
+  --kyc-bg-primary:   #0A0E1A;
+  --kyc-bg-secondary: #131825;
+  --kyc-bg-card:      #1A2035;
+  --kyc-bg-overlay:   rgba(10, 14, 26, 0.85);
+  
+  /* Bleus */
+  --kyc-blue-500:     #2563EB;
+  --kyc-blue-400:     #3B82F6;
+  --kyc-blue-300:     #60A5FA;
+  --kyc-blue-glow:    rgba(37, 99, 235, 0.5);
+  
+  /* Rouges */
+  --kyc-red-500:      #DC2626;
+  --kyc-red-400:      #EF4444;
+  --kyc-red-300:      #F87171;
+  --kyc-red-glow:     rgba(220, 38, 38, 0.5);
+  
+  /* États */
+  --kyc-success:      #10B981;
+  --kyc-warning:      #F59E0B;
+  --kyc-danger:       #EF4444;
+  
+  /* Texte */
+  --kyc-text:         #F1F5F9;
+  --kyc-text-muted:   #94A3B8;
+  --kyc-text-dim:     #64748B;
+  
+  /* Dégradés */
+  --kyc-gradient:     linear-gradient(135deg, #DC2626 0%, #2563EB 100%);
+  --kyc-gradient-soft: linear-gradient(135deg, rgba(220,38,38,0.15) 0%, rgba(37,99,235,0.15) 100%);
+}
+
+/* Mode clair (auto via prefers-color-scheme) */
+@media (prefers-color-scheme: light) {
+  :root {
+    --kyc-bg-primary:   #F8FAFC;
+    --kyc-bg-secondary: #F1F5F9;
+    --kyc-bg-card:      #FFFFFF;
+    --kyc-bg-overlay:   rgba(248, 250, 252, 0.85);
+    --kyc-text:         #0F172A;
+    --kyc-text-muted:   #475569;
+    --kyc-text-dim:     #94A3B8;
+  }
+}
+
+/* ====================
+   CONTENEUR PRINCIPAL
+   ═══════════════════════════════════════════════════════════════ */
+
+.kyc-flow-container {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--kyc-bg-overlay);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  animation: kycFadeIn 0.4s ease-out;
+}
+
+@keyframes kycFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ====================
+   STACK DE FENÊTRES
+   ═══════════════════════════════════════════════════════════════ */
+
+.kyc-stack {
+  position: relative;
+  width: 100%;
+  max-width: 640px;
+  height: 90vh;
+  max-height: 780px;
+  perspective: 1200px;
+}
+
+/* ====================
+   FENÊTRE KYC
+   ═══════════════════════════════════════════════════════════════ */
+
+.kyc-window {
+  position: absolute;
+  inset: 0;
+  background: var(--kyc-bg-card);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.05),
+    0 25px 60px rgba(0, 0, 0, 0.5),
+    0 0 80px var(--kyc-red-glow),
+    0 0 80px var(--kyc-blue-glow);
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform-origin: center;
+}
+
+/* Fenêtre ACTIVE */
+.kyc-window[data-state="active"] {
+  opacity: 1;
+  transform: scale(1) translateZ(0);
+  filter: none;
+  z-index: 10;
+}
+
+/* Fenêtre PRÉCÉDENTE (floutée + reculée) */
+.kyc-window[data-state="previous"] {
+  opacity: 0.5;
+  transform: scale(0.92) translateY(-20px) translateZ(-100px);
+  filter: blur(6px);
+  z-index: 5;
+  pointer-events: none;
+}
+
+/* Fenêtre FUTURE (invisible) */
+.kyc-window[data-state="next"] {
+  opacity: 0;
+  transform: scale(1.05) translateZ(100px);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ====================
+   BORDURE DÉGRADÉE (ROUGE → BLEU)
+   ═══════════════════════════════════════════════════════════════ */
+
+.kyc-window::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 1.5px;
+  border-radius: 24px;
+  background: var(--kyc-gradient);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.kyc-window[data-state="active"]::before {
+  opacity: 1;
+  animation: kycBorderPulse 3s ease-in-out infinite;
+}
+
+@keyframes kycBorderPulse {
+  0%, 100% { opacity: 0.7; }
+  50%      { opacity: 1; }
+}
+
+/* ====================
+   HEADER DE LA FENÊTRE
+   ═══════════════════════════════════════════════════════════════ */
+
+.kyc-header {
+  position: relative;
+  padding: 24px 32px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  background: var(--kyc-gradient-soft);
+}
+
+.kyc-header::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--kyc-gradient);
+  opacity: 0.4;
+}
+
+.kyc-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--kyc-text);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+}
+
+.kyc-step-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--kyc-text-muted);
+  margin-top: 6px;
+}
+
+/* ====================
+   BARRE DE PROGRESSION
+   ═══════════════════════════════════════════════════════════════ */
+
+.kyc-progress {
+  padding: 0 32px 20px;
+  display: flex;
+  gap: 6px;
+}
+
+.kyc-progress-dot {
+  flex: 1;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.05);
+  transition: background 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.kyc-progress-dot[data-state="done"] {
+  background: var(--kyc-success);
+}
+
+.kyc-progress-dot[data-state="active"] {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.kyc-progress-dot[data-state="active"]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--kyc-gradient);
+  animation: kycProgressFill 0.8s ease-out forwards;
+}
+
+@keyframes kycProgressFill {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(0); }
+}
+
+/* ====================
+   CONTENU
+   ═══════════════════════════════════════════════════════════════ */
+
+.kyc-content {
+  padding: 32px;
+  overflow-y: auto;
+  height: calc(100% - 140px);
+  color: var(--kyc-text);
+}
+
+.kyc-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.kyc-content::-webkit-scrollbar-thumb {
+  background: var(--kyc-gradient);
+  border-radius: 3px;
+}
+
+/* ====================
+   BOUTONS
+   ═══════════════════════════════════════════════════════════════ */
+
+.kyc-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  outline: none;
+}
+
+.kyc-btn-primary {
+  background: var(--kyc-gradient);
+  color: white;
+  box-shadow: 0 4px 20px var(--kyc-blue-glow);
+}
+
+.kyc-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 30px var(--kyc-blue-glow);
+}
+
+.kyc-btn-secondary {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--kyc-text);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.kyc-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* ====================
+   BADGES
+   ═══════════════════════════════════════════════════════════════ */
+
+.kyc-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.kyc-badge[data-status="not_verified"] {
+  background: rgba(239, 68, 68, 0.15);
+  color: #F87171;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.kyc-badge[data-status="pending"] {
+  background: rgba(245, 158, 11, 0.15);
+  color: #FBBF24;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.kyc-badge[data-status="verified"] {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34D399;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.kyc-badge[data-status="rejected"] {
+  background: rgba(220, 38, 38, 0.2);
+  color: #EF4444;
+  border: 1px solid rgba(220, 38, 38, 0.4);
+}
+
+.kyc-badge-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  animation: kycBadgePulse 2s ease-in-out infinite;
+}
+
+.kyc-badge[data-status="not_verified"] .kyc-badge-dot { background: #F87171; }
+.kyc-badge[data-status="pending"] .kyc-badge-dot { background: #FBBF24; }
+.kyc-badge[data-status="verified"] .kyc-badge-dot { background: #34D399; }
+.kyc-badge[data-status="rejected"] .kyc-badge-dot { background: #EF4444; }
+
+@keyframes kycBadgePulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.6; transform: scale(0.8); }
+}
+
+/* ====================
+   CARTES DE SCORE
+   ═══════════════════════════════════════════════════════════════ */
+
+.kyc-score-card {
+  padding: 20px;
+  border-radius: 16px;
+  background: var(--kyc-gradient-soft);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 16px;
+}
+
+.kyc-score-label {
+  font-size: 13px;
+  color: var(--kyc-text-muted);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.kyc-score-value {
+  font-size: 32px;
+  font-weight: 800;
+  background: var(--kyc-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ====================
+   ANIMATIONS
+   ═══════════════════════════════════════════════════════════════ */
+
+@keyframes kycSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.kyc-animate-in {
+  animation: kycSlideIn 0.4s ease-out;
+}
+
+@keyframes kycSpin {
+  to { transform: rotate(360deg); }
+}
+
+.kyc-spinner {
+  width: 48px;
+  height: 48px;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  border-top-color: var(--kyc-blue-400);
+  border-right-color: var(--kyc-red-400);
+  border-radius: 50%;
+  animation: kycSpin 1s linear infinite;
+}
+
+/* ====================
+   CAMÉRA
+   ═══════════════════════════════════════════════════════════════ */
+
+.kyc-camera-frame {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #000;
+  aspect-ratio: 4/3;
+  border: 2px solid transparent;
+  background-image: 
+    linear-gradient(#000, #000),
+    var(--kyc-gradient);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+}
+
+.kyc-camera-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.kyc-camera-guide {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  height: 60%;
+  border: 2px dashed rgba(255, 255, 255, 0.4);
+  border-radius: 12px;
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
+}
+
+/* ====================
+   MOBILE
+   ═══════════════════════════════════════════════════════════════ */
+
+@media (max-width: 640px) {
+  .kyc-stack {
+    max-width: 100%;
+    height: 100vh;
+    max-height: none;
+  }
+  
+  .kyc-window {
+    border-radius: 0;
+  }
+  
+  .kyc-window::before {
+    border-radius: 0;
+  }
+  
+  .kyc-header,
+  .kyc-content {
+    padding: 20px;
+  }
+}

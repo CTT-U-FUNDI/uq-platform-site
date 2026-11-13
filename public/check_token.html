@@ -1,0 +1,23 @@
+﻿<!DOCTYPE html>
+<html>
+<head><title>Check Token</title></head>
+<body>
+<script>
+    const token = localStorage.getItem('uq_token');
+    const number = localStorage.getItem('uq_number');
+    const email = localStorage.getItem('uq_email');
+    const pseudo = localStorage.getItem('uq_pseudo');
+    
+    document.body.innerHTML = `
+        <pre>
+TOKEN: ${token || 'VIDE'}
+NUMBER: ${number || 'VIDE'}
+EMAIL: ${email || 'VIDE'}
+PSEUDO: ${pseudo || 'VIDE'}
+
+TOKEN_DECODED: ${token ? JSON.parse(atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/'))) : 'N/A'}
+        </pre>
+    `;
+</script>
+</body>
+</html>

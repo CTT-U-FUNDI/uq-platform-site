@@ -1,0 +1,124 @@
+SECTION_A
+  /** Analyse de la preuve déposée par l'appelant : ouvre ou non « J'ai payé ». */
+  my_proof?: P2PProof | null;
+  /** Analyse de la preuve de la partie adverse, visible avant de libérer les BORB. */
+  peer_proof?: P2PProof | null;
+SECTION_B
+export const confirmP2POrder = (id: number, uq: string, derogation = false) =>
+  apiClient
+    .post<{
+      status: string;
+      message: string;
+      preuve_id?: number;
+      verdict?: string;
+      conformite?: number;
+      derogue?: boolean;
+    }>(`/api/p2p/market/orders/${id}/confirm`, { uq, derogation })
+    .then(unwrap);
+SECTION_C
+export const cancelP2POrder = (id: number, uq: string, litige = false) =>
+  apiClient
+    .post<{ status: string; message: string; apprentissage?: unknown }>(
+      `/api/p2p/market/orders/${id}/cancel`,
+      { uq, litige },
+    )
+    .then(unwrap);
+SECTION_D
+
+// ==================== Preuves de paiement P2P ====================
+
+export type P2PProofVerdict = 'valide' | 'doute' | 'rejet';
+
+export interface P2PProofSignal {
+  nom: string;
+  /** -1 = rassurant, 0 = neutre, +1 = accusateur. */
+  force: number;
+  detail: string;
+}
+
+export interface P2PAnalyse {
+  verdict: P2PProofVerdict;
+  /** 0 à 1 : ce que le moteur trouve la capture conforme à la commande. */
+  conformite: number;
+  /** Un générateur nommé dans le fichier : le moteur refuse, l'humain tranche. */
+  veto: boolean;
+  raisons: string[];
+  signaux: P2PProofSignal[];
+}
+
+export interface P2PProof {
+  id: number;
+  role: 'buyer' | 'seller';
+  uq: string;
+  montant_declare?: number;
+  devise_declare?: string;
+  numero_declare?: string;
+  nom_declare?: string;
+  verdict: P2PProofVerdict;
+  conformite: number;
+  veto: boolean;
+  /** L'acheteur a assumé un doute ou un écart : mention visible au vendeur. */
+  derogue?: boolean;
+  raisons?: string[];
+  signaux?: P2PProofSignal[];
+  issue?: string;
+  created_at: number;
+}
+
+export interface P2PAttendu {
+  montant: number;
+  devise: string;
+  numero: string;
+  nom: string;
+}
+
+export interface P2PProofAttachResponse {
+  status: string;
+  preuve_id: number;
+  role: 'buyer' | 'seller';
+  analyse: P2PAnalyse;
+  attendu: P2PAttendu;
+}
+
+export interface P2PProofsResponse {
+  status: string;
+  preuves: P2PProof[];
+}
+
+export interface P2PProofImageResponse {
+  status: string;
+  preuve_id: number;
+  order_id: number;
+  role: 'buyer' | 'seller';
+  verdict: P2PProofVerdict;
+  image: string;
+}
+
+export const attachP2PProof = (
+  id: number,
+  payload: {
+    uq: string;
+    image: string;
+    montant: number;
+    devise: string;
+    numero: string;
+    nom: string;
+  },
+) =>
+  apiClient
+    .post<P2PProofAttachResponse>(`/api/p2p/market/orders/${id}/proofs`, payload)
+    .then(unwrap);
+
+export const getP2PProofs = (id: number, uq: string) =>
+  apiClient
+    .get<P2PProofsResponse>(
+      `/api/p2p/market/orders/${id}/proofs?uq=${encodeURIComponent(uq)}`,
+    )
+    .then(unwrap);
+
+export const getP2PProofImage = (preuveId: number, uq: string) =>
+  apiClient
+    .get<P2PProofImageResponse>(
+      `/api/p2p/market/proofs/${preuveId}/image?uq=${encodeURIComponent(uq)}`,
+    )
+    .then(unwrap);

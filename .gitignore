@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.tmp*/
+*.bak
+*.backup*
+*.log
+*.before_*
+.tmp*
+tmp_*
+dev*.log
+report.txt
+result.html
+preview-site-editor.html
+*.pre_*
+/*.py
