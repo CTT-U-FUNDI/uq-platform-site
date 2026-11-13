@@ -14,6 +14,7 @@ import { getZandoItem, BOUTIQUE_SYSTEME_ID, type ZandoItem } from './lib/api';
 import { parseMediaUrls } from './lib/format';
 import { useLearningSync } from './lib/learning';
 import { AuthScreen } from './screens/AuthScreen';
+import { LandingScreen } from './screens/LandingScreen';
 import { CreateAccountScreen } from './screens/CreateAccountScreen';
 import { FeedScreen } from './screens/FeedScreen';
 import { MarketScreen } from './screens/MarketScreen';
@@ -90,6 +91,8 @@ function Shell() {
   );
   /** Identifiants UQ remis a l'ecran de connexion apres une creation reussie. */
   const [prefill, setPrefill] = useState<{ number: string; email: string } | null>(null);
+  /** Page d'accueil « rencontre » : false = landing vitrine, true = connexion. */
+  const [montreAuth, setMontreAuth] = useState(false);
   const [activeItem, setActiveItem] = useState<ZandoItem | null>(null);
   /** Contenu preselectionne pour le lecteur (bouton « Lire » de la fiche). */
   const [playItem, setPlayItem] = useState<ZandoItem | null>(null);
@@ -431,11 +434,21 @@ function Shell() {
               onBack={() => setCreating(false)}
               onGoLogin={(identity) => {
                 setPrefill(identity);
+                setMontreAuth(true);
                 setCreating(false);
               }}
             />
+          ) : montreAuth ? (
+            <AuthScreen
+              onCreateAccount={() => setCreating(true)}
+              prefill={prefill}
+              onBack={() => setMontreAuth(false)}
+            />
           ) : (
-            <AuthScreen onCreateAccount={() => setCreating(true)} prefill={prefill} />
+            <LandingScreen
+              onLogin={() => setMontreAuth(true)}
+              onCreateAccount={() => setCreating(true)}
+            />
           )
         ) : (
           <>

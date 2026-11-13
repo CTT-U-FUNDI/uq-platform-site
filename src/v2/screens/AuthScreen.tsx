@@ -51,6 +51,8 @@ interface AuthScreenProps {
   onCreateAccount: () => void;
   /** Remis apres une creation : numero et mail UQ deja saisis. */
   prefill?: { number: string; email: string } | null;
+  /** Retour à la page d'accueil vitrine (optionnel). */
+  onBack?: () => void;
 }
 
 /** Le widget Cloudflare n'existe que si le script est charge. */
@@ -146,7 +148,7 @@ function HumanPuzzleSymbol({ symbol }: { symbol: HumanSymbol }) {
  *    tentatives), sauf le motif du palier : lui explique pourquoi on redemande
  *    le mot de passe.
  */
-export function AuthScreen({ onCreateAccount, prefill }: AuthScreenProps) {
+export function AuthScreen({ onCreateAccount, prefill, onBack }: AuthScreenProps) {
   const { completeLogin, reprendre, consulterPalier, numeroMemorise, oublierCetAppareil, toast } =
     useSession();
 
@@ -943,6 +945,16 @@ export function AuthScreen({ onCreateAccount, prefill }: AuthScreenProps) {
         <div className="v2-body v2-auth-body">
           <div className="v2-auth-shell">
             <header className="v2-auth-head">
+              {onBack && (
+                <button
+                  type="button"
+                  className="v2-auth-back"
+                  onClick={onBack}
+                  aria-label="Retour à l'accueil"
+                >
+                  <Icon name="arrowLeft" size={18} />
+                </button>
+              )}
               <LogoUQ size={80} className="v2-auth-logo" />
               <div className="v2-auth-title">UQ Platform</div>
               <div className="v2-auth-subtitle">Connectez-vous à votre espace</div>

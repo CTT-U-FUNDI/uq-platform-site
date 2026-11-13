@@ -6348,3 +6348,24 @@ button.v2-hint:active {
   letter-spacing: -0.02em;
   margin-top: 6px;
 }
+
+/* Bouton retour vitrine (AuthScreen <- LandingScreen) */
+.v2-auth-head { position: relative; }
+.v2-auth-back {
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(238, 242, 255, 0.85);
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(12px);
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+.v2-auth-back:hover { background: rgba(255, 255, 255, 0.14); transform: translateX(-2px); }
