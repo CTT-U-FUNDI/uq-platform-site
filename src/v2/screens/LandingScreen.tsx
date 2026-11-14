@@ -8,7 +8,7 @@
 //
 // Deep links : /?ecran=verification|politiques|faq|aide|creation
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { LogoUQ } from '../../components/ui/LogoUQ';
 import { Icon } from '../components/Icon';
 import '../styles/landing.css';
@@ -164,6 +164,7 @@ export function LandingScreen({
 }) {
   const rootRef = useRef<HTMLDivElement>(null);
   const [contact, setContact] = useState({ nom: '', email: '', message: '' });
+  const [contactEtat, setContactEtat] = useState<'repos' | 'envoi' | 'envoye' | 'erreur'>('repos');
 
   // Reveal au scroll (IntersectionObserver)
   useEffect(() => {
@@ -185,12 +186,32 @@ export function LandingScreen({
     return () => io.disconnect();
   }, []);
 
-  const envoyerContact = () => {
+  const envoyerContact = async (e: FormEvent) => {
+    e.preventDefault();
+    if (contactEtat === 'envoi') return;
+    setContactEtat('envoi');
+    const api = (import.meta.env.VITE_API_URL as string | undefined) ?? '';
+    try {
+      const r = await fetch(`${api}/api/contact`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(contact),
+      });
+      if (r.ok) {
+        setContact({ nom: '', email: '', message: '' });
+        setContactEtat('envoye');
+        return;
+      }
+    } catch {
+      /* API injoignable → fallback mailto */
+    }
+    // Fallback : ouvre le client mail pré-rempli
     const sujet = encodeURIComponent(`Contact site — ${contact.nom || 'visiteur'}`);
     const corps = encodeURIComponent(
       `Nom : ${contact.nom}\nEmail : ${contact.email}\n\n${contact.message}`
     );
     window.location.href = `mailto:contact@uqplatform.com?subject=${sujet}&body=${corps}`;
+    setContactEtat('repos');
   };
 
   const scrollVers = (id: string) => {
@@ -520,9 +541,18 @@ export function LandingScreen({
                 <a href="mailto:contact@uqplatform.com">contact@uqplatform.com</a>
               </div>
             </div>
+            {contactEtat === 'envoye' ? (
+              <div className="uq-land-contact-ok">
+                <Icon name="check" size={22} />
+                <div>
+                  <strong>Message envoyé.</strong>
+                  <span>Nous vous répondons sous 48 h à l’adresse indiquée.</span>
+                </div>
+              </div>
+            ) : (
             <form
               className="uq-land-contact-form uq-land-reveal"
-              onSubmit={(e) => { e.preventDefault(); envoyerContact(); }}
+              onSubmit={envoyerContact}
             >
               <input
                 type="text"
@@ -545,10 +575,15 @@ export function LandingScreen({
                 onChange={(e) => setContact({ ...contact, message: e.target.value })}
                 required
               />
-              <button type="submit" className="uq-land-btn uq-land-btn--primary uq-land-btn--lg">
-                Envoyer le message <Icon name="send" size={16} />
+              <button
+                type="submit"
+                className="uq-land-btn uq-land-btn--primary uq-land-btn--lg"
+                disabled={contactEtat === 'envoi'}
+              >
+                {contactEtat === 'envoi' ? 'Envoi…' : 'Envoyer le message'} <Icon name="send" size={16} />
               </button>
             </form>
+            )}
           </div>
         </section>
 

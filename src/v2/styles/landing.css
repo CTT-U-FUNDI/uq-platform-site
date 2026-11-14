@@ -1570,3 +1570,25 @@
 @media (max-width: 560px) {
   .uq-land-tech-grid { grid-template-columns: 1fr; }
 }
+
+/* ---------- Confirmation contact ---------- */
+.uq-land-contact-ok {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: rgba(52, 211, 153, 0.1);
+  border: 1px solid rgba(52, 211, 153, 0.4);
+  border-radius: 18px;
+  padding: 26px 28px;
+  color: #34d399;
+}
+.uq-land-contact-ok strong {
+  display: block;
+  font-size: 16px;
+  color: #fff;
+  margin-bottom: 3px;
+}
+.uq-land-contact-ok span {
+  font-size: 13.5px;
+  color: rgba(238, 241, 248, 0.65);
+}
