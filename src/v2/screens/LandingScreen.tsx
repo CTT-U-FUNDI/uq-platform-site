@@ -12,6 +12,7 @@ import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { LogoUQ } from '../../components/ui/LogoUQ';
 import { Icon } from '../components/Icon';
 import '../styles/landing.css';
+import '../styles/landing-theme.css';
 
 interface Application {
   nom: string;
