@@ -191,7 +191,7 @@ export function LandingScreen({
     e.preventDefault();
     if (contactEtat === 'envoi') return;
     setContactEtat('envoi');
-    const api = (import.meta.env.VITE_API_URL as string | undefined) ?? '';
+    const api = (import.meta.env.VITE_API_URL as string | undefined) || 'https://api.uqplatform.com';
     try {
       const r = await fetch(`${api}/api/contact`, {
         method: 'POST',
