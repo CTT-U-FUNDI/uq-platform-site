@@ -4,8 +4,8 @@ const API_BASE = (() => {
   const envUrl = (import.meta as any).env?.VITE_API_URL;
   if (envUrl) return envUrl;
   if ((import.meta as any).env?.DEV) return '';
-  // Domaine officiel UQ : l'API est servie sur uqplatform.com.
-  return 'https://uqplatform.com';
+  // Domaine officiel UQ : l'API est servie sur api.uqplatform.com (HTTPS).
+  return 'https://api.uqplatform.com';
 })();
 
 export function apiUrl(path: string): string {
