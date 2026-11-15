@@ -293,3 +293,13 @@ body>*:not(#sq-layer){position:relative;z-index:1}
 .hd{box-shadow:0 8px 30px rgba(0,0,0,.4)}
 .foot{background:linear-gradient(180deg,#050506,#000)}
 .foot-cols{padding-top:10px}
+
+/* ===== ICÔNE GÉANTE FOND DE SECTION ===== */
+.sec-head,.groupe-inner,.equipe-info,.contact-gauche{position:relative;overflow:visible}
+.bg-icon{position:absolute;width:260px;height:260px;stroke:#fff;opacity:.05;pointer-events:none;z-index:0;right:-30px;top:-30px}
+.sec-head.center .bg-icon{right:auto;left:50%;transform:translateX(-50%);top:-50px}
+.equipe-info .bg-icon{right:auto;left:-40px;top:-20px}
+.contact-gauche .bg-icon{right:auto;left:-30px;top:-20px}
+.groupe-inner>.bg-icon{right:4%;top:12%;width:320px;height:320px;opacity:.04}
+.sec-head>*,.groupe-title,.groupe-texte,.valeurs-grid,.equipe-nom,.equipe-role,.equipe-bio,.contact-gauche>*{position:relative;z-index:1}
+@media(max-width:760px){.bg-icon{width:160px;height:160px;opacity:.07}}
