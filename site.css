@@ -4,7 +4,7 @@
    ============================================================ */
 :root{
   --tt:#e2e8f0;--tb:#94a3b8;--badge:#cbd5e1;
-  --blue:#fff;--green:#fff;--teal:#fff;--purple:#fff;--pink:#fff;--red:#fff;
+  --blue:#0078D4;--green:#107C10;--teal:#00B7C3;--purple:#6264A7;--pink:#E3008C;--red:#D83B01;
   --sans:'Inter',system-ui,sans-serif;
   --disp:'Space Grotesk','Inter',sans-serif;
   --spring:cubic-bezier(.32,.72,0,1);
@@ -176,7 +176,7 @@ body>*:not(#sq-layer){position:relative;z-index:1}
 .feat{border:1px solid rgba(255,255,255,.07);border-top:3px solid rgba(255,255,255,.12);border-radius:12px;padding:26px;background:rgba(15,17,26,.72);backdrop-filter:blur(14px);transition:transform .3s var(--spring),box-shadow .3s}
 .feat:hover{transform:translateY(-6px);box-shadow:0 18px 40px -12px rgba(255,255,255,.08)}
 .feat .f-ico{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:var(--fc,var(--badge));box-shadow:0 8px 20px -6px rgba(0,0,0,.4);margin-bottom:16px;font-size:20px}
-.feat:nth-child(1){--fc:var(--blue)}.feat:nth-child(2){--fc:var(--green)}.feat:nth-child(3){--fc:var(--pink)}.feat:nth-child(4){--fc:var(--purple)}.feat:nth-child(5){--fc:var(--teal)}.feat:nth-child(6){--fc:var(--red)}
+.feat:nth-child(1){--fc:#0078D4}.feat:nth-child(2){--fc:#107C10}.feat:nth-child(3){--fc:#E3008C}.feat:nth-child(4){--fc:#6264A7}.feat:nth-child(5){--fc:#00B7C3}.feat:nth-child(6){--fc:#D83B01}
 .feat h3{font-size:16px;color:#fff;margin-bottom:8px}
 .feat p{font-size:13px;line-height:1.7;color:var(--tb)}
 .back-link{display:inline-flex;align-items:center;gap:8px;margin-top:60px;font-size:13px;color:var(--tb);transition:color .2s}
@@ -229,13 +229,13 @@ body{background:#000}
 #sq-layer .msq{filter:grayscale(1) blur(3px) brightness(1.8) contrast(.9)!important;opacity:.12!important;border-color:rgba(255,255,255,.06)!important}
 .plaque-blue,.plaque-green,.plaque-pink,.plaque-teal,.groupe,.ribbon,.foot{background:#000!important}
 .card,.valeur,.marche-card,.contact-form,.feat,.hv-card,.kicker{background:rgba(255,255,255,.045)!important;border:1px solid rgba(255,255,255,.08)!important;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
-.icon-box,.v-ico,.f-ico,.hv-ico{background:rgba(255,255,255,.1)!important;box-shadow:none!important;color:#fff}
-.icon-box svg,.f-ico{fill:#fff;color:#fff}
-.status-dot{background:#fff;box-shadow:none}
-.valeur-blue,.valeur-green,.valeur-red{--vc:#fff}
-.sec-svg{stroke:#fff}
+.icon-box,.v-ico,.f-ico,.hv-ico{box-shadow:none}
+.icon-box svg{fill:#f8fafc}
+.status-dot{box-shadow:none}
+.valeur-blue{--vc:#0078D4}.valeur-green{--vc:#107C10}.valeur-red{--vc:#D83B01}
+.sec-svg{stroke:var(--badge)}
 .kicker::before{background:#fff;box-shadow:0 0 0 4px rgba(255,255,255,.12)}
-.card-blue,.card-green,.card-teal,.card-purple,.card-pink,.card-red{--cc:#fff}
+.card-blue{--cc:#0078D4}.card-green{--cc:#107C10}.card-teal{--cc:#00B7C3}.card-purple{--cc:#6264A7}.card-pink{--cc:#E3008C}.card-red{--cc:#D83B01}
 .btn-blue,.btn-dark{background:#fff;color:#000;border-color:#fff}
 .btn-blue:hover,.btn-dark:hover{background:#ddd}
 .btn-card:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2)}
@@ -262,3 +262,8 @@ body{background:#000}
 .groupe-photo{border-radius:12px}
 /* la photo reste nette dans le cadre */
 .marche-card img,.hv-frame img,.groupe-photo{filter:none}
+
+/* Icônes hero : couleurs MS alternées */
+.hv-row:nth-child(1) .hv-ico{background:#0078D4}
+.hv-row:nth-child(2) .hv-ico{background:#107C10}
+.hv-row:nth-child(3) .hv-ico{background:#00B7C3}
