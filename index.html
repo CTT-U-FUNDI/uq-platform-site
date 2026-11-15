@@ -188,44 +188,25 @@ const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.targ
 document.querySelectorAll('.rv').forEach(el=>io.observe(el));
 </script>
 <script>
-// Carrés Microsoft animés — physique : chacun part, rebondit sur les autres et les bords
+<script>
+// Carrés Microsoft 3D — statiques, profondeur + inclinaison
 (function(){
   const colors=['#005fb8','#00a2ff','#b54dff','#ff5e3a','#2ecc71','#ff4d9a','#00d2d3'];
-  const N=10, sq=[];
-  const layer=document.createElement('div');
+  const N=10, layer=document.createElement('div');
   layer.id='sq-layer';document.body.prepend(layer);
+  const W=innerWidth,H=innerHeight;
   for(let i=0;i<N;i++){
     const d=document.createElement('div');d.className='msq';
     d.style.background='linear-gradient(135deg,'+colors[i%colors.length]+','+colors[(i+3)%colors.length]+')';
+    const s=Math.min(W,H)*(.11+Math.random()*.11);
+    const rx=(Math.random()-.5)*50, ry=(Math.random()-.5)*50, rz=(Math.random()-.5)*40;
+    const z=(Math.random()-.5)*120, op=.15+Math.random()*.2;
+    const x=Math.random()*(W-s), y=Math.random()*(H-s);
+    d.style.width=d.style.height=s+'px';
+    d.style.opacity=op;
+    d.style.transform='translate('+x+'px,'+y+'px) perspective(900px) rotateX('+rx+'deg) rotateY('+ry+'deg) rotateZ('+rz+'deg) translateZ('+z+'px)';
     layer.appendChild(d);
-    const sp=.4+Math.random()*1.2,an=Math.random()*Math.PI*2;
-    sq.push({el:d,x:Math.random()*innerWidth,y:Math.random()*innerHeight,vx:Math.cos(an)*sp,vy:Math.sin(an)*sp,rot:(Math.random()-.5)*.6,s:Math.min(innerWidth,innerHeight)*(.11+Math.random()*.11)});
   }
-  function tick(){
-    const W=innerWidth,H=innerHeight;
-    for(const q of sq){
-      q.x+=q.vx;q.y+=q.vy;
-      if(q.x<0||q.x>W-q.s){q.vx*=-1;q.x=Math.max(0,Math.min(W-q.s,q.x))}
-      if(q.y<0||q.y>H-q.s){q.vy*=-1;q.y=Math.max(0,Math.min(H-q.s,q.y))}
-      q.rot+=q.vx*.002;q.el.style.transform='translate('+q.x+'px,'+q.y+'px) rotate('+q.rot+'rad)';
-      q.el.style.width=q.s+'px';q.el.style.height=q.s+'px';
-    }
-    // collisions : séparation + échange de vitesse (stable, pas de jitter)
-    for(let i=0;i<N;i++)for(let j=i+1;j<N;j++){
-      const a=sq[i],b=sq[j],dx=(b.x+b.s/2)-(a.x+a.s/2),dy=(b.y+b.s/2)-(a.y+a.s/2),d=Math.hypot(dx,dy),min=(a.s+b.s)/2*.96;
-      if(d<min&&d>0.5){
-        const nx=dx/d,ny=dy/d,p=(min-d)/2;
-        a.x=Math.max(0,Math.min(W-a.s,a.x-nx*p));b.x=Math.max(0,Math.min(W-b.s,b.x+nx*p));
-        a.y=Math.max(0,Math.min(H-a.s,a.y-ny*p));b.y=Math.max(0,Math.min(H-b.s,b.y+ny*p));
-        const dvx=b.vx-a.vx,dvy=b.vy-a.vy,imp=Math.min(dvx*nx+dvy*ny,0);
-        if(imp<0){a.vx-=nx*imp*.9;a.vy-=ny*imp*.9;b.vx+=nx*imp*.9;b.vy+=ny*imp*.9;}
-      }
-    }
-    // anti-jitter : recadrage final + amortissement léger
-    for(const q of sq){q.x=Math.max(0,Math.min(W-q.s,q.x));q.y=Math.max(0,Math.min(H-q.s,q.y));q.vx*=.9995;q.vy*=.9995}
-    requestAnimationFrame(tick);
-  }
-  tick();
 })();
 </script></body>
 </html>
