@@ -242,3 +242,6 @@ footer{border-top:1px solid var(--line);padding:56px 40px 32px;background:#000}
 @keyframes hiDrift{0%,100%{transform:translateY(0) rotate(0deg);opacity:.5}50%{transform:translateY(-14px) rotate(4deg);opacity:.9}}
 .hero-card .win-body{z-index:2}
 .hero-card .mosaic{z-index:0}
+
+.team-card.founder{border-color:rgba(0,183,195,.4);background:linear-gradient(160deg,rgba(0,183,195,.1),rgba(13,15,22,.6))}
+.avatar.big{width:110px;height:110px;border-width:3px}
