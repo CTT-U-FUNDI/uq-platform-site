@@ -257,9 +257,9 @@ footer{border-top:1px solid var(--line);padding:56px 40px 32px;background:#000}
 .panel p{color:#c9cfd8;font-size:1.02rem;line-height:1.75}
 .panel p strong{color:#fff}
 
-.uqz-tile{width:150px;height:150px}
-.uqz-txt.big{font-size:clamp(.85rem,3.2vw,1.15rem);letter-spacing:.1em;white-space:nowrap;padding:0 12px;text-shadow:0 0 18px rgba(0,120,212,.7)}
-@media(max-width:900px){.uqz-tile{width:130px;height:130px}.uqz-txt.big{font-size:1.8rem}}
+.uqz-tile{width:180px;height:180px}
+.uqz-txt.big{font-size:clamp(.95rem,3.6vw,1.3rem);letter-spacing:.1em;white-space:nowrap;padding:0 12px;text-shadow:0 0 18px rgba(0,120,212,.7)}
+@media(max-width:900px){.uqz-tile{width:150px;height:150px}.uqz-txt.big{font-size:1.1rem}}
 
 /* Logo agrandi partout */
 .logo img{width:46px;height:46px;border-radius:50%;object-fit:cover}
