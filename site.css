@@ -207,3 +207,13 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 
 /* Hero recentré (visuel retiré) */
 .hero>.hero-inner{grid-column:1/-1;max-width:960px}
+
+/* ===== FIX DÉBORDEMENTS ===== */
+html,body{overflow-x:hidden;overflow-x:clip}
+.dashboard{min-width:0}
+.card{transform-style:flat}
+.card:hover{transform:none}
+/* Les éléments 3D ne doivent pas pousser hors écran */
+.card,.valeur,.marche-card{max-width:100%}
+.hero,.produits,.marche,.equipe,.contact,.groupe,.valeurs-sec{overflow-x:clip}
+@media(max-width:1100px){.dashboard{grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px}}
