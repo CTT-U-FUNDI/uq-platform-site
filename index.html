@@ -44,7 +44,7 @@
         <div class="row r1"><div class="seq"><img src="./assets/img/marche_30464940.jpg"><img src="./assets/img/marche_28112436.jpg"><img src="./assets/img/marche_33662800.jpg"><img src="./assets/img/marche_37862875.jpg"><img src="./assets/img/marche_39013180.jpg"></div><div class="seq"><img src="./assets/img/marche_30464940.jpg"><img src="./assets/img/marche_28112436.jpg"><img src="./assets/img/marche_33662800.jpg"><img src="./assets/img/marche_37862875.jpg"><img src="./assets/img/marche_39013180.jpg"></div></div>
         <div class="row r2"><div class="seq"><img src="./assets/img/marche_30464940.jpg"><img src="./assets/img/marche_28112436.jpg"><img src="./assets/img/marche_33662800.jpg"><img src="./assets/img/marche_37862875.jpg"><img src="./assets/img/marche_39013180.jpg"></div><div class="seq"><img src="./assets/img/marche_30464940.jpg"><img src="./assets/img/marche_28112436.jpg"><img src="./assets/img/marche_33662800.jpg"><img src="./assets/img/marche_37862875.jpg"><img src="./assets/img/marche_39013180.jpg"></div></div>
       </div>
-      <div class="uqz-tile" id="uqzTile"><span class="uqz-txt big" id="uqzWord">UQZ</span></div>
+      <div class="uqz-tile" id="uqzTile"><span class="uqz-ico" id="uqzIco"></span><span class="uqz-txt big" id="uqzWord">UQZ</span></div>
       <div class="eyebrow">Ufundi Quotidienne Zando</div>
       <h1>UQZ.<br><em>La super-app qui connecte l'Afrique.</em></h1>
       <p class="lead">Ton identité, ton argent, ton commerce, tes échanges, ta communauté — en une seule app, chiffrée sur ton appareil.</p>
@@ -150,9 +150,18 @@ const cio=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)retur
 (function f(t){const p=Math.min((t-t0)/D,1),v=Math.round(end*(1-Math.pow(1-p,3)));el.textContent=v+suf;if(p<1)requestAnimationFrame(f)})(t0);cio.unobserve(el)}),{threshold:.6});
 document.querySelectorAll('[data-count]').forEach(el=>cio.observe(el));
 // Rotation des produits dans la tuile UQZ
-const UQZ_APPS=[['UQZ','#0a84ff'],['ZANDO','#e63946'],['UQ PLAY','#7b5ea7'],['UQ WIRELESS','#2e86de'],['UQ STREAM PAY','#d97706'],['UQ STUDIO','#b5378c'],['UQ CHAT','#0e7490'],['UQ WALLET','#c9a227']];
-let _ai=0;const _wt=document.getElementById('uqzWord'),_tile=document.getElementById('uqzTile');
-setInterval(()=>{_ai=(_ai+1)%UQZ_APPS.length;const[t,c]=UQZ_APPS[_ai];_wt.style.opacity=0;setTimeout(()=>{_wt.textContent=t;_wt.style.opacity=1;_tile.style.borderColor=c+'aa';_tile.style.boxShadow=`0 0 0 1px ${c}44,0 18px 50px rgba(0,0,0,.5),0 0 44px ${c}66`},350)},2900);
+const UQ_SVG=p=>`<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="${p.c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${p.s}</svg>`;
+const UQZ_APPS=[
+{t:'UQZ',c:'#0a84ff',s:'<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/>'},
+{t:'ZANDO',c:'#e63946',s:'<circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>'},
+{t:'UQ PLAY',c:'#7b5ea7',s:'<rect x="2" y="4" width="20" height="16" rx="2"/><polygon points="10 9 15 12 10 15 10 9" fill="${'#7b5ea7'}" stroke="none"/>'},
+{t:'UQ WIRELESS',c:'#2e86de',s:'<path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/>'},
+{t:'UQ STREAM PAY',c:'#d97706',s:'<line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>'},
+{t:'UQ STUDIO',c:'#b5378c',s:'<path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/>'},
+{t:'UQ CHAT',c:'#0e7490',s:'<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>'},
+{t:'UQ WALLET',c:'#c9a227',s:'<path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4z"/>'}];
+document.getElementById('uqzIco').innerHTML=UQ_SVG(UQZ_APPS[0]);let _ai=0;const _wt=document.getElementById('uqzWord'),_tile=document.getElementById('uqzTile');
+setInterval(()=>{_ai=(_ai+1)%UQZ_APPS.length;const p=UQZ_APPS[_ai],t=p.t,c=p.c;_wt.style.opacity=0;setTimeout(()=>{_wt.textContent=t;document.getElementById('uqzIco').innerHTML=UQ_SVG(p);_wt.style.opacity=1;_tile.style.borderColor=c+'aa';_tile.style.boxShadow=`0 0 0 1px ${c}44,0 18px 50px rgba(0,0,0,.5),0 0 44px ${c}66`},350)},2900);
 _tile.style.transition='border-color 1s,box-shadow 1s';_wt.style.transition='opacity .35s';
 document.querySelectorAll('.card').forEach(c=>c.addEventListener('mousemove' ,e=>{const r=c.getBoundingClientRect();c.style.setProperty('--mx',e.clientX-r.left+'px');c.style.setProperty('--my',e.clientY-r.top+'px')}));
 </script>
