@@ -42,7 +42,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .hd-link:hover{color:#fff}
 
 /* ===== HERO ===== */
-.hero{position:relative;z-index:10;display:grid;grid-template-columns:1.05fr 1fr;gap:56px;align-items:center;padding:90px max(5vw,calc((100vw - 1280px)/2)) 100px;max-width:1440px;margin:0 auto}
+.hero{position:relative;z-index:10;padding:90px max(5vw,calc((100vw - 1280px)/2)) 100px}
 .kicker{display:inline-flex;align-items:center;gap:9px;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--tb);border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.04);border-radius:999px;padding:8px 14px;margin-bottom:30px}
 .kicker::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 4px rgba(0,183,195,.2)}
 .hero-title{font-family:var(--disp);font-weight:700;font-size:clamp(46px,5.6vw,84px);line-height:1.05;letter-spacing:-2.5px;margin-bottom:26px;color:#fff}
@@ -227,7 +227,7 @@ html,body{overflow-x:hidden;overflow-x:clip}
 .ribbon-track i{color:var(--teal);font-style:normal;font-size:9px;align-self:center}
 @keyframes marquee{to{transform:translateX(-50%)}}
 /* Groupe : padding interne cohérent */
-.groupe-inner{padding:0 max(5vw,calc((100vw - 1100px)/2))}
+.groupe-inner{padding:0}
 
 /* ===== LAYOUT UNIFIÉ — fini les éléments dispersés ===== */
 /* Tous les blocs de contenu : même largeur, même centrage */
