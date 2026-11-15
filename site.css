@@ -272,3 +272,24 @@ body>*:not(#sq-layer){position:relative;z-index:1}
 @keyframes marqR{from{transform:translateX(-50%)}to{transform:translateX(0)}}
 /* les items internes forment une piste */
 .m-row{display:flex;width:max-content}
+
+/* ===== TUILES PRODUITS — grandes + flottantes ===== */
+.mosaic{padding:50px max(5vw,calc((100vw - 1280px)/2))}
+.m-row{gap:0;overflow:visible;animation:none!important;display:flex;flex-wrap:wrap;justify-content:center;width:100%}
+.m-item{flex-direction:column;align-items:center;gap:14px;padding:34px 30px;border-radius:20px;min-width:170px;
+  background:linear-gradient(160deg,rgba(255,255,255,.1),rgba(255,255,255,.03));
+  border:1px solid rgba(255,255,255,.14);
+  box-shadow:0 16px 44px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.14);
+  animation:mFloat 7s ease-in-out infinite alternate;transition:transform .35s var(--spring),box-shadow .35s,border-color .35s}
+.m-item:nth-child(3n+1){animation-delay:-2s}.m-item:nth-child(3n+2){animation-delay:-4.5s}.m-item:nth-child(3n){animation-delay:-6.5s}
+@keyframes mFloat{0%{transform:translateY(0) rotate(-1.2deg)}50%{transform:translateY(-14px) rotate(1.2deg)}100%{transform:translateY(4px) rotate(-.6deg)}}
+.m-item:hover{transform:translateY(-10px) scale(1.05);animation-play-state:paused;border-color:rgba(255,255,255,.35);box-shadow:0 26px 60px rgba(0,0,0,.6),0 0 30px rgba(255,255,255,.12)}
+.m-ico{width:64px;height:64px;border-radius:16px}
+.m-ico svg{width:30px;height:30px}
+.m-name{font-size:16px;letter-spacing:.2px}
+.m-item::after{content:'';position:absolute;inset:0;border-radius:inherit;background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,.14) 50%,transparent 70%);transform:translateX(-120%);transition:transform .7s}
+.m-item:hover::after{transform:translateX(120%)}
+/* Header/Footer : renforcement glass */
+.hd{box-shadow:0 8px 30px rgba(0,0,0,.4)}
+.foot{background:linear-gradient(180deg,#050506,#000)}
+.foot-cols{padding-top:10px}
