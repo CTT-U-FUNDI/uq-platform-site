@@ -198,7 +198,8 @@ document.querySelectorAll('.rv').forEach(el=>io.observe(el));
     const d=document.createElement('div');d.className='msq';
     d.style.background='linear-gradient(135deg,'+colors[i%colors.length]+','+colors[(i+3)%colors.length]+')';
     layer.appendChild(d);
-    sq.push({el:d,x:Math.random()*innerWidth,y:Math.random()*innerHeight,vx:(Math.random()-.5)*.45,vy:(Math.random()-.5)*.45,s:Math.min(innerWidth,innerHeight)*(.07+Math.random()*.09)});
+    const sp=.4+Math.random()*1.2,an=Math.random()*Math.PI*2;
+    sq.push({el:d,x:Math.random()*innerWidth,y:Math.random()*innerHeight,vx:Math.cos(an)*sp,vy:Math.sin(an)*sp,rot:(Math.random()-.5)*.6,s:Math.min(innerWidth,innerHeight)*(.07+Math.random()*.09)});
   }
   function tick(){
     const W=innerWidth,H=innerHeight;
@@ -206,7 +207,7 @@ document.querySelectorAll('.rv').forEach(el=>io.observe(el));
       q.x+=q.vx;q.y+=q.vy;
       if(q.x<0||q.x>W-q.s){q.vx*=-1;q.x=Math.max(0,Math.min(W-q.s,q.x))}
       if(q.y<0||q.y>H-q.s){q.vy*=-1;q.y=Math.max(0,Math.min(H-q.s,q.y))}
-      q.el.style.transform='translate('+q.x+'px,'+q.y+'px) rotate('+(q.x*.05)+'deg)';
+      q.rot+=q.vx*.002;q.el.style.transform='translate('+q.x+'px,'+q.y+'px) rotate('+q.rot+'rad)';
       q.el.style.width=q.s+'px';q.el.style.height=q.s+'px';
     }
     // collisions entre carrés : échange de vitesse
