@@ -256,3 +256,7 @@ footer{border-top:1px solid var(--line);padding:56px 40px 32px;background:#000}
 .panel h2{font-size:clamp(1.5rem,3.5vw,2rem);margin-bottom:18px;line-height:1.2}
 .panel p{color:#c9cfd8;font-size:1.02rem;line-height:1.75}
 .panel p strong{color:#fff}
+
+.uqz-tile{width:150px;height:150px}
+.uqz-txt.big{font-size:2.1rem;letter-spacing:.14em;text-shadow:0 0 24px rgba(0,120,212,.7),0 0 60px rgba(0,183,195,.4)}
+@media(max-width:900px){.uqz-tile{width:130px;height:130px}.uqz-txt.big{font-size:1.8rem}}
