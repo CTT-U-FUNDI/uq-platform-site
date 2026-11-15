@@ -193,8 +193,11 @@ footer{margin-top:80px;padding:60px 40px 30px;border-top:1px solid rgba(255,255,
   .container{padding:0 20px}
   .dashboard{grid-template-columns:1fr;gap:18px}
   .card{min-height:0;padding:24px}
-  .pillar-grid{grid-template-columns:1fr;gap:16px}
-  .pillar img{height:180px}
+  .pillar-grid{grid-template-columns:repeat(2,1fr);gap:12px}
+  .pillar{padding:16px;border-radius:14px}
+  .pillar img{height:120px;margin-bottom:10px}
+  .pillar h3{font-size:.95rem;margin-bottom:6px}
+  .pillar p{font-size:.78rem;line-height:1.5}
   .stats-banner{grid-template-columns:repeat(3,1fr);gap:10px}
   .stat-item{padding:16px 10px}
   .stat-value{font-size:1.1rem}
