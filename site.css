@@ -167,20 +167,18 @@ footer{margin-top:80px;padding:60px 40px 30px;border-top:1px solid rgba(255,255,
    ============================================================ */
 @media(max-width:900px){
   header{padding:12px 16px}
-  .nav-burger{display:flex;background:var(--glass);border:1px solid var(--line);border-radius:10px;width:36px;height:36px;align-items:center;justify-content:center;color:#fff;flex-shrink:0}
-  .nav-burger svg{width:18px;height:18px}
-  header{position:fixed}
-  .logo{flex-shrink:0}
-  .nav-burger{order:4}
-  .nav-actions{order:5;margin-left:0;gap:10px}
-  nav{position:static;width:auto;order:6}
-  nav ul{display:none;position:absolute;top:64px;left:12px;right:12px;flex-direction:column;background:rgba(0,0,0,.97);backdrop-filter:blur(20px);border:1px solid var(--line);border-radius:14px;padding:10px;box-shadow:0 20px 50px rgba(0,0,0,.6)}
-  nav ul.open{display:flex;animation:fadeIn .3s ease}
-  nav a{display:block;padding:13px 14px;font-size:.95rem;border-radius:10px}
-  header>nav{display:contents}
-  header>nav>ul{position:absolute;top:64px;left:12px;right:12px;z-index:1001}
+  /* Mobile header : logo gauche, burger+action droite, menu panneau sous header */
+  header{padding:12px 16px;flex-wrap:wrap}
+  .nav-burger{display:flex;order:5;background:var(--glass);border:1px solid var(--line);border-radius:10px;width:44px;height:44px;align-items:center;justify-content:center;color:#fff;flex-shrink:0}
+  .nav-burger svg{width:20px;height:20px}
+  .nav-actions{order:4;margin-left:auto;gap:10px}
   .btn-nav-primary{padding:8px 14px;font-size:.78rem}
   .btn-login{display:none}
+  nav{position:absolute;top:100%;left:0;right:0;padding:0 16px 14px;z-index:1001;pointer-events:none}
+  nav ul{display:none;flex-direction:column;background:rgba(0,0,0,.97);backdrop-filter:blur(24px);border:1px solid var(--line);border-top:none;border-radius:0 0 16px 16px;padding:8px;box-shadow:0 24px 50px rgba(0,0,0,.7);pointer-events:auto}
+  nav ul.open{display:flex;animation:fadeIn .3s ease}
+  nav a{display:block;padding:14px 16px;font-size:.95rem;border-radius:10px}
+  nav a:hover{background:rgba(255,255,255,.06)}
   .container{padding:0 20px}
   .page{padding-top:76px}
   .hero{padding:56px 20px 46px}
