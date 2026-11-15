@@ -217,3 +217,10 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   *{animation:none!important;transition:none!important}
   html{scroll-behavior:auto}
 }
+
+/* ===== PHOTOS ===== */
+.scene-photo{object-fit:cover;filter:saturate(.5) brightness(.7)}
+.groupe-photo{width:100%;max-width:1100px;height:320px;object-fit:cover;border-radius:20px;border:1px solid rgba(255,255,255,.1);margin-bottom:56px}
+.equipe-avatar.second{margin-left:auto}
+.equipe-inner{justify-content:center}
+@media(max-width:760px){.groupe-photo{height:200px}}
