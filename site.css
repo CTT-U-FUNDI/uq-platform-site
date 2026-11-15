@@ -172,3 +172,28 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   *{animation:none!important;transition:none!important}
   html{scroll-behavior:auto}
 }
+
+/* ===== TITRES RESPONSIVES — compact sur tous les écrans ===== */
+.hero-title{overflow-wrap:anywhere}
+.sec-title,.groupe-title{overflow-wrap:anywhere}
+@media(max-width:1100px){
+  .hero-title{font-size:clamp(36px,5vw,54px)}
+  .sec-title{font-size:clamp(28px,3.4vw,40px)}
+  .groupe-title{font-size:clamp(30px,3.6vw,44px)}
+}
+@media(max-width:760px){
+  .hero-title{font-size:clamp(32px,9vw,44px);letter-spacing:-1.4px;line-height:1.06}
+  .sec-title{font-size:clamp(26px,7vw,34px);letter-spacing:-1px}
+  .groupe-title{font-size:clamp(28px,7.5vw,36px);letter-spacing:-1.2px}
+  .equipe-nom{font-size:24px}
+  .hero{gap:40px}
+  .hero-cta .btn{width:100%;justify-content:center}
+  .hero-meta{flex-wrap:wrap;gap:14px}
+  .hero-meta .sep{display:none}
+}
+@media(max-width:400px){
+  .hero-title{font-size:30px}
+  .sec-title{font-size:24px}
+  .hd-logo span{font-size:16px}
+  .hd-actions .btn{padding:10px 16px;font-size:12px}
+}
