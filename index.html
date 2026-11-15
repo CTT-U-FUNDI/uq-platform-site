@@ -212,5 +212,34 @@ document.querySelectorAll('.rv').forEach(el=>io.observe(el));
     layer.appendChild(d);
   }
 })();
-</script></body>
+</script><script>
+// Mosaïque : clic long = sauter de ligne (clic simple = ouvrir la page)
+document.querySelectorAll('.m-item').forEach(el=>{
+  let timer;
+  el.addEventListener('click',e=>{
+    e.preventDefault();
+    timer=setTimeout(()=>{location.href=el.dataset.p},350);
+  });
+  el.addEventListener('mousedown',()=>{el.classList.add('jump')});
+  el.addEventListener('mouseup',()=>setTimeout(()=>el.classList.remove('jump'),600));
+  el.addEventListener('mouseleave',()=>{clearTimeout(timer);el.classList.remove('jump')});
+});
+// Double-clic = échanger de ligne
+const rows=[document.getElementById('rowTop'),document.getElementById('rowBot')];
+document.querySelectorAll('.m-item').forEach(el=>{
+  el.addEventListener('dblclick',e=>{
+    e.preventDefault();
+    const from=el.closest('.m-row'),to=from===rows[0]?rows[1]:rows[0];
+    const r=el.getBoundingClientRect(),tr=to.getBoundingClientRect();
+    el.style.transition='none';
+    const clone=el.cloneNode(true);
+    el.style.display='none';
+    document.body.appendChild(clone);
+    clone.style.cssText+=';position:fixed;left:'+r.left+'px;top:'+r.top+'px;width:'+r.width+'px;height:'+r.height+'px;z-index:99;margin:0;transition:all .5s cubic-bezier(.32,.72,0,1)';
+    requestAnimationFrame(()=>{clone.style.left=(tr.left+16)+'px';clone.style.top=(tr.top+8)+'px'});
+    setTimeout(()=>{to.appendChild(el);el.style.display='';document.body.removeChild(clone)},520);
+  });
+});
+</script>
+</body>
 </html>
