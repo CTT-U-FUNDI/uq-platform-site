@@ -264,3 +264,11 @@ footer{border-top:1px solid var(--line);padding:56px 40px 32px;background:#000}
 /* Logo agrandi partout */
 .logo img{width:46px;height:46px;border-radius:50%;object-fit:cover}
 .fbrand .logo img{width:56px;height:56px;border-radius:50%;object-fit:cover}
+
+/* Réseaux sociaux */
+.soc-row{display:inline-flex;gap:10px;margin-left:14px;vertical-align:middle}
+.soc{width:34px;height:34px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;transition:.25s var(--spring)}
+.soc svg{width:18px;height:18px}
+.soc:hover{transform:translateY(-3px) scale(1.08)}
+.soc.wa{background:rgba(37,211,102,.15);color:#25D366}
+.soc.yt{background:rgba(255,0,0,.15);color:#ff5a5a}
