@@ -249,3 +249,16 @@ body{background:#000}
 .contact-form input:focus,.contact-form textarea:focus{border-color:rgba(255,255,255,.3);box-shadow:0 0 0 4px rgba(255,255,255,.08)}
 .marche-card figcaption strong{color:#fff}
 ::selection{background:#fff;color:#000}
+
+/* ===== PHOTOS PREMIER PLAN — bordures RGB UQ ===== */
+@property --uq-a{syntax:'<angle>';initial-value:0deg;inherits:false}
+@keyframes uqSpin{to{--uq-a:360deg}}
+.uq-rgb-border{position:relative;border:1.5px solid transparent!important;
+  background-image:linear-gradient(#0a0a0c,#0a0a0c),conic-gradient(from var(--uq-a),#ff453a,#ffd60a,#f472b6,#0a84ff,#ff453a);
+  background-origin:border-box;background-clip:padding-box,border-box;
+  animation:uqSpin 7s linear infinite}
+.marche .marche-card,.hero .hv-frame,.groupe-photo{border:1.5px solid transparent!important;background-image:linear-gradient(#0a0a0c,#0a0a0c),conic-gradient(from var(--uq-a),#ff453a,#ffd60a,#f472b6,#0a84ff,#ff453a);background-origin:border-box;background-clip:padding-box,border-box;animation:uqSpin 7s linear infinite}
+.marche .marche-card,.hero .hv-frame{border-radius:12px}
+.groupe-photo{border-radius:12px}
+/* la photo reste nette dans le cadre */
+.marche-card img,.hv-frame img,.groupe-photo{filter:none}
