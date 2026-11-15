@@ -254,3 +254,31 @@ html,body{overflow-x:hidden;overflow-x:clip}
   .hero{padding:50px 6vw 60px}
   .groupe{min-height:auto}
 }
+
+/* ===== CARRÉS MICROSOFT FLOTTANTS ===== */
+#sq-layer{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.msq{position:absolute;top:0;left:0;border-radius:18%;opacity:.28;
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  border:1px solid rgba(255,255,255,.18);
+  box-shadow:0 10px 30px rgba(0,0,0,.3),inset 0 0 20px rgba(255,255,255,.05);
+  mix-blend-mode:screen;will-change:transform}
+body>*:not(#sq-layer){position:relative;z-index:1}
+
+/* ===== BORDURES POINTUES MONOCHROME ===== */
+.card,.valeur,.marche-card,.contact-form,.feat,.kicker,.btn{border-radius:6px!important}
+.card::after{display:none}
+.card,.valeur,.marche-card,.contact-form,.feat{border:1px solid rgba(255,255,255,.12)!important;background-image:none!important;animation:none!important;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:rgba(15,17,26,.72)!important}
+.btn{border:1px solid rgba(255,255,255,.14)}
+.btn-blue{background:#fff;color:#0b0d12;border-color:#fff}
+.btn-blue:hover{background:#e8e8e8}
+.btn-dark{background:#fff;color:#0b0d12;border:1px solid #fff}
+.btn-ghost{border:1px solid rgba(255,255,255,.14)}
+.btn-card{border:1px solid rgba(255,255,255,.12);border-radius:6px}
+.btn-card:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.3)}
+.icon-box{border-radius:8px}
+.status-badge{border:1px solid rgba(255,255,255,.12);border-radius:4px}
+.hero-title em,.sec-title em,.groupe-title em,.page-hero h1 em{background:none;-webkit-text-fill-color:#fff;color:#fff;font-style:normal}
+.kicker{color:var(--badge);-webkit-text-fill-color:var(--badge)}
+.marche-card figcaption strong{-webkit-text-fill-color:#fff;color:#fff}
+.contact-mail{color:var(--badge);border-color:rgba(255,255,255,.2)}
+.equipe-role{color:var(--badge)}

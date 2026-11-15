@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="./site.css">
 </head>
 <body>
-<div class="bg-effects"><div class="orb orb-blue"></div><div class="orb orb-green"></div><div class="orb orb-teal"></div><div class="orb orb-purple"></div><div class="orb orb-pink"></div><div class="orb orb-red"></div></div>
+
 
 <!-- ===== HEADER ===== -->
 <header class="hd">
@@ -187,5 +187,39 @@ async function envoyer(e){
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('is-in');io.unobserve(e.target)}}),{threshold:.12});
 document.querySelectorAll('.rv').forEach(el=>io.observe(el));
 </script>
-</body>
+<script>
+// Carrés Microsoft animés — physique : chacun part, rebondit sur les autres et les bords
+(function(){
+  const colors=['#005fb8','#00a2ff','#b54dff','#ff5e3a','#2ecc71','#ff4d9a','#00d2d3'];
+  const N=10, sq=[];
+  const layer=document.createElement('div');
+  layer.id='sq-layer';document.body.prepend(layer);
+  for(let i=0;i<N;i++){
+    const d=document.createElement('div');d.className='msq';
+    d.style.background='linear-gradient(135deg,'+colors[i%colors.length]+','+colors[(i+3)%colors.length]+')';
+    layer.appendChild(d);
+    sq.push({el:d,x:Math.random()*innerWidth,y:Math.random()*innerHeight,vx:(Math.random()-.5)*1.4,vy:(Math.random()-.5)*1.4,s:60+Math.random()*90});
+  }
+  function tick(){
+    const W=innerWidth,H=innerHeight;
+    for(const q of sq){
+      q.x+=q.vx;q.y+=q.vy;
+      if(q.x<0||q.x>W-q.s){q.vx*=-1;q.x=Math.max(0,Math.min(W-q.s,q.x))}
+      if(q.y<0||q.y>H-q.s){q.vy*=-1;q.y=Math.max(0,Math.min(H-q.s,q.y))}
+      q.el.style.transform='translate('+q.x+'px,'+q.y+'px) rotate('+(q.x*.05)+'deg)';
+      q.el.style.width=q.s+'px';q.el.style.height=q.s+'px';
+    }
+    // collisions entre carrés : échange de vitesse
+    for(let i=0;i<N;i++)for(let j=i+1;j<N;j++){
+      const a=sq[i],b=sq[j],dx=(b.x+b.s/2)-(a.x+a.s/2),dy=(b.y+b.s/2)-(a.y+a.s/2),d=Math.hypot(dx,dy),min=(a.s+b.s)/2;
+      if(d<min&&d>0){const nx=dx/d,ny=dy/d,p=(min-d)/2;
+        a.x-=nx*p;b.x+=nx*p;a.y-=ny*p;b.y+=ny*p;
+        const dvx=b.vx-a.vx,dvy=b.vy-a.vy;
+        a.vx+=nx*dvx*.9;a.vy+=ny*dvy*.9;b.vx-=nx*dvx*.9;b.vy-=ny*dvy*.9;}
+    }
+    requestAnimationFrame(tick);
+  }
+  tick();
+})();
+</script></body>
 </html>

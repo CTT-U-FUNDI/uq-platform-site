@@ -1,5 +1,5 @@
 <!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>BORB Wallet — UQ Platform</title><link rel="icon" type="image/svg+xml" href="./assets/uq-mark.svg"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="./site.css"></head><body>
-<div class="bg-effects"><div class="orb orb-blue"></div><div class="orb orb-green"></div><div class="orb orb-teal"></div><div class="orb orb-purple"></div><div class="orb orb-pink"></div><div class="orb orb-red"></div></div>
+
 <header class="hd"><a class="hd-logo" href="./index.html"><img src="./assets/uq-mark.svg" alt="UQ" width="34" height="34"><span>UQ Platform</span></a><nav class="hd-nav"><a href="./index.html#produits">Produits</a><a href="./index.html#groupe">Le groupe</a><a href="./index.html#equipe">Équipe</a><a href="./index.html#contact">Contact</a></nav><div class="hd-actions"><a class="hd-link" href="./index.html#contact">Se connecter</a><a class="btn btn-dark" href="./index.html#contact">Ouvrir un compte</a></div></header>
 <section class="page-hero"><p class="kicker">portefeuille numérique</p><h1>BORB <em>Wallet</em></h1><p class="page-lead">BORB Wallet est le coffre-fort numérique de l'écosystème UQ : coffre sécurisé, trading P2P, studio créatif — vos actifs, vos clés, vos règles.</p></section>
 <div class="page-body">
@@ -9,4 +9,38 @@
 <p>La bêta privée est ouverte. Rejoignez les premiers utilisateurs et aidez-nous à façonner la suite.</p>
 <a class="btn btn-blue btn-lg" href="./index.html#contact" style="margin-top:24px">Rejoindre la bêta <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
 <a class="back-link" href="./index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Retour à l'accueil</a>
-</div></body></html>
+</div><script>
+// Carrés Microsoft animés — physique : chacun part, rebondit sur les autres et les bords
+(function(){
+  const colors=['#005fb8','#00a2ff','#b54dff','#ff5e3a','#2ecc71','#ff4d9a','#00d2d3'];
+  const N=10, sq=[];
+  const layer=document.createElement('div');
+  layer.id='sq-layer';document.body.prepend(layer);
+  for(let i=0;i<N;i++){
+    const d=document.createElement('div');d.className='msq';
+    d.style.background='linear-gradient(135deg,'+colors[i%colors.length]+','+colors[(i+3)%colors.length]+')';
+    layer.appendChild(d);
+    sq.push({el:d,x:Math.random()*innerWidth,y:Math.random()*innerHeight,vx:(Math.random()-.5)*1.4,vy:(Math.random()-.5)*1.4,s:60+Math.random()*90});
+  }
+  function tick(){
+    const W=innerWidth,H=innerHeight;
+    for(const q of sq){
+      q.x+=q.vx;q.y+=q.vy;
+      if(q.x<0||q.x>W-q.s){q.vx*=-1;q.x=Math.max(0,Math.min(W-q.s,q.x))}
+      if(q.y<0||q.y>H-q.s){q.vy*=-1;q.y=Math.max(0,Math.min(H-q.s,q.y))}
+      q.el.style.transform='translate('+q.x+'px,'+q.y+'px) rotate('+(q.x*.05)+'deg)';
+      q.el.style.width=q.s+'px';q.el.style.height=q.s+'px';
+    }
+    // collisions entre carrés : échange de vitesse
+    for(let i=0;i<N;i++)for(let j=i+1;j<N;j++){
+      const a=sq[i],b=sq[j],dx=(b.x+b.s/2)-(a.x+a.s/2),dy=(b.y+b.s/2)-(a.y+a.s/2),d=Math.hypot(dx,dy),min=(a.s+b.s)/2;
+      if(d<min&&d>0){const nx=dx/d,ny=dy/d,p=(min-d)/2;
+        a.x-=nx*p;b.x+=nx*p;a.y-=ny*p;b.y+=ny*p;
+        const dvx=b.vx-a.vx,dvy=b.vy-a.vy;
+        a.vx+=nx*dvx*.9;a.vy+=ny*dvy*.9;b.vx-=nx*dvx*.9;b.vy-=ny*dvy*.9;}
+    }
+    requestAnimationFrame(tick);
+  }
+  tick();
+})();
+</script></body></html>
