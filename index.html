@@ -76,7 +76,7 @@
 </div>
 
 <!-- ===== PRODUITS ===== -->
-<section class="produits" id="produits">
+<section class="produits rv" id="produits">
   <div class="sec-head">
     <p class="kicker">Nos produits</p>
     <h2 class="sec-title">Tout ce qu'il vous faut,<br>sous un seul compte.</h2>
@@ -87,32 +87,32 @@
       <div class="card-top"><span class="app-ico lg">◈</span><em class="statut ok">Disponible</em></div>
       <h3>BORB Wallet</h3>
       <p>Portefeuille numérique : coffre, trading P2P, studio créatif. Vos actifs, vos clés, vos règles.</p>
-      <span class="card-cta">Explorer →</span>
+      <a class="card-cta" href="./borb.html">Explorer → <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
     </article>
     <article class="card-app">
       <div class="card-top"><span class="app-ico lg">🛡</span><em class="statut ok">Disponible</em></div>
       <h3>UQ Auth</h3>
       <p>Identité numérique sécurisée : vérification humaine, accès unique, protection anti-robot.</p>
-      <span class="card-cta">Découvrir →</span>
+      <a class="card-cta" href="./auth.html">Découvrir → <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
     </article>
     <article class="card-app">
       <div class="card-top"><span class="app-ico lg">✦</span><em class="statut soon">Bientôt</em></div>
       <h3>UQ Chat &amp; Mail</h3>
       <p>Messagerie et email intégrés — vos échanges professionnels et personnels, au même endroit.</p>
-      <span class="card-cta soon">Rejoindre la bêta →</span>
+      <a class="card-cta" href="./chat.html">Rejoindre la bêta → <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
     </article>
     <article class="card-app">
       <div class="card-top"><span class="app-ico lg">🎨</span><em class="statut soon">Bientôt</em></div>
       <h3>Studio Zando</h3>
       <p>Studio créatif : concevez, produisez et partagez vos contenus dans l'écosystème UQ.</p>
-      <span class="card-cta soon">Être informé →</span>
+      <a class="card-cta" href="./studio.html">Être informé → <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
     </article>
   </div>
 </section>
 
 <!-- ===== GROUPE ===== -->
 <section class="groupe" id="groupe">
-  <div class="groupe-inner">
+  <div class="groupe-inner rv">
     <img class="groupe-photo" src="./assets/img/groupe.jpg" alt="Équipe UQ Platform" loading="lazy" onerror="this.style.display='none'">
     <p class="kicker light">Le groupe</p>
     <h2 class="groupe-title">Bâtir le quotidien numérique<br><em>de l'Afrique.</em></h2>
@@ -126,7 +126,7 @@
 </section>
 
 <!-- ===== MARCHÉ NUMÉRIQUE ===== -->
-<section class="marche">
+<section class="marche rv">
   <div class="sec-head center">
     <p class="kicker">Le marché</p>
     <h2 class="sec-title">Le marché physique,<br><em>version numérique.</em></h2>
@@ -140,7 +140,7 @@
 </section>
 
 <!-- ===== ÉQUIPE ===== -->
-<section class="equipe" id="equipe">
+<section class="equipe rv" id="equipe">
   <div class="equipe-inner">
     <img class="equipe-avatar" src="./assets/eliezer.jpeg" alt="Eliezer — fondateur UQ Platform">
     <img class="equipe-avatar second" src="./assets/img/equipe.jpg" alt="Membre UQ Platform" loading="lazy" onerror="this.style.display='none'">
@@ -154,7 +154,7 @@
 </section>
 
 <!-- ===== CONTACT ===== -->
-<section class="contact" id="contact">
+<section class="contact rv" id="contact">
   <div class="contact-inner">
     <div class="contact-gauche">
       <p class="kicker">Contact</p>
@@ -201,6 +201,10 @@ async function envoyer(e){
   }catch(_){ msg.textContent='Service indisponible — écrivez à contact@uqplatform.com'; }
   return false;
 }
+</script>
+<script>
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('is-in');io.unobserve(e.target)}}),{threshold:.12});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
 </script>
 </body>
 </html>
