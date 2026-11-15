@@ -1,260 +1,568 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>UQ Platform — Un compte, tout un écosystème</title>
-<meta name="description" content="Logiciels et applications pensés pour l'Afrique. Identité numérique, BORB Wallet, communication et commerce dans un même écosystème.">
-<link rel="icon" type="image/svg+xml" href="./assets/uq-mark.svg">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./site.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UQ Platform — Un compte, tout un écosystème</title>
+    <meta name="description" content="UQ Platform — un compte, tout un écosystème. Wallet, identité, communication et création, chiffrés sur ton appareil et distribués en cloud P2P. UQ ne détient aucun contenu.">
+    <link rel="icon" type="image/svg+xml" href="./assets/uq-mark.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+        :root {
+            --text-title: #e2e8f0; --text-body: #94a3b8; --text-badge: #cbd5e1;
+            --bg-dark: #080910;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.06);
+            --ms-blue: #0078D4; --ms-teal: #00B7C3; --ms-purple: #6264A7; --ms-pink: #E3008C;
+        }
+        html { scroll-behavior: smooth; }
+        body { min-height: 100vh; background: radial-gradient(circle at 50% 0%, #15172a 0%, #080910 100%); color: var(--text-title); overflow-x: hidden; -webkit-font-smoothing: antialiased; line-height: 1.6; }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+
+        header { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 16px 40px; display: flex; justify-content: space-between; align-items: center; background: rgba(8, 9, 16, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+        .logo { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.2rem; letter-spacing: -0.5px; display: flex; align-items: center; gap: 10px; cursor: pointer; }
+        .logo-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--ms-blue); box-shadow: 0 0 12px var(--ms-blue); }
+        nav ul { display: flex; gap: 8px; align-items: center; }
+        nav a { font-size: 0.85rem; color: var(--text-body); font-weight: 500; transition: all 0.3s ease; padding: 8px 14px; border-radius: 8px; cursor: pointer; }
+        nav a:hover, nav a.active { color: var(--text-title); background: rgba(255,255,255,0.05); }
+        .nav-actions { display: flex; gap: 15px; align-items: center; }
+        .btn-login { font-size: 0.85rem; color: var(--text-body); font-weight: 500; cursor: pointer; transition: color 0.3s; }
+        .btn-login:hover { color: var(--text-title); }
+        .btn-nav-primary { padding: 9px 18px; border-radius: 10px; background: var(--ms-blue); color: #f8fafc; font-size: 0.85rem; font-weight: 600; transition: all 0.3s ease; box-shadow: 0 4px 15px -3px rgba(0, 120, 212, 0.5); cursor: pointer; }
+        .btn-nav-primary:hover { background: #106ebe; transform: translateY(-1px); }
+
+        .page { display: none; animation: fadeIn 0.5s ease; padding-top: 80px; min-height: 100vh; }
+        .page.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+
+        .hero { padding: 80px 40px 60px; text-align: center; position: relative; }
+        .hero::before { content: ''; position: absolute; top: 10%; left: 50%; transform: translateX(-50%); width: 600px; height: 600px; background: radial-gradient(circle, rgba(0, 120, 212, 0.15) 0%, transparent 70%); filter: blur(80px); z-index: -1; pointer-events: none; }
+        .hero-eyebrow { display: inline-block; padding: 6px 16px; border-radius: 20px; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); font-size: 0.78rem; color: var(--text-badge); font-weight: 500; margin-bottom: 24px; letter-spacing: 0.5px; }
+        .hero h1 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 700; line-height: 1.15; letter-spacing: -1.5px; margin-bottom: 24px; max-width: 850px; margin-left: auto; margin-right: auto; }
+        .hero p { font-size: 1.05rem; color: var(--text-body); max-width: 680px; margin: 0 auto 36px; line-height: 1.7; }
+        .hero-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+        .btn-hero { padding: 14px 28px; border-radius: 12px; font-size: 0.92rem; font-weight: 600; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 8px; cursor: pointer; }
+        .btn-hero-primary { background: var(--ms-blue); color: #f8fafc; box-shadow: 0 8px 25px -5px rgba(0, 120, 212, 0.5); }
+        .btn-hero-primary:hover { background: #106ebe; transform: translateY(-2px); }
+        .btn-hero-secondary { background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.1); color: var(--text-title); }
+        .btn-hero-secondary:hover { background: rgba(255, 255, 255, 0.08); transform: translateY(-2px); }
+
+        .section { padding: 60px 40px; }
+        .section-header { text-align: center; margin-bottom: 50px; }
+        .section-header h2 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; line-height: 1.2; }
+        .section-header p { font-size: 1rem; color: var(--text-body); max-width: 600px; margin: 0 auto; }
+
+        .stats-banner { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 40px; }
+        .stat-item { padding: 24px; border-radius: 18px; background: var(--glass-bg); border: 1px solid var(--glass-border); backdrop-filter: blur(10px); text-align: center; }
+        .stat-value { font-family: 'Space Grotesk', sans-serif; font-size: 1.4rem; font-weight: 700; color: var(--text-title); margin-bottom: 6px; }
+        .stat-label { font-size: 0.8rem; color: var(--text-body); }
+
+        .dashboard { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; width: 100%; }
+        .card { position: relative; padding: 28px; border-radius: 24px; display: flex; flex-direction: column; justify-content: space-between; min-height: 280px; overflow: hidden; isolation: isolate; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease; background: var(--glass-bg); border: 1px solid var(--glass-border); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+        .card::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; z-index: -1; opacity: 0.22; transition: opacity 0.4s ease; background: radial-gradient(circle at 30% 20%, var(--card-color) 0%, transparent 60%); }
+        .card::after { content: ''; position: absolute; inset: 0; border-radius: 24px; padding: 1px; background: linear-gradient(135deg, var(--card-color) 0%, transparent 60%); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; opacity: 0.4; transition: opacity 0.4s ease; }
+        .card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px -10px var(--card-color); }
+        .card:hover::before { opacity: 0.4; }
+        .card:hover::after { opacity: 0.9; }
+        .card-blue { --card-color: var(--ms-blue); background: linear-gradient(145deg, rgba(0, 120, 212, 0.08), rgba(255,255,255,0.02)); }
+        .card-teal { --card-color: var(--ms-teal); background: linear-gradient(145deg, rgba(0, 183, 195, 0.08), rgba(255,255,255,0.02)); }
+        .card-purple { --card-color: var(--ms-purple); background: linear-gradient(145deg, rgba(98, 100, 167, 0.1), rgba(255,255,255,0.02)); }
+        .card-pink { --card-color: var(--ms-pink); background: linear-gradient(145deg, rgba(227, 0, 140, 0.08), rgba(255,255,255,0.02)); }
+        .card-green { --card-color: #107C10; background: linear-gradient(145deg, rgba(16, 124, 16, 0.08), rgba(255,255,255,0.02)); }
+        .card-red { --card-color: #D83B01; background: linear-gradient(145deg, rgba(216, 59, 1, 0.08), rgba(255,255,255,0.02)); }
+        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
+        .icon-box { width: 48px; height: 48px; border-radius: 14px; display: flex; justify-content: center; align-items: center; background: var(--card-color); box-shadow: 0 8px 20px -5px var(--card-color); position: relative; }
+        .icon-box::before { content: ''; position: absolute; inset: 0; border-radius: 14px; background: linear-gradient(180deg, rgba(255,255,255,0.25) 0%, transparent 100%); }
+        .icon-box svg { width: 24px; height: 24px; fill: #f8fafc; position: relative; z-index: 1; }
+        .status-badge { font-size: 0.7rem; padding: 5px 10px; border-radius: 20px; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); color: var(--text-badge); display: flex; align-items: center; gap: 6px; font-weight: 500; }
+        .status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--card-color); box-shadow: 0 0 8px var(--card-color); }
+        .card-body h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem; font-weight: 600; margin-bottom: 8px; color: var(--text-title); letter-spacing: -0.4px; }
+        .card-body p { font-size: 0.85rem; color: var(--text-body); line-height: 1.6; margin-bottom: 22px; }
+        .btn { display: inline-flex; align-items: center; justify-content: center; width: 100%; padding: 12px 20px; border-radius: 12px; font-size: 0.88rem; font-weight: 500; color: var(--text-title); cursor: pointer; transition: all 0.3s ease; position: relative; overflow: hidden; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); font-family: inherit; }
+        .btn::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent); transition: left 0.6s ease; }
+        .btn:hover::before { left: 100%; }
+        .btn:hover { background: var(--card-color); border-color: var(--card-color); box-shadow: 0 8px 20px -5px var(--card-color); color: #f8fafc; transform: translateY(-2px); }
+        .btn svg { width: 16px; height: 16px; margin-left: 8px; transition: transform 0.3s ease; }
+        .btn:hover svg { transform: translateX(4px); }
+
+        .ownership-block { max-width: 900px; margin: 0 auto; padding: 50px; border-radius: 24px; background: var(--glass-bg); border: 1px solid var(--glass-border); backdrop-filter: blur(20px); text-align: center; position: relative; overflow: hidden; }
+        .ownership-block::before { content: ''; position: absolute; top: -50%; left: 50%; transform: translateX(-50%); width: 400px; height: 400px; background: radial-gradient(circle, rgba(0, 120, 212, 0.15) 0%, transparent 70%); filter: blur(60px); pointer-events: none; }
+        .ownership-block h2 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 700; margin-bottom: 20px; letter-spacing: -0.8px; line-height: 1.3; position: relative; }
+        .ownership-block p { font-size: 0.95rem; color: var(--text-body); line-height: 1.8; max-width: 700px; margin: 0 auto; position: relative; }
+        .pillar-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px; margin-top: 40px; }
+        .pillar { padding: 30px; border-radius: 20px; background: var(--glass-bg); border: 1px solid var(--glass-border); transition: transform 0.3s ease; }
+        .pillar:hover { transform: translateY(-4px); }
+        .pillar h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; font-weight: 600; margin-bottom: 10px; color: var(--text-title); }
+        .pillar p { font-size: 0.88rem; color: var(--text-body); line-height: 1.6; }
+        .pillar img { width: 100%; height: 160px; object-fit: cover; border-radius: 12px; margin-bottom: 16px; }
+
+        .team-card { max-width: 500px; margin: 0 auto; padding: 40px; border-radius: 24px; background: var(--glass-bg); border: 1px solid var(--glass-border); backdrop-filter: blur(20px); text-align: center; }
+        .team-avatar { width: 110px; height: 110px; border-radius: 50%; margin: 0 auto 20px; overflow: hidden; border: 2px solid rgba(255,255,255,.15); box-shadow: 0 10px 30px -5px rgba(0, 120, 212, 0.5); }
+        .team-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .team-card h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; font-weight: 600; margin-bottom: 4px; }
+        .team-role { font-size: 0.85rem; color: var(--ms-blue); font-weight: 500; margin-bottom: 16px; }
+        .team-card p { font-size: 0.88rem; color: var(--text-body); line-height: 1.6; }
+
+        .contact-cta { max-width: 700px; margin: 0 auto; text-align: center; padding: 50px 40px; border-radius: 24px; background: linear-gradient(145deg, rgba(0, 120, 212, 0.1), rgba(98, 100, 167, 0.05)); border: 1px solid rgba(0, 120, 212, 0.2); backdrop-filter: blur(20px); }
+        .contact-cta h2 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 700; margin-bottom: 16px; letter-spacing: -0.8px; }
+        .contact-cta p { font-size: 0.95rem; color: var(--text-body); margin-bottom: 28px; }
+        .contact-email { display: inline-block; padding: 14px 28px; border-radius: 12px; background: var(--ms-blue); color: #f8fafc; font-weight: 600; font-size: 0.92rem; box-shadow: 0 8px 25px -5px rgba(0, 120, 212, 0.5); transition: all 0.3s ease; }
+        .contact-email:hover { background: #106ebe; transform: translateY(-2px); }
+
+        .content-page { max-width: 850px; margin: 0 auto; padding: 60px 40px; }
+        .content-page h1 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 700; letter-spacing: -1px; margin-bottom: 12px; line-height: 1.2; }
+        .content-page .meta { font-size: 0.8rem; color: var(--text-body); margin-bottom: 40px; }
+        .content-page h2 { font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem; font-weight: 600; margin-top: 40px; margin-bottom: 16px; color: var(--text-title); }
+        .content-page p { font-size: 0.92rem; color: var(--text-body); line-height: 1.8; margin-bottom: 16px; }
+        .content-page ul { margin: 16px 0 16px 24px; list-style: disc; }
+        .content-page ul li { font-size: 0.9rem; color: var(--text-body); line-height: 1.8; margin-bottom: 8px; }
+        .content-page strong { color: var(--text-title); font-weight: 600; }
+        .content-page a { color: var(--ms-blue); }
+        .content-page a:hover { text-decoration: underline; }
+
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-size: 0.85rem; color: var(--text-badge); margin-bottom: 8px; font-weight: 500; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px 16px; border-radius: 10px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); color: var(--text-title); font-size: 0.9rem; font-family: inherit; transition: border-color 0.3s, background 0.3s; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--ms-blue); background: rgba(0,120,212,0.05); }
+        .form-group textarea { min-height: 120px; resize: vertical; }
+        .form-group select option { background: #15172a; }
+
+        footer { margin-top: 80px; padding: 60px 40px 30px; border-top: 1px solid rgba(255, 255, 255, 0.06); background: rgba(8, 9, 16, 0.5); }
+        .footer-content { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 40px; margin-bottom: 40px; }
+        .footer-brand p { font-size: 0.8rem; color: var(--text-body); line-height: 1.6; max-width: 280px; margin-top: 16px; }
+        .footer-col h4 { font-family: 'Space Grotesk', sans-serif; font-size: 0.85rem; font-weight: 600; color: var(--text-title); margin-bottom: 16px; letter-spacing: 0.3px; }
+        .footer-col ul li { margin-bottom: 10px; }
+        .footer-col ul li a { font-size: 0.82rem; color: var(--text-body); transition: color 0.3s; cursor: pointer; }
+        .footer-col ul li a:hover { color: var(--text-title); }
+        .footer-bottom { max-width: 1200px; margin: 0 auto; padding-top: 30px; border-top: 1px solid rgba(255, 255, 255, 0.06); text-align: center; font-size: 0.78rem; color: var(--text-body); }
+
+        .back-btn { display: inline-flex; align-items: center; gap: 8px; font-size: 0.85rem; color: var(--text-body); cursor: pointer; margin-bottom: 30px; transition: color 0.3s; }
+        .back-btn:hover { color: var(--text-title); }
+
+        @media (max-width: 900px) {
+            header { padding: 12px 20px; }
+            nav ul { display: none; }
+            .container, .hero, .section, .content-page { padding-left: 20px; padding-right: 20px; }
+            .ownership-block, .contact-cta { padding: 30px 25px; }
+        }
+        @media (max-width: 600px) {
+            .hero-actions { flex-direction: column; }
+            .btn-hero { width: 100%; justify-content: center; }
+        }
+    </style>
 </head>
 <body>
 
-<!-- ===== HEADER ===== -->
-<header class="hd" id="hd">
-  <a class="hd-logo" href="#">
-    <img src="./assets/uq-mark.svg" alt="UQ" width="34" height="34">
-    <span>UQ Platform</span>
-  </a>
-  <nav class="hd-nav">
-    <a href="#produits">Produits</a>
-    <a href="#groupe">Le groupe</a>
-    <a href="#equipe">Équipe</a>
-    <a href="#contact">Contact</a>
-  </nav>
-  <div class="hd-actions">
-    <a class="hd-link" href="#contact">Se connecter</a>
-    <a class="btn btn-dark" href="#contact">Ouvrir un compte</a>
-  </div>
-</header>
+    <header>
+        <div class="logo" onclick="showPage('home')"><span class="logo-dot"></span> UQ Platform</div>
+        <nav><ul>
+            <li><a onclick="showPage('home')" data-nav="home">Accueil</a></li>
+            <li><a onclick="showPage('borb')" data-nav="borb">BORB Wallet</a></li>
+            <li><a onclick="showPage('auth')" data-nav="auth">UQ Auth</a></li>
+            <li><a onclick="showPage('chat')" data-nav="chat">Chat &amp; Mail</a></li>
+            <li><a onclick="showPage('trading')" data-nav="trading">Trading</a></li>
+            <li><a onclick="showPage('studio')" data-nav="studio">Studio Zando</a></li>
+        </ul></nav>
+        <div class="nav-actions">
+            <a href="#" class="btn-login">Se connecter</a>
+            <a href="#" class="btn-nav-primary">Ouvrir un compte</a>
+        </div>
+    </header>
 
-<!-- ===== HERO ===== -->
-<section class="hero">
-  <div class="hero-inner">
-    <p class="kicker">Écosystème numérique africain</p>
-    <h1 class="hero-title">Un compte.<br><em>Tout un écosystème.</em></h1>
-    <p class="hero-lead">Identité numérique, portefeuille, communication et commerce — des outils connectés à votre quotidien, pensés pour l'Afrique.</p>
-    <div class="hero-cta">
-      <a class="btn btn-blue" href="#produits">Découvrir les produits
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-      <a class="btn btn-ghost" href="#groupe">Notre vision</a>
-    </div>
-    <div class="hero-meta">
-      <div><strong>6</strong><span>produits</span></div>
-      <div class="sep"></div>
-      <div><strong>100%</strong><span>numérique</span></div>
-      <div class="sep"></div>
-      <div><strong>24/7</strong><span>disponible</span></div>
-    </div>
-  </div>
-  <div class="hero-visual">
-    <div class="hv-frame">
-      <img src="./assets/img/hero.jpg" alt="UQ Platform — écosystème numérique" onerror="this.style.display='none'">
-      <div class="hv-card">
-        <div class="hv-row"><span class="hv-ico"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg></span><div><strong>BORB Wallet</strong><small>Portefeuille sécurisé</small></div><b>↗</b></div>
-        <div class="hv-row"><span class="hv-ico"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7"><path d="m12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6z"/><path d="m8 12 3 3 5-6"/></svg></span><div><strong>UQ Auth</strong><small>Identité vérifiée</small></div><b>↗</b></div>
-        <div class="hv-row"><span class="hv-ico"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3l2.2 6.3L21 12l-6.8 2.7L12 21l-2.2-6.3L3 12l6.8-2.7z"/></svg></span><div><strong>UQ Chat &amp; Mail</strong><small>Communication unifiée</small></div><b>↗</b></div>
-      </div>
-    </div>
-  </div>
-</section>
+    <!-- PAGE ACCUEIL -->
+    <div class="page active" id="page-home">
+        <section class="hero">
+            <div class="hero-eyebrow">Écosystème numérique africain</div>
+            <h1>Tes données. Ton réseau.<br>Ton écosystème.</h1>
+            <p>UQ ne garde rien. Pas parce qu'on promet de ne pas regarder — parce qu'on en est techniquement incapable. Ton wallet, tes messages, tes créations : chiffrés sur ton appareil, distribués dans un cloud P2P que tu fais vivre.</p>
+            <div class="hero-actions">
+                <a href="#produits" onclick="document.getElementById('produits').scrollIntoView({behavior:'smooth'})" class="btn-hero btn-hero-primary">Découvrir les produits
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                <a href="#groupe" onclick="document.getElementById('groupe').scrollIntoView({behavior:'smooth'})" class="btn-hero btn-hero-secondary">Notre vision</a>
+            </div>
+        </section>
 
-<!-- ===== MOSAÏQUE PRODUITS ===== -->
-<section class="mosaic">
-  <div class="mosaic-grid rv">
-    <div class="m-row" id="rowTop">
-      <a class="m-item" href="./borb.html"><span class="m-ico" style="background:#0078D4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="14" rx="3"/><path d="M3 10h18M16 15h3"/></svg></span><span class="m-name">BORB Wallet</span></a>
-      <a class="m-item" href="./auth.html"><span class="m-ico" style="background:#107C10"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6z"/><path d="m8 12 3 3 5-6"/></svg></span><span class="m-name">UQ Auth</span></a>
-      <a class="m-item" href="./chat.html"><span class="m-ico" style="background:#00B7C3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11a8 8 0 0 1-8 8H8l-5 3V11a9 9 0 0 1 18 0Z"/></svg></span><span class="m-name">UQ Chat</span></a>
-    
-      <a class="m-item" href="./borb.html"><span class="m-ico" style="background:#0078D4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="14" rx="3"/><path d="M3 10h18M16 15h3"/></svg></span><span class="m-name">BORB Wallet</span></a>
-      <a class="m-item" href="./auth.html"><span class="m-ico" style="background:#107C10"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6z"/><path d="m8 12 3 3 5-6"/></svg></span><span class="m-name">UQ Auth</span></a>
-      <a class="m-item" href="./chat.html"><span class="m-ico" style="background:#00B7C3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11a8 8 0 0 1-8 8H8l-5 3V11a9 9 0 0 1 18 0Z"/></svg></span><span class="m-name">UQ Chat</span></a>
-    </div>
-    <div class="m-row" id="rowBot">
-      <a class="m-item" href="./mail.html"><span class="m-ico" style="background:#6264A7"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span><span class="m-name">UQ Mail</span></a>
-      <a class="m-item" href="./trading.html"><span class="m-ico" style="background:#E3008C"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-6 4 3 6-8M14 6h4v4"/></svg></span><span class="m-name">UQ Trading</span></a>
-      <a class="m-item" href="./studio.html"><span class="m-ico" style="background:#D83B01"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3a15 15 0 0 1 0 18M3 12h18"/></svg></span><span class="m-name">Studio Zando</span></a>
-    
-      <a class="m-item" href="./mail.html"><span class="m-ico" style="background:#6264A7"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span><span class="m-name">UQ Mail</span></a>
-      <a class="m-item" href="./trading.html"><span class="m-ico" style="background:#E3008C"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-6 4 3 6-8M14 6h4v4"/></svg></span><span class="m-name">UQ Trading</span></a>
-      <a class="m-item" href="./studio.html"><span class="m-ico" style="background:#D83B01"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3a15 15 0 0 1 0 18M3 12h18"/></svg></span><span class="m-name">Studio Zando</span></a>
-    </div>
-  </div>
-</section>
+        <div class="container">
+            <div class="stats-banner">
+                <div class="stat-item"><div class="stat-value">6</div><div class="stat-label">produits</div></div>
+                <div class="stat-item"><div class="stat-value">100%</div><div class="stat-label">numérique</div></div>
+                <div class="stat-item"><div class="stat-value">24/7</div><div class="stat-label">disponible</div></div>
+            </div>
+        </div>
 
-<!-- ===== PRODUITS ===== -->
-<section class="produits rv" id="produits">
-  <div class="sec-head">
-    <svg class="bg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg>
-    <p class="kicker">Nos produits</p>
-    <h2 class="sec-title"><svg class="sec-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg>Tout ce qu'il vous faut,<br>sous un seul compte.</h2>
-    <p class="sec-sub">Chaque application partage la même identité UQ — connectez-vous une fois, utilisez tout.</p>
-  </div>
-  <div class="dashboard">
-    <div class="card card-blue rv">
-      <div class="card-header"><div class="icon-box"><svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4C9.11 4 6.6 5.64 5.35 8.04C2.34 8.36 0 10.91 0 14C0 17.31 2.69 20 6 20H19C21.76 20 24 17.76 24 15C24 12.36 21.95 10.22 19.35 10.04Z"/></svg></div><div class="status-badge"><span class="status-dot"></span> Disponible</div></div>
-      <div class="card-body"><h3>BORB Wallet</h3><p>Portefeuille numérique : coffre, trading P2P, studio créatif. Vos actifs, vos clés, vos règles.</p></div>
-      <a href="./borb.html" class="btn-card">Explorer<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-    </div>
-    <div class="card card-green rv">
-      <div class="card-header"><div class="icon-box"><svg viewBox="0 0 24 24"><path d="M12 1L3 5V11C3 16.55 6.84 21.74 12 23C17.16 21.74 21 16.55 21 11V5L12 1ZM12 11.99H19C18.47 16.11 15.72 19.78 12 20.93V12H5V6.3L12 3.19V11.99Z"/></svg></div><div class="status-badge"><span class="status-dot"></span> Disponible</div></div>
-      <div class="card-body"><h3>UQ Auth</h3><p>Identité numérique sécurisée : vérification humaine, accès unique, protection anti-robot.</p></div>
-      <a href="./auth.html" class="btn-card">Découvrir<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-    </div>
-    <div class="card card-teal rv">
-      <div class="card-header"><div class="icon-box"><svg viewBox="0 0 24 24"><path d="M16 11C17.66 11 18.99 9.66 18.99 8C18.99 6.34 17.66 5 16 5C14.34 5 13 6.34 13 8C13 9.66 14.34 11 16 11ZM8 11C9.66 11 10.99 9.66 10.99 8C10.99 6.34 9.66 5 8 5C6.34 5 5 6.34 5 8C5 9.66 6.34 11 8 11ZM8 13C5.67 13 1 14.17 1 16.5V19H15V16.5C15 14.17 10.33 13 8 13ZM16 13C15.71 13 15.38 13.02 15.03 13.05C16.19 13.89 17 15.02 17 16.5V19H23V16.5C23 14.17 18.33 13 16 13Z"/></svg></div><div class="status-badge"><span class="status-dot"></span> Bientôt</div></div>
-      <div class="card-body"><h3>UQ Chat &amp; Mail</h3><p>Messagerie et email intégrés — vos échanges professionnels et personnels, au même endroit.</p></div>
-      <a href="./chat.html" class="btn-card">Rejoindre<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-    </div>
-    <div class="card card-purple rv">
-      <div class="card-header"><div class="icon-box"><svg viewBox="0 0 24 24"><path d="M13 2L3 14H12L11 22L21 10H12L13 2Z"/></svg></div><div class="status-badge"><span class="status-dot"></span> Bientôt</div></div>
-      <div class="card-body"><h3>Studio Zando</h3><p>Studio créatif : concevez, produisez et partagez vos contenus dans l'écosystème UQ.</p></div>
-      <a href="./studio.html" class="btn-card">Être informé<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-    </div>
-  </div>
-</section>
+        <section class="section" id="produits">
+            <div class="section-header"><h2>Nos produits</h2><p>Tout ce qu'il vous faut, sous un seul compte. Chaque application partage la même identité UQ — connectez-vous une fois, utilisez tout.</p></div>
+            <div class="container"><div class="dashboard">
+                <div class="card card-blue">
+                    <div class="card-header"><div class="icon-box"><svg viewBox="0 0 24 24"><path d="M21 7.28V5c0-1.1-.9-2-2-2H5C3.34 3 2 4.34 2 6v12c0 1.66 1.34 3 3 3h14c1.1 0 2-.9 2-2v-2.28c.6-.35 1-.98 1-1.72V9c0-.74-.4-1.37-1-1.72zM20 9v6h-7V9h7zM5 19V5h14v2h-6c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h6v2H5z"/></svg></div><div class="status-badge"><span class="status-dot"></span> Disponible</div></div>
+                    <div class="card-body"><h3>BORB Wallet</h3><p>Portefeuille numérique : coffre, trading P2P, studio créatif. Vos actifs, vos clés, vos règles.</p></div>
+                    <button class="btn" onclick="showPage('borb')">Explorer <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+                </div>
+                <div class="card card-teal">
+                    <div class="card-header"><div class="icon-box"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg></div><div class="status-badge"><span class="status-dot"></span> Disponible</div></div>
+                    <div class="card-body"><h3>UQ Auth</h3><p>Identité numérique sécurisée : vérification humaine, accès unique, protection anti-robot.</p></div>
+                    <button class="btn" onclick="showPage('auth')">Découvrir <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+                </div>
+                <div class="card card-purple">
+                    <div class="card-header"><div class="icon-box"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></div><div class="status-badge"><span class="status-dot"></span> Bientôt</div></div>
+                    <div class="card-body"><h3>UQ Chat &amp; Mail</h3><p>Messagerie et email intégrés — vos échanges professionnels et personnels, au même endroit.</p></div>
+                    <button class="btn" onclick="showPage('chat')">Rejoindre <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+                </div>
+                <div class="card card-pink">
+                    <div class="card-header"><div class="icon-box"><svg viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8l-6.2 4.5 2.4-7.4L2 9.4h7.6L12 2z"/></svg></div><div class="status-badge"><span class="status-dot"></span> Bientôt</div></div>
+                    <div class="card-body"><h3>Studio Zando</h3><p>Studio créatif : concevez, produisez et partagez vos contenus dans l'écosystème UQ.</p></div>
+                    <button class="btn" onclick="showPage('studio')">Être informé <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+                </div>
+            </div></div>
+        </section>
 
-<!-- ===== GROUPE ===== -->
-<section class="groupe" id="groupe">
-  <div class="groupe-inner rv">
-    <svg class="bg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/></svg>
-    <img class="groupe-photo" src="./assets/img/groupe.jpg" alt="Équipe UQ Platform" loading="lazy" onerror="this.style.display='none'">
-    <p class="kicker">Le groupe</p>
-    <h2 class="groupe-title"><svg class="sec-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/></svg>Bâtir le quotidien numérique<br><em>de l'Afrique.</em></h2>
-    <p class="groupe-texte">UQ Platform est née d'un constat : les outils numériques adaptés au continent restent rares. Nous construisons un écosystème complet — identité, finance, communication, création — pensé pour les réalités africaines : connectivité intermittente, mobile d'abord, sobriété numérique.</p>
-    <div class="valeurs-grid">
-      <div class="valeur valeur-blue rv"><div class="v-ico"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg></div><h3>Souveraineté</h3><p>Vos données, vos clés, vos règles. Rien ne vous appartient moins que vous.</p></div>
-      <div class="valeur valeur-green rv"><div class="v-ico"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3l2.2 6.3L21 12l-6.8 2.7L12 21l-2.2-6.3L3 12l6.8-2.7z"/></svg></div><h3>Simplicité</h3><p>Un compte, tout un écosystème. Zéro friction entre les outils.</p></div>
-      <div class="valeur valeur-red rv"><div class="v-ico"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7"><path d="m12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6z"/><path d="m8 12 3 3 5-6"/></svg></div><h3>Confiance</h3><p>Sécurité et vérification humaine intégrées à chaque service.</p></div>
+        <section class="section">
+            <div class="ownership-block">
+                <h2>Pourquoi « tout le monde est propriétaire » n'est pas un slogan chez UQ.</h2>
+                <p>Parce que l'architecture le rend vrai. Dans un cloud centralisé classique, tes fichiers vivent sur le serveur de quelqu'un d'autre. Ici, ils vivent sur les appareils chiffrés des utilisateurs — y compris le tien. UQ n'a pas de backdoor, pas de copie maîtresse, pas de salle serveur où tes données dorment. La seule chose qui nous appartient, c'est le code qui fait tourner le réseau. Et ce code, la communauté le fait évoluer avec nous.</p>
+            </div>
+        </section>
+
+        <section class="section" id="groupe">
+            <div class="section-header"><h2>Le groupe</h2><p>Bâtir le quotidien numérique de l'Afrique.</p>
+                <p style="margin-top:16px;">UQ Platform est née d'un constat : les outils numériques adaptés au continent restent rares. Nous construisons un écosystème complet — identité, finance, communication, création — pensé pour les réalités africaines : connectivité intermittente, mobile d'abord, sobriété numérique.</p></div>
+            <div class="container"><div class="pillar-grid">
+                <div class="pillar"><h3>Souveraineté</h3><p>Vos données, vos clés, vos règles. Rien ne vous appartient moins que vous.</p></div>
+                <div class="pillar"><h3>Simplicité</h3><p>Un compte, tout un écosystème. Zéro friction entre les outils.</p></div>
+                <div class="pillar"><h3>Confiance</h3><p>Sécurité et vérification humaine intégrées à chaque service.</p></div>
+            </div></div>
+        </section>
+
+        <section class="section">
+            <div class="section-header"><h2>Le marché</h2><p>Le marché physique, version numérique.</p>
+                <p style="margin-top:16px;">Paiements mobiles, commerce en ligne, échange pair-à-pair — le monde physique rencontre le numérique dans l'écosystème UQ.</p></div>
+            <div class="container"><div class="pillar-grid">
+                <div class="pillar"><img src="./assets/img/marche1.jpg" alt="Paiements mobiles" loading="lazy" onerror="this.remove()"><h3>Paiements mobiles</h3><p>Payez partout, simplement.</p></div>
+                <div class="pillar"><img src="./assets/img/marche2.jpg" alt="Commerce en ligne" loading="lazy" onerror="this.remove()"><h3>Commerce en ligne</h3><p>Achetez et vendez en ligne.</p></div>
+                <div class="pillar"><img src="./assets/img/marche3.jpg" alt="Finance numérique" loading="lazy" onerror="this.remove()"><h3>Finance numérique</h3><p>Actifs et échanges sécurisés.</p></div>
+            </div></div>
+        </section>
+
+        <section class="section" id="equipe">
+            <div class="section-header"><h2>L'équipe</h2></div>
+            <div class="team-card">
+                <div class="team-avatar"><img src="./assets/eliezer.jpeg" alt="Eliezer" onerror="this.parentElement.innerHTML='E'"></div>
+                <h3>Eliezer</h3>
+                <div class="team-role">Fondateur &amp; CEO — UQ Platform</div>
+                <p>Visionnaire de l'écosystème numérique africain. Il porte UQ Platform avec une conviction : les outils de demain se construisent ici, pour ici.</p>
+            </div>
+        </section>
+
+        <section class="section" id="contact">
+            <div class="contact-cta">
+                <h2>Parlons de votre projet.</h2>
+                <p>Partenariat, presse, bêta privée ou question produit — nous répondons sous 48h.</p>
+                <a href="mailto:contact@uqplatform.com" class="contact-email">contact@uqplatform.com</a>
+            </div>
+        </section>
     </div>
-  </div>
-</section>
 
-<!-- ===== MARCHÉ ===== -->
-<section class="marche rv">
-  <div class="sec-head center">
-    <svg class="bg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.6 12.5a1.5 1.5 0 0 0 1.5 1.2h8.7a1.5 1.5 0 0 0 1.5-1.2L21 8H6"/></svg>
-    <p class="kicker">Le marché</p>
-    <h2 class="sec-title"><svg class="sec-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.6 12.5a1.5 1.5 0 0 0 1.5 1.2h8.7a1.5 1.5 0 0 0 1.5-1.2L21 8H6"/></svg>Le marché physique,<br><em>version numérique.</em></h2>
-    <p class="sec-sub">Paiements mobiles, commerce en ligne, échange pair-à-pair — le monde physique rencontre le numérique dans l'écosystème UQ.</p>
-  </div>
-  <div class="marche-grid">
-    <figure class="marche-card"><img src="./assets/img/marche1.jpg" alt="Paiement mobile" loading="lazy" onerror="this.parentElement.style.display='none'"><figcaption><strong>Paiements mobiles</strong><span>Payez partout, simplement</span></figcaption></figure>
-    <figure class="marche-card"><img src="./assets/img/marche2.jpg" alt="Commerce en ligne" loading="lazy" onerror="this.parentElement.style.display='none'"><figcaption><strong>Commerce en ligne</strong><span>Achetez et vendez en ligne</span></figcaption></figure>
-    <figure class="marche-card"><img src="./assets/img/marche3.jpg" alt="Finance numérique" loading="lazy" onerror="this.parentElement.style.display='none'"><figcaption><strong>Finance numérique</strong><span>Actifs et échanges sécurisés</span></figcaption></figure>
-  </div>
-</section>
+    <!-- PAGE BORB WALLET -->
+    <div class="page" id="page-borb"><div class="content-page">
+        <div class="back-btn" onclick="showPage('home')">← Retour à l'accueil</div>
+        <div class="hero-eyebrow">portefeuille numérique</div>
+        <h1>BORB Wallet</h1>
+        <p class="meta">BORB Wallet est le coffre-fort numérique de l'écosystème UQ : coffre sécurisé, trading P2P, studio créatif — vos actifs, vos clés, vos règles.</p>
+        <h2>Coffre sécurisé</h2><p>Chiffrement local, clés sous votre contrôle exclusif. Vos fonds ne quittent jamais votre appareil sans votre signature.</p>
+        <h2>Trading P2P</h2><p>Carnet d'ordres escrow : achetez et vendez en pair-à-pair, règlement automatique et sécurisé.</p>
+        <h2>Studio créatif</h2><p>Produisez et partagez vos contenus directement depuis votre portefeuille, monétisés dans l'écosystème.</p>
+        <h2>Pourquoi BORB Wallet ?</h2>
+        <p>BORB Wallet — le seul wallet où même nous ne pouvons pas toucher tes clés. Conçu par des ingénieurs UQ pour les réalités du terrain : mobile d'abord, sobriété numérique, zéro friction. Coffre chiffré localement, trading P2P escrow, stockage cloud P2P. Tu contribues de l'espace, tu en récupères. Le réseau grandit avec toi, pas au-dessus de toi.</p>
+        <h2>Bêta</h2><p>La bêta privée est ouverte. Rejoignez les premiers utilisateurs et aidez-nous à façonner la suite.</p>
+        <div style="display:flex; gap:16px; margin-top:24px; flex-wrap:wrap;">
+            <a href="#" class="btn-hero btn-hero-primary">Rejoindre la bêta</a>
+            <button class="btn-hero btn-hero-secondary" onclick="showPage('home')">Retour à l'accueil</button>
+        </div>
+    </div></div>
 
-<!-- ===== ÉQUIPE ===== -->
-<section class="equipe rv" id="equipe">
-  <div class="equipe-inner">
-    <div class="equipe-avatars">
-      <img class="equipe-avatar" src="./assets/eliezer.jpeg" alt="Eliezer — fondateur UQ Platform">
-      <img class="equipe-avatar" src="./assets/img/equipe.jpg" alt="Membre UQ Platform" loading="lazy" onerror="this.style.display='none'">
-    </div>
-    <div class="equipe-info">
-      <svg class="bg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
-      <p class="kicker">L'équipe</p>
-      <h3 class="equipe-nom"><svg class="sec-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>Eliezer</h3>
-      <p class="equipe-role">Fondateur &amp; CEO — UQ Platform</p>
-      <p class="equipe-bio">Visionnaire de l'écosystème numérique africain. Il porte UQ Platform avec une conviction : les outils de demain se construisent ici, pour ici.</p>
-    </div>
-  </div>
-</section>
+    <!-- PAGE UQ AUTH -->
+    <div class="page" id="page-auth"><div class="content-page">
+        <div class="back-btn" onclick="showPage('home')">← Retour à l'accueil</div>
+        <div class="hero-eyebrow">identité numérique</div>
+        <h1>UQ Auth</h1>
+        <p class="meta">UQ Auth est le système d'identité de la plateforme : vérification humaine, accès unique, protection anti-robot intégrée à chaque service.</p>
+        <h2>Vérification humaine</h2><p>Défi visuel interactif à chaque connexion — impossible pour les bots, naturel pour les humains.</p>
+        <h2>Accès unique</h2><p>Un compte UQ = un identifiant pour tous les produits : wallet, chat, mail, studio.</p>
+        <h2>Sécurité continue</h2><p>Signatures locales, chiffrement de bout en bout, journalisation des accès.</p>
+        <h2>Pourquoi UQ Auth ?</h2>
+        <p>Conçu par des ingénieurs UQ pour les réalités du terrain : mobile d'abord, sobriété numérique, zéro friction. UQ Auth s'intègre naturellement à l'écosystème — un seul compte, une seule identité, tous les outils connectés.</p>
+        <h2>Bêta</h2><p>La bêta privée est ouverte. Rejoignez les premiers utilisateurs et aidez-nous à façonner la suite.</p>
+        <div style="display:flex; gap:16px; margin-top:24px; flex-wrap:wrap;">
+            <a href="#" class="btn-hero btn-hero-primary">Rejoindre la bêta</a>
+            <button class="btn-hero btn-hero-secondary" onclick="showPage('home')">Retour à l'accueil</button>
+        </div>
+    </div></div>
 
-<!-- ===== CONTACT ===== -->
-<section class="contact rv" id="contact">
-  <div class="contact-inner">
-    <div class="contact-gauche">
-      <svg class="bg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
-      <p class="kicker">Contact</p>
-      <h2 class="sec-title"><svg class="sec-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>Parlons de<br>votre projet.</h2>
-      <p class="sec-sub">Partenariat, presse, bêta privée ou question produit — nous répondons sous 48h.</p>
-      <a class="contact-mail" href="mailto:contact@uqplatform.com">contact@uqplatform.com</a>
-    </div>
-    <form class="contact-form" id="form" onsubmit="return envoyer(event)">
-      <input type="text" name="nom" placeholder="Votre nom" required>
-      <input type="email" name="email" placeholder="Votre email" required>
-      <textarea name="message" rows="4" placeholder="Votre message" required></textarea>
-      <button class="btn btn-blue btn-lg" type="submit">Envoyer
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/></svg></button>
-      <p class="form-msg" id="msg"></p>
-    </form>
-  </div>
-</section>
+    <!-- PAGE CHAT & MAIL -->
+    <div class="page" id="page-chat"><div class="content-page">
+        <div class="back-btn" onclick="showPage('home')">← Retour à l'accueil</div>
+        <div class="hero-eyebrow">communication</div>
+        <h1>UQ Chat &amp; Mail</h1>
+        <p class="meta">UQ Chat &amp; Mail réunit messagerie instantanée et email professionnel dans un seul espace — vos échanges, au même endroit.</p>
+        <h2>Messagerie instantanée</h2><p>Chat temps réel intégré à l'identité UQ, sans compte supplémentaire.</p>
+        <h2>Email professionnel</h2><p>Adresse @uqplatform incluse, synchronisée avec vos conversations.</p>
+        <h2>Chiffrement</h2><p>Messages chiffrés, historique synchronisé sur vos appareils.</p>
+        <h2>Pourquoi UQ Chat &amp; Mail ?</h2>
+        <p>Conçu par des ingénieurs UQ pour les réalités du terrain : mobile d'abord, sobriété numérique, zéro friction. UQ Chat &amp; Mail s'intègre naturellement à l'écosystème — un seul compte, une seule identité, tous les outils connectés.</p>
+        <h2>Bêta</h2><p>La bêta privée est ouverte. Rejoignez les premiers utilisateurs et aidez-nous à façonner la suite.</p>
+        <div style="display:flex; gap:16px; margin-top:24px; flex-wrap:wrap;">
+            <a href="#" class="btn-hero btn-hero-primary">Rejoindre la bêta</a>
+            <button class="btn-hero btn-hero-secondary" onclick="showPage('home')">Retour à l'accueil</button>
+        </div>
+    </div></div>
 
-<!-- ===== FOOTER ===== -->
-<footer class="foot">
-  <div class="foot-cols">
-    <div>
-      <a class="hd-logo" href="#"><img src="./assets/uq-mark.svg" alt="UQ" width="26" height="26"><span>UQ Platform</span></a>
-      <p class="foot-copy">© 2026 UQ Platform — Tous droits réservés.</p>
-    </div>
-    <nav class="foot-nav">
-      <a href="#produits">Produits</a><a href="#groupe">Le groupe</a><a href="#equipe">Équipe</a><a href="#contact">Contact</a>
-    </nav>
-    <div class="foot-links">
-      <button onclick="alert('CGU — bientôt')">CGU</button>
-      <button onclick="alert('Confidentialité — bientôt')">Confidentialité</button>
-    </div>
-  </div>
-</footer>
+    <!-- PAGE UQ MAIL -->
+    <div class="page" id="page-mail"><div class="content-page">
+        <div class="back-btn" onclick="showPage('home')">← Retour à l'accueil</div>
+        <div class="hero-eyebrow">email professionnel</div>
+        <h1>UQ Mail</h1>
+        <p class="meta">UQ Mail est la messagerie professionnelle intégrée : adresse @uqplatform, chiffrement de bout en bout, synchronisation totale.</p>
+        <h2>Adresse pro</h2><p>Votre @uqplatform.com inclus, reconnaissance anti-spam native.</p>
+        <h2>Chiffrement</h2><p>E-mails chiffrés de bout en bout, aucune lecture intermédiaire.</p>
+        <h2>Synchronisation</h2><p>Boîte unifiée avec UQ Chat — un seul fil pour tout.</p>
+        <h2>Pourquoi UQ Mail ?</h2>
+        <p>Conçu par des ingénieurs UQ pour les réalités du terrain : mobile d'abord, sobriété numérique, zéro friction. UQ Mail s'intègre naturellement à l'écosystème — un seul compte, une seule identité, tous les outils connectés.</p>
+        <h2>Bêta</h2><p>La bêta privée est ouverte. Rejoignez les premiers utilisateurs et aidez-nous à façonner la suite.</p>
+        <div style="display:flex; gap:16px; margin-top:24px; flex-wrap:wrap;">
+            <a href="#" class="btn-hero btn-hero-primary">Rejoindre la bêta</a>
+            <button class="btn-hero btn-hero-secondary" onclick="showPage('home')">Retour à l'accueil</button>
+        </div>
+    </div></div>
 
-<script>
-// Carrés gris flous 3D — fond vivant
-(function(){
-  const N=10,layer=document.createElement('div');layer.id='sq-layer';document.body.prepend(layer);
-  const W=innerWidth,H=innerHeight;
-  for(let i=0;i<N;i++){
-    const d=document.createElement('div');d.className='msq';
-    const s=Math.min(W,H)*(.11+Math.random()*.11);
-    d.style.width=d.style.height=s+'px';
-    d.style.opacity=.1+Math.random()*.15;
-    d.style.transform='translate('+(Math.random()*(W-s))+'px,'+(Math.random()*(H-s))+'px) perspective(900px) rotateX('+((Math.random()-.5)*50)+'deg) rotateY('+((Math.random()-.5)*50)+'deg) rotateZ('+((Math.random()-.5)*40)+'deg) translateZ('+((Math.random()-.5)*120)+'px)';
-    layer.appendChild(d);
-  }
-})();
+    <!-- PAGE UQ TRADING -->
+    <div class="page" id="page-trading"><div class="content-page">
+        <div class="back-btn" onclick="showPage('home')">← Retour à l'accueil</div>
+        <div class="hero-eyebrow">trading P2P</div>
+        <h1>UQ Trading</h1>
+        <p class="meta">UQ Trading est la place de marché P2P de l'écosystème : carnet d'ordres escrow, règlement automatique, prix en temps réel.</p>
+        <h2>Escrow natif</h2><p>Fonds bloqués jusqu'à confirmation des deux parties — zéro arnaque.</p>
+        <h2>Prix temps réel</h2><p>Carnet d'ordres alimenté par le réseau UQ, spread minimal.</p>
+        <h2>Multi-devises</h2><p>FCFA, USD, EUR — conversion transparente dans BORB Wallet.</p>
+        <h2>Pourquoi UQ Trading ?</h2>
+        <p>Conçu par des ingénieurs UQ pour les réalités du terrain : mobile d'abord, sobriété numérique, zéro friction. UQ Trading s'intègre naturellement à l'écosystème — un seul compte, une seule identité, tous les outils connectés.</p>
+        <h2>Bêta</h2><p>La bêta privée est ouverte. Rejoignez les premiers utilisateurs et aidez-nous à façonner la suite.</p>
+        <div style="display:flex; gap:16px; margin-top:24px; flex-wrap:wrap;">
+            <a href="#" class="btn-hero btn-hero-primary">Rejoindre la bêta</a>
+            <button class="btn-hero btn-hero-secondary" onclick="showPage('home')">Retour à l'accueil</button>
+        </div>
+    </div></div>
 
-// Header : effet au scroll
-const hd=document.getElementById('hd');
-addEventListener('scroll',()=>hd.classList.toggle('scrolled',scrollY>40),{passive:true});
+    <!-- PAGE STUDIO ZANDO -->
+    <div class="page" id="page-studio"><div class="content-page">
+        <div class="back-btn" onclick="showPage('home')">← Retour à l'accueil</div>
+        <div class="hero-eyebrow">création</div>
+        <h1>Studio Zando</h1>
+        <p class="meta">Studio Zando est l'atelier créatif d'UQ Platform : concevez, produisez et monétisez vos contenus dans l'écosystème.</p>
+        <h2>Production</h2><p>Outils de création intégrés : visuels, textes, formats pour tous les supports.</p>
+        <h2>Monétisation</h2><p>Publiez et monétisez directement — les revenus arrivent dans votre BORB Wallet.</p>
+        <h2>Communauté</h2><p>Partagez avec l'écosystème UQ : clients, partenaires, audience africaine.</p>
+        <h2>Pourquoi Studio Zando ?</h2>
+        <p>Conçu par des ingénieurs UQ pour les réalités du terrain : mobile d'abord, sobriété numérique, zéro friction. Studio Zando s'intègre naturellement à l'écosystème — un seul compte, une seule identité, tous les outils connectés.</p>
+        <h2>Bêta</h2><p>La bêta privée est ouverte. Rejoignez les premiers utilisateurs et aidez-nous à façonner la suite.</p>
+        <div style="display:flex; gap:16px; margin-top:24px; flex-wrap:wrap;">
+            <a href="#" class="btn-hero btn-hero-primary">Rejoindre la bêta</a>
+            <button class="btn-hero btn-hero-secondary" onclick="showPage('home')">Retour à l'accueil</button>
+        </div>
+    </div></div>
 
-// Révélation au scroll
-const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('is-in');io.unobserve(e.target)}}),{threshold:.1});
-document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+    <!-- PAGE SOUVERAINETÉ -->
+    <div class="page" id="page-souverainete"><div class="content-page">
+        <div class="back-btn" onclick="showPage('home')">← Retour à l'accueil</div>
+        <h1>Politique de Souveraineté des Données</h1>
+        <p class="meta">Version 1.0 — Dernière mise à jour : 2026</p>
+        <h2>1. Principe fondateur : tes données ne nous appartiennent pas.</h2>
+        <p>UQ Platform repose sur une architecture de cloud pair-à-pair (P2P). Concrètement :</p>
+        <ul>
+            <li>Aucun serveur central UQ ne stocke tes fichiers, tes messages ou tes contenus créatifs.</li>
+            <li>Tes contenus sont chiffrés localement, sur ton appareil, avant tout partage.</li>
+            <li>Le réseau UQ ne fait que relayer des fragments chiffrés entre les appareils des utilisateurs qui choisissent de contribuer.</li>
+            <li>UQ ne détient aucune clé de déchiffrement. Nous n'avons pas les moyens techniques de lire ce que tu stockes ou partages.</li>
+        </ul>
+        <h2>2. Ce que nous ne collectons pas :</h2>
+        <ul>
+            <li>Le contenu de ton BORB Wallet.</li>
+            <li>Le contenu de tes messages UQ Chat &amp; Mail.</li>
+            <li>Les fichiers que tu stockes dans le cloud P2P UQ.</li>
+            <li>Tes clés privées.</li>
+        </ul>
+        <h2>3. Ce que nous traitons (strict minimum technique) :</h2>
+        <ul>
+            <li>Des données de routage anonymisées, nécessaires pour que ton appareil trouve les autres pairs du réseau.</li>
+            <li>Des métriques agrégées de disponibilité du réseau, sans lien avec ton identité.</li>
+            <li>Si tu crées un compte UQ Auth : ton identifiant et tes facteurs d'authentification, uniquement pour te reconnaître, jamais pour profiler ton usage.</li>
+        </ul>
+        <h2>4. Ton contrôle effectif :</h2>
+        <ul>
+            <li>Tu peux exporter l'intégralité de ton identité UQ et de tes données de compte à tout moment.</li>
+            <li>Tu peux supprimer ton compte et les données de routage associées depuis les paramètres. La suppression est effective sous 72 h sur les nœuds de routage UQ.</li>
+            <li>Les contenus partagés dans le cloud P2P restent sous ton contrôle : si tu retires un fragment, le réseau cesse de le répliquer.</li>
+        </ul>
+        <h2>5. Le cloud P2P, comment ça marche pour toi :</h2>
+        <p>Quand tu actives le stockage P2P dans BORB Wallet ou UQ Auth, ton appareil contribue un espace de stockage chiffré au réseau. En échange, tu peux stocker une quantité équivalente de données chiffrées sur les appareils d'autres utilisateurs. Personne — ni UQ, ni les autres utilisateurs — ne peut lire tes fichiers. Seul ton appareil, avec la clé dérivée de ton mot de passe local, peut reconstituer le contenu.</p>
+        <h2>6. Contact souveraineté</h2>
+        <p><a href="mailto:souverainete@uqplatform.com">souverainete@uqplatform.com</a></p>
+    </div></div>
 
-// Mosaïque : double-clic = échange de ligne animé
-document.querySelectorAll('.m-item').forEach(el=>{
-  el.addEventListener('dblclick',e=>{
-    e.preventDefault();
-    const rows=[document.getElementById('rowTop'),document.getElementById('rowBot')];
-    const from=el.closest('.m-row'),to=from===rows[0]?rows[1]:rows[0];
-    if(!to)return;
-    const r=el.getBoundingClientRect(),tr=to.getBoundingClientRect();
-    const clone=el.cloneNode(true);
-    clone.style.cssText+=';position:fixed;left:'+r.left+'px;top:'+r.top+'px;width:'+r.width+'px;height:'+r.height+'px;z-index:99;margin:0;pointer-events:none;transition:all .5s cubic-bezier(.32,.72,0,1)';
-    el.style.visibility='hidden';document.body.appendChild(clone);
-    requestAnimationFrame(()=>{clone.style.left=(tr.left+16)+'px';clone.style.top=(tr.top+8)+'px'});
-    setTimeout(()=>{to.appendChild(el);el.style.visibility='';document.body.removeChild(clone)},520);
-  });
-});
+    <!-- PAGE JURIDIQUE -->
+    <div class="page" id="page-juridique"><div class="content-page">
+        <div class="back-btn" onclick="showPage('home')">← Retour à l'accueil</div>
+        <h1>Cadre Juridique &amp; Mentions Légales</h1>
+        <p class="meta">Éditeur : UQ Platform — Contact légal : <a href="mailto:legal@uqplatform.com">legal@uqplatform.com</a></p>
+        <h2>1. Objet de la plateforme</h2>
+        <p>UQ Platform met à disposition un écosystème numérique comprenant un portefeuille (BORB Wallet), un système d'identité (UQ Auth), des outils de communication (UQ Chat &amp; Mail), une place de marché P2P (UQ Trading) et un studio de création (Studio Zando). L'accès à ces services implique l'acceptation des présentes mentions et des Conditions Générales d'Utilisation.</p>
+        <h2>2. Architecture de responsabilité : ce que UQ est, et ce que UQ n'est pas</h2>
+        <p>UQ Platform n'est pas un hébergeur de contenu au sens traditionnel. Les contenus des utilisateurs sont stockés de manière distribuée sur les appareils des utilisateurs participants, sous forme chiffrée. UQ n'exerce aucun contrôle éditorial sur ces contenus et ne dispose pas des moyens techniques d'y accéder.</p>
+        <p>En conséquence :</p>
+        <ul>
+            <li>UQ ne peut pas être tenue responsable du contenu stocké ou partagé par les utilisateurs dans le cloud P2P.</li>
+            <li>UQ agit en qualité de fournisseur d'outils de communication et d'infrastructure de routage, non de producteur de contenu.</li>
+            <li>Chaque utilisateur est seul responsable de la légalité des contenus qu'il choisit de stocker, partager ou publier via l'écosystème.</li>
+        </ul>
+        <h2>3. Propriété du produit et gouvernance communautaire</h2>
+        <p>UQ Platform fonctionne selon un principe de propriété d'usage partagée : les utilisateurs qui contribuent activement à l'écosystème (stockage P2P, création de contenus, participation à la modération communautaire) acquièrent un droit de gouvernance sur les évolutions du produit, selon les modalités définies dans la Charte de Gouvernance UQ. Ce droit ne constitue pas une participation au capital d'une société commerciale ; il s'exerce dans le cadre de l'assemblée des utilisateurs UQ.</p>
+        <h2>4. Protection des données personnelles</h2>
+        <p>Le traitement des données à caractère personnel est décrit dans la Politique de Souveraineté des Données. UQ applique le principe de minimisation : seules les données strictement nécessaires au fonctionnement technique du réseau sont traitées. Les utilisateurs disposent de droits d'accès, de rectification, d'effacement et de portabilité, exerçables via les paramètres du compte ou par écrit à <a href="mailto:donnees@uqplatform.com">donnees@uqplatform.com</a>.</p>
+        <h2>5. Cryptologie et conformité locale</h2>
+        <p>UQ utilise des mécanismes de chiffrement pour protéger les contenus des utilisateurs. Dans les juridictions où l'utilisation de moyens de cryptologie est soumise à déclaration ou autorisation (notamment certains États de la CEMAC et de la CEEAC), UQ Platform s'engage à coopérer avec les autorités nationales de sécurité des systèmes d'information dans les limites prévues par les lois applicables, sans porter atteinte à l'intégrité du chiffrement de bout en bout.</p>
+        <h2>6. Droit applicable et règlement des différends</h2>
+        <p>Les présentes mentions sont régies par le droit du lieu d'établissement principal de l'éditeur. En cas de litige, les parties s'efforceront de trouver une solution amiable avant toute action judiciaire. À défaut, les tribunaux compétents seront ceux du ressort du siège de l'éditeur, sous réserve des dispositions impératives protégeant les consommateurs.</p>
+        <h2>7. Contact</h2>
+        <p><a href="mailto:legal@uqplatform.com">legal@uqplatform.com</a></p>
+    </div></div>
 
-// Contact
-async function envoyer(e){
-  e.preventDefault();
-  const f=e.target,msg=document.getElementById('msg');
-  msg.textContent='Envoi…';
-  try{
-    const r=await fetch('https://api.uqplatform.com/api/contact',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nom:f.nom.value,email:f.email.value,message:f.message.value})});
-    msg.textContent=r.ok?'Message envoyé — nous vous répondons sous 48h.':'Erreur — réessayez.';
-    if(r.ok)f.reset();
-  }catch(_){msg.textContent='Service indisponible — écrivez à contact@uqplatform.com';}
-  return false;
-}
-</script>
+    <!-- PAGE CGU -->
+    <div class="page" id="page-cgu"><div class="content-page">
+        <div class="back-btn" onclick="showPage('home')">← Retour à l'accueil</div>
+        <h1>Conditions Générales d'Utilisation</h1>
+        <p class="meta">Version 1.0 — Dernière mise à jour : 2026</p>
+        <h2>Article 1 — Objet</h2>
+        <p>Les présentes Conditions Générales d'Utilisation (CGU) régissent l'accès et l'utilisation de l'écosystème UQ Platform, comprenant BORB Wallet, UQ Auth, UQ Chat &amp; Mail, UQ Trading et Studio Zando.</p>
+        <h2>Article 2 — Acceptation</h2>
+        <p>L'utilisation de tout ou partie des services vaut acceptation pleine et entière des présentes CGU et de la Politique de Souveraineté des Données.</p>
+        <h2>Article 3 — Compte et identité</h2>
+        <p>La création d'un compte UQ Auth est nécessaire pour accéder aux services. L'utilisateur s'engage à fournir des informations exactes et à préserver la confidentialité de ses facteurs d'authentification. Toute action réalisée depuis un compte est réputée effectuée par son titulaire.</p>
+        <h2>Article 4 — Architecture P2P et responsabilité de l'utilisateur</h2>
+        <p>L'utilisateur reconnaît que les contenus qu'il stocke ou partage dans le cloud P2P sont chiffrés sur son appareil et distribués sur les appareils d'autres utilisateurs participants. UQ n'héberge pas ces contenus et ne peut y accéder. L'utilisateur est seul responsable de la légalité des contenus qu'il met en circulation.</p>
+        <h2>Article 5 — Contenus interdits</h2>
+        <p>Sont notamment interdits : les contenus illicites, la diffusion de logiciels malveillants, l'usurpation d'identité, le harcèlement, la fraude, le blanchiment et toute activité contraire aux lois applicables dans les juridictions où l'utilisateur opère. UQ peut suspendre un compte en cas de signalement sérieux, dans les limites de ses moyens techniques.</p>
+        <h2>Article 6 — Propriété d'usage partagée</h2>
+        <p>Les utilisateurs contribuant activement à l'écosystème bénéficient d'un droit de gouvernance sur les évolutions du produit, selon la Charte de Gouvernance UQ. Ce droit n'est pas cessible, ne constitue pas une part sociale et s'exerce dans le cadre de l'assemblée des utilisateurs.</p>
+        <h2>Article 7 — Cryptologie et coopération légale</h2>
+        <p>UQ coopère avec les autorités compétentes dans les limites prévues par la loi, sans disposer des clés de déchiffrement des contenus utilisateurs. Les demandes d'accès sont traitées dans le respect du principe de minimisation et des garanties procédurales locales.</p>
+        <h2>Article 8 — Limitation de responsabilité</h2>
+        <p>UQ fournit une infrastructure et des outils, sans garantie de disponibilité absolue. UQ ne peut être tenue responsable des pertes résultant de la perte des clés utilisateur, de la suppression de fragments par leur propriétaire, ou d'événements hors de son contrôle raisonnable.</p>
+        <h2>Article 9 — Modification des CGU</h2>
+        <p>Toute modification substantielle est notifiée aux utilisateurs au moins 30 jours avant son entrée en vigueur. L'usage continu des services vaut acceptation des CGU modifiées.</p>
+        <h2>Article 10 — Droit applicable</h2>
+        <p>Les présentes CGU sont régies par le droit du lieu d'établissement principal de l'éditeur, sous réserve des dispositions impératives applicables aux consommateurs.</p>
+        <p style="margin-top:30px;">Contact : <a href="mailto:legal@uqplatform.com">legal@uqplatform.com</a></p>
+    </div></div>
+
+    <!-- PAGE CONFIDENTIALITÉ -->
+    <div class="page" id="page-confidentialite"><div class="content-page">
+        <div class="back-btn" onclick="showPage('home')">← Retour à l'accueil</div>
+        <h1>Politique de Confidentialité</h1>
+        <p class="meta">Version 1.0 — Dernière mise à jour : 2026</p>
+        <p>Cette politique complète la Politique de Souveraineté des Données. Elle précise les catégories de données traitées et les finalités associées.</p>
+        <h2>1. Données de compte UQ Auth</h2>
+        <p>Identifiant, facteurs d'authentification, préférences de sécurité. Finalité : authentification et protection du compte. Conservation : durée de vie du compte.</p>
+        <h2>2. Données de routage P2P</h2>
+        <p>Adresse IP, horodatage, volume de contribution, identifiant technique de nœud. Finalité : fonctionnement du réseau, prévention des abus. Conservation : 30 jours glissants, puis anonymisation irréversible.</p>
+        <h2>3. Données de transaction BORB Wallet</h2>
+        <p>Les transactions sont signées localement. UQ ne conserve pas les clés privées. Les journaux de synchronisation sont minimaux et chiffrés.</p>
+        <h2>4. Données de communication</h2>
+        <p>Les messages UQ Chat &amp; Mail sont chiffrés de bout en bout. UQ ne détient pas les clés et ne peut pas lire les contenus. Les métadonnées strictement nécessaires à l'acheminement sont traitées de manière minimale.</p>
+        <h2>5. Droits des utilisateurs</h2>
+        <p>Accès, rectification, effacement, portabilité, opposition. Exercice via les paramètres du compte ou à <a href="mailto:donnees@uqplatform.com">donnees@uqplatform.com</a>. Réponse sous 30 jours.</p>
+        <h2>6. Transferts</h2>
+        <p>Aucun transfert de contenu vers des tiers. Les éventuels prestataires techniques sont liés par des engagements de confidentialité et ne reçoivent que des données agrégées.</p>
+        <h2>7. Contact</h2>
+        <p><a href="mailto:donnees@uqplatform.com">donnees@uqplatform.com</a></p>
+    </div></div>
+
+    <!-- PAGE CONTACT -->
+    <div class="page" id="page-contact"><div class="content-page">
+        <div class="back-btn" onclick="showPage('home')">← Retour à l'accueil</div>
+        <h1>Contact</h1>
+        <p class="meta">Parlons de votre projet.</p>
+        <p>Partenariat, presse, bêta privée ou question produit — nous répondons sous 48h.</p>
+        <form style="margin-top:40px;" onsubmit="event.preventDefault(); envoyer();">
+            <div class="form-group"><label>Nom</label><input type="text" id="f-nom" placeholder="Votre nom" required></div>
+            <div class="form-group"><label>Email</label><input type="email" id="f-email" placeholder="vous@exemple.com" required></div>
+            <div class="form-group"><label>Sujet</label><select id="f-sujet" required>
+                <option value="">Choisir un sujet</option><option>Partenariat</option><option>Presse</option><option>Bêta privée</option><option>Question produit</option><option>Autre</option></select></div>
+            <div class="form-group"><label>Message</label><textarea id="f-msg" placeholder="Votre message..." required></textarea></div>
+            <button type="submit" class="btn-hero btn-hero-primary" style="width:100%; justify-content:center;">Envoyer</button>
+            <p id="form-msg" style="margin-top:12px;font-size:.85rem;color:var(--text-body);text-align:center"></p>
+        </form>
+        <h2 style="margin-top:50px;">Emails directs</h2>
+        <ul style="list-style:none; margin-left:0;">
+            <li style="margin-bottom:10px;">Contact : <a href="mailto:contact@uqplatform.com">contact@uqplatform.com</a></li>
+            <li style="margin-bottom:10px;">Souveraineté des données : <a href="mailto:souverainete@uqplatform.com">souverainete@uqplatform.com</a></li>
+            <li style="margin-bottom:10px;">Juridique : <a href="mailto:legal@uqplatform.com">legal@uqplatform.com</a></li>
+            <li style="margin-bottom:10px;">Données personnelles : <a href="mailto:donnees@uqplatform.com">donnees@uqplatform.com</a></li>
+        </ul>
+    </div></div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <div class="logo" onclick="showPage('home')" style="cursor:pointer;"><span class="logo-dot"></span> UQ Platform</div>
+                <p>Infrastructure numérique détenue par ses utilisateurs. Pas de serveur central de données. Pas d'accès à tes contenus.</p>
+            </div>
+            <div class="footer-col"><h4>Produits</h4><ul>
+                <li><a onclick="showPage('borb')">BORB Wallet</a></li><li><a onclick="showPage('auth')">UQ Auth</a></li>
+                <li><a onclick="showPage('chat')">UQ Chat &amp; Mail</a></li><li><a onclick="showPage('mail')">UQ Mail</a></li>
+                <li><a onclick="showPage('trading')">UQ Trading</a></li><li><a onclick="showPage('studio')">Studio Zando</a></li></ul></div>
+            <div class="footer-col"><h4>Plateforme</h4><ul>
+                <li><a onclick="showPage('home')">Le groupe</a></li><li><a onclick="showPage('home')">Équipe</a></li><li><a onclick="showPage('contact')">Contact</a></li></ul></div>
+            <div class="footer-col"><h4>Légal</h4><ul>
+                <li><a onclick="showPage('souverainete')">Souveraineté des données</a></li><li><a onclick="showPage('juridique')">Cadre juridique</a></li>
+                <li><a onclick="showPage('cgu')">CGU</a></li><li><a onclick="showPage('confidentialite')">Confidentialité</a></li></ul></div>
+        </div>
+        <div class="footer-bottom">© 2026 UQ Platform — Tous droits réservés.</div>
+    </footer>
+
+    <script>
+        function showPage(pageId){
+            document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+            const t=document.getElementById('page-'+pageId);
+            if(t){t.classList.add('active');window.scrollTo({top:0,behavior:'smooth'});}
+            document.querySelectorAll('nav a[data-nav]').forEach(a=>a.classList.remove('active'));
+            const n=document.querySelector('nav a[data-nav="'+pageId+'"]');
+            if(n)n.classList.add('active');
+        }
+        document.addEventListener('DOMContentLoaded',()=>{
+            document.querySelectorAll('.card').forEach(card=>{
+                card.addEventListener('mousemove',e=>{
+                    const r=card.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;
+                    const c=getComputedStyle(card).getPropertyValue('--card-color').trim();
+                    card.style.background='radial-gradient(circle at '+x+'px '+y+'px, '+c+'25 0%, rgba(255,255,255,0.02) 60%)';
+                });
+                card.addEventListener('mouseleave',()=>{card.style.background='';});
+            });
+        });
+        async function envoyer(){
+            const msg=document.getElementById('form-msg');msg.textContent='Envoi…';
+            try{
+                const r=await fetch('https://api.uqplatform.com/api/contact',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nom:document.getElementById('f-nom').value,email:document.getElementById('f-email').value,sujet:document.getElementById('f-sujet').value,message:document.getElementById('f-msg').value})});
+                msg.textContent=r.ok?'Message envoyé — nous vous répondons sous 48h.':'Erreur — réessayez.';
+            }catch(_){msg.textContent='Service indisponible — écrivez à contact@uqplatform.com';}
+        }
+        window.addEventListener('load',()=>{
+            const h=window.location.hash.replace('#','');
+            if(h&&document.getElementById('page-'+h))showPage(h);
+        });
+    </script>
 </body>
 </html>
