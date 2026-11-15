@@ -260,3 +260,15 @@ body>*:not(#sq-layer){position:relative;z-index:1}
 .contact::after{bottom:12%;left:8%;transform:rotate(10deg)}
 /* Le contenu reste au-dessus */
 .produits>.sec-head,.produits>.dashboard,.groupe-inner,.marche>.sec-head,.marche>.marche-grid,.equipe-inner,.contact-inner{position:relative;z-index:1}
+
+/* ===== RUBANS 2 BANDES SENS OPPOSÉS ===== */
+.m-row{overflow:hidden;gap:0;padding:4px 0}
+.m-row>.m-item{flex-shrink:0;margin-right:16px}
+.m-row>span{display:none}
+#rowTop{animation:marqL 30s linear infinite}
+#rowBot{animation:marqR 30s linear infinite}
+.m-row:hover{animation-play-state:paused}
+@keyframes marqL{to{transform:translateX(-50%)}}
+@keyframes marqR{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+/* les items internes forment une piste */
+.m-row{display:flex;width:max-content}
