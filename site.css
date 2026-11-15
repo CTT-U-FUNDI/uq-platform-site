@@ -307,3 +307,7 @@ h1,h2,h3,h4,strong,.hd-logo,.card-body h3,.valeur h3,.feat h3,.equipe-nom,.sec-t
 /* Texte secondaire : blanc cassé lumineux */
 .sec-sub,.hero-lead,.groupe-texte,.equipe-bio,.card-body p,.feat p,.valeur p,.page-lead,.page-body,.sec-sub{color:var(--tb)!important}
 .hv-row small,.app-row small,.foot-copy{color:rgba(255,255,255,.6)}
+
+/* ===== Icônes SVG titres : blanc pur + cadre glass ===== */
+.sec-svg{stroke:#fff!important;display:inline-block;padding:9px;background:rgba(255,255,255,.08)!important;border:1px solid rgba(255,255,255,.18)!important;border-radius:11px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 4px 16px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.15);vertical-align:-8px;margin-right:12px}
+.groupe-title .sec-svg,.equipe-nom .sec-svg{padding:11px;border-radius:13px}
