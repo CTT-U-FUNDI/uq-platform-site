@@ -251,3 +251,8 @@ footer{border-top:1px solid var(--line);padding:56px 40px 32px;background:#000}
 .panel.rgb h2{margin-bottom:16px}
 .panel.rgb p{max-width:640px;margin:0 auto}
 @media(max-width:900px){.panel.rgb{padding:36px 24px}}
+
+/* Panneau texte (accueil) */
+.panel h2{font-size:clamp(1.5rem,3.5vw,2rem);margin-bottom:18px;line-height:1.2}
+.panel p{color:#c9cfd8;font-size:1.02rem;line-height:1.75}
+.panel p strong{color:#fff}
