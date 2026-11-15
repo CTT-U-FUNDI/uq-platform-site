@@ -229,3 +229,34 @@ body>*:not(#sq-layer){position:relative;z-index:1}
 }
 @media(max-width:400px){.hero-title{font-size:32px}.sec-title{font-size:26px}.hd-logo span{font-size:16px}.hd-actions .btn{padding:10px 16px;font-size:12px}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+
+/* ===== PAPIER PEINT GLASS 3D — sections sans photo ===== */
+.produits,.groupe,.equipe,.contact{position:relative;overflow:hidden}
+.produits::before,.groupe::before,.equipe::before,.contact::before{content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 55% 45% at 15% 20%,rgba(0,120,212,.14),transparent 60%),
+    radial-gradient(ellipse 45% 40% at 85% 75%,rgba(0,183,195,.1),transparent 60%),
+    radial-gradient(ellipse 40% 35% at 70% 15%,rgba(255,255,255,.05),transparent 60%);
+  filter:blur(50px)}
+.groupe::before{background:
+    radial-gradient(ellipse 55% 45% at 15% 20%,rgba(16,124,16,.14),transparent 60%),
+    radial-gradient(ellipse 45% 40% at 85% 75%,rgba(0,183,195,.1),transparent 60%),
+    radial-gradient(ellipse 40% 35% at 70% 15%,rgba(255,255,255,.05),transparent 60%)}
+.equipe::before{background:
+    radial-gradient(ellipse 55% 45% at 15% 20%,rgba(227,0,140,.13),transparent 60%),
+    radial-gradient(ellipse 45% 40% at 85% 75%,rgba(98,100,167,.12),transparent 60%),
+    radial-gradient(ellipse 40% 35% at 70% 15%,rgba(255,255,255,.05),transparent 60%)}
+.contact::before{background:
+    radial-gradient(ellipse 55% 45% at 15% 20%,rgba(0,183,195,.14),transparent 60%),
+    radial-gradient(ellipse 45% 40% at 85% 75%,rgba(0,120,212,.1),transparent 60%),
+    radial-gradient(ellipse 40% 35% at 70% 15%,rgba(255,255,255,.05),transparent 60%)}
+/* Panneaux glass décoratifs flottants */
+.produits::after,.groupe::after,.equipe::after,.contact::after{content:'';position:absolute;width:340px;height:340px;border-radius:24px;z-index:0;pointer-events:none;
+  background:linear-gradient(135deg,rgba(255,255,255,.06),rgba(255,255,255,.02));
+  border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);
+  transform:rotate(12deg);top:8%;right:6%;opacity:.5}
+.groupe::after{top:auto;bottom:10%;right:10%;transform:rotate(-8deg)}
+.equipe::after{top:15%;left:5%;transform:rotate(-14deg)}
+.contact::after{bottom:12%;left:8%;transform:rotate(10deg)}
+/* Le contenu reste au-dessus */
+.produits>.sec-head,.produits>.dashboard,.groupe-inner,.marche>.sec-head,.marche>.marche-grid,.equipe-inner,.contact-inner{position:relative;z-index:1}
