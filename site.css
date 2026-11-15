@@ -231,7 +231,7 @@ body>*:not(#sq-layer){position:relative;z-index:1}
 
 /* ===== MONO 100% — noir miroir + glass morphique ===== */
 body{background:#000}
-#sq-layer .msq{filter:grayscale(1) brightness(1.4) contrast(1.1)}
+#sq-layer .msq{filter:grayscale(1) blur(3px) brightness(1.8) contrast(.9)!important;opacity:.12!important;border-color:rgba(255,255,255,.06)!important}
 .plaque-blue,.plaque-green,.plaque-pink,.plaque-teal,.groupe,.ribbon,.foot{background:#000!important}
 .card,.valeur,.marche-card,.contact-form,.feat,.hv-card,.kicker{background:rgba(255,255,255,.045)!important;border:1px solid rgba(255,255,255,.08)!important;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
 .icon-box,.v-ico,.f-ico,.hv-ico{background:rgba(255,255,255,.1)!important;box-shadow:none!important;color:#fff}

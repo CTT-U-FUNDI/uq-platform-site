@@ -19,7 +19,7 @@
   const W=innerWidth,H=innerHeight;
   for(let i=0;i<N;i++){
     const d=document.createElement('div');d.className='msq';
-    d.style.background='linear-gradient(135deg,'+colors[i%colors.length]+','+colors[(i+3)%colors.length]+')';
+    d.style.background='linear-gradient(135deg,rgba(255,255,255,.5),rgba(255,255,255,.15))';
     const s=Math.min(W,H)*(.11+Math.random()*.11);
     const rx=(Math.random()-.5)*50, ry=(Math.random()-.5)*50, rz=(Math.random()-.5)*40;
     const z=(Math.random()-.5)*120, op=.15+Math.random()*.2;
