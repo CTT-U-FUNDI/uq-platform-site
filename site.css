@@ -219,3 +219,10 @@ footer{border-top:1px solid var(--line);padding:56px 40px 32px;background:#000}
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
 }
+
+/* Icônes SVG */
+.app-icon{width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;color:#fff;margin-bottom:18px;flex-shrink:0}
+.app-icon svg{display:block}
+.vision-icon{width:56px;height:56px;margin:0 auto 14px;display:grid;place-items:center;background:rgba(0,120,212,.12);border:1px solid rgba(0,120,212,.3);border-radius:16px;color:var(--blue)}
+.vision-icon svg{display:block}
+.pillar{text-align:center}
