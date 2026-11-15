@@ -22,8 +22,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 /* ===== RGB ANIMÉ ===== */
 @property --uq-a{syntax:'<angle>';initial-value:0deg;inherits:false}
 @keyframes uqSpin{to{--uq-a:360deg}}
-.rgb-frame{position:relative;border:1.5px solid transparent!important;border-radius:20px;
-  background-image:linear-gradient(rgba(10,11,15,.94),rgba(10,11,15,.94)),conic-gradient(from var(--uq-a),#ff453a,#ffd60a,#f472b6,#0a84ff,#ff453a);
+.rgb-frame{position:relative;border:1.5px solid transparent!important}
+  background-image:linear-gradient(rgba(10,11,15,.55),rgba(10,11,15,.55)),conic-gradient(from var(--uq-a),#ff453a,#ffd60a,#f472b6,#0a84ff,#ff453a);
   background-origin:border-box;background-clip:padding-box,border-box;
   animation:uqSpin 7s linear infinite}
 
@@ -169,11 +169,16 @@ footer{margin-top:80px;padding:60px 40px 30px;border-top:1px solid rgba(255,255,
   header{padding:12px 16px}
   .nav-burger{display:flex;background:var(--glass);border:1px solid var(--line);border-radius:10px;width:36px;height:36px;align-items:center;justify-content:center;color:#fff;flex-shrink:0}
   .nav-burger svg{width:18px;height:18px}
-  nav{order:3;width:100%}
-  nav ul{display:none;position:static;flex-direction:column;align-items:stretch;background:rgba(0,0,0,.96);border:1px solid var(--line);border-radius:14px;padding:10px;margin-top:10px}
+  header{position:fixed}
+  .logo{flex-shrink:0}
+  .nav-burger{order:4}
+  .nav-actions{order:5;margin-left:0;gap:10px}
+  nav{position:static;width:auto;order:6}
+  nav ul{display:none;position:absolute;top:64px;left:12px;right:12px;flex-direction:column;background:rgba(0,0,0,.97);backdrop-filter:blur(20px);border:1px solid var(--line);border-radius:14px;padding:10px;box-shadow:0 20px 50px rgba(0,0,0,.6)}
   nav ul.open{display:flex;animation:fadeIn .3s ease}
-  nav a{display:block;padding:12px 14px;font-size:.95rem;border-radius:10px}
-  .nav-actions{margin-left:auto}
+  nav a{display:block;padding:13px 14px;font-size:.95rem;border-radius:10px}
+  header>nav{display:contents}
+  header>nav>ul{position:absolute;top:64px;left:12px;right:12px;z-index:1001}
   .btn-nav-primary{padding:8px 14px;font-size:.78rem}
   .btn-login{display:none}
   .container{padding:0 20px}
