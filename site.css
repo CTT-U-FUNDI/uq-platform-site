@@ -282,3 +282,20 @@ body>*:not(#sq-layer){position:relative;z-index:1}
 .marche-card figcaption strong{-webkit-text-fill-color:#fff;color:#fff}
 .contact-mail{color:var(--badge);border-color:rgba(255,255,255,.2)}
 .equipe-role{color:var(--badge)}
+
+/* ===== HERO VISUEL (photo + carte) ===== */
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center;max-width:1440px}
+.hero>.hero-inner{grid-column:auto;max-width:none}
+.hero-visual{position:relative}
+.hv-frame{position:relative;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.09);aspect-ratio:4/4.4;background:#0d0f16}
+.hv-frame img{width:100%;height:100%;object-fit:cover;filter:saturate(.55) brightness(.65)}
+.hv-frame::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(8,9,16,.75),transparent 55%)}
+.hv-card{position:absolute;z-index:2;left:20px;right:20px;bottom:20px;background:rgba(13,15,22,.82);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:18px 20px}
+.hv-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.07)}
+.hv-row:last-child{border-bottom:none}
+.hv-ico{width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,.08);display:grid;place-items:center;font-size:14px}
+.hv-row div{flex:1}
+.hv-row strong{display:block;font-size:11.5px;color:#fff}
+.hv-row small{font-size:9.5px;color:var(--tb)}
+.hv-row b{color:var(--tb);font-weight:400}
+@media(max-width:1020px){.hero{grid-template-columns:1fr}.hero-visual{max-width:520px}}
