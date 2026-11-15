@@ -22,6 +22,7 @@
     <li><a href="./trading.html">Trading</a></li>
     <li><a href="./studio.html">Studio Zando</a></li>
   </ul></nav>
+  <button class="nav-burger" aria-label="Menu" onclick="document.querySelector('nav ul').classList.toggle('open')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
   <div class="nav-actions">
     <a href="./contact.html" class="btn-login">Se connecter</a>
     <a href="./contact.html" class="btn-nav-primary">Ouvrir un compte</a>
@@ -42,9 +43,9 @@
 
   <div class="container">
     <div class="stats-banner rv">
-      <div class="stat-item"><div class="stat-value">6</div><div class="stat-label">produits</div></div>
-      <div class="stat-item"><div class="stat-value">100%</div><div class="stat-label">numérique</div></div>
-      <div class="stat-item"><div class="stat-value">24/7</div><div class="stat-label">disponible</div></div>
+      <div class="stat-item"><div class="stat-value" data-count="6">6</div><div class="stat-label">produits</div></div>
+      <div class="stat-item"><div class="stat-value" data-count="100" data-suffix="%">100%</div><div class="stat-label">numérique</div></div>
+      <div class="stat-item"><div class="stat-value" data-count="24" data-suffix="/7">24/7</div><div class="stat-label">disponible</div></div>
     </div>
   </div>
 
@@ -142,24 +143,25 @@
 <script>
 const hd=document.getElementById('hd');
 addEventListener('scroll',()=>hd.classList.toggle('scrolled',scrollY>40),{passive:true});
+
+// Révélation au scroll
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('is-in');io.unobserve(e.target)}}),{threshold:.1});
 document.querySelectorAll('.rv').forEach(el=>io.observe(el));
-// Compteurs animés — démarrent vite, ordre croissant
-const stats=document.querySelectorAll('.stat-value');
+
+// Compteurs animés — ordre croissant, départ rapide
 const cio=new IntersectionObserver(es=>es.forEach(e=>{
   if(!e.isIntersecting)return;cio.unobserve(e.target);
-  const el=e.target,txt=el.textContent.trim();
-  const m=txt.match(/(\d+)(.*)/);if(!m)return;
-  const target=+m[1],suffix=m[2]||'';
-  const t0=performance.now(),dur=900; // rapide
+  const el=e.target,target=+el.dataset.count,suffix=el.dataset.suffix||'';
+  const t0=performance.now(),dur=900;
   (function tick(t){
-    const p=Math.min((t-t0)/dur,1),ease=1-Math.pow(1-p,3); // ease-out
+    const p=Math.min((t-t0)/dur,1),ease=1-Math.pow(1-p,3);
     el.textContent=Math.round(target*ease)+suffix;
-    if(p<1)requestAnimationFrame(tick);else el.textContent=txt;
+    if(p<1)requestAnimationFrame(tick);
   })(t0);
 }),{threshold:.4});
-stats.forEach(s=>{s.textContent='0'+(s.textContent.match(/(%|\/7)/)?.[0]||'');cio.observe(s);});
-// lueur souris sur les cartes
+document.querySelectorAll('.stat-value').forEach(s=>{s.textContent='0'+(s.dataset.suffix||'');cio.observe(s);});
+
+// Lueur souris sur les cartes
 document.querySelectorAll('.card').forEach(card=>{
   card.addEventListener('mousemove',e=>{
     const r=card.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;
