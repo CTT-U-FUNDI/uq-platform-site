@@ -287,3 +287,23 @@ body{background:#000}
 .m-name{font-family:var(--disp);font-size:14px;font-weight:600;letter-spacing:-.2px}
 /* Animation de saut vers l'autre ligne */
 .m-item.jump{transition:transform .55s var(--spring),opacity .55s}
+
+/* ===== BLANC INTENSE + GLASSMORPHISME PROFOND ===== */
+:root{--tt:#ffffff;--tb:#e8ecf4;--badge:#f1f5f9}
+h1,h2,h3,h4,strong,.hd-logo,.card-body h3,.valeur h3,.feat h3,.equipe-nom,.sec-title,.groupe-title,.hero-title,.page-hero h1,.m-name{color:#fff!important;text-shadow:0 0 24px rgba(255,255,255,.25)}
+/* Glass plus lumineux et plus flou */
+.card,.valeur,.marche-card,.contact-form,.feat,.hv-card,.kicker,.status-badge,.btn-card,.m-item{background:rgba(255,255,255,.09)!important;border:1px solid rgba(255,255,255,.16)!important;backdrop-filter:blur(22px) saturate(1.4)!important;-webkit-backdrop-filter:blur(22px) saturate(1.4)!important;box-shadow:0 8px 32px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.12)!important}
+/* Reflets vitre sur les cartes */
+.card::before,.valeur::before,.feat::before,.contact-form::before{content:'';position:absolute;top:0;left:0;right:0;height:40%;background:linear-gradient(180deg,rgba(255,255,255,.09),transparent);border-radius:inherit 12px 0 0;pointer-events:none;z-index:1}
+.m-ico{box-shadow:0 6px 18px -4px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.5),0 0 20px rgba(255,255,255,.15)}
+.icon-box{box-shadow:0 8px 24px -4px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.4),0 0 24px rgba(255,255,255,.12)}
+.hd{background:rgba(255,255,255,.06)!important;border-bottom:1px solid rgba(255,255,255,.12)!important;backdrop-filter:blur(20px) saturate(1.3)!important}
+/* Boutons : blanc pur intense */
+.btn-dark,.btn-blue{background:#fff;color:#000;border-color:#fff;box-shadow:0 0 24px rgba(255,255,255,.25)}
+.btn-blue:hover,.btn-dark:hover{background:#fff;box-shadow:0 0 34px rgba(255,255,255,.4)}
+/* Liens et accents : blanc brilliant */
+.page-body a,.contact-mail,.back-link:hover,.foot-nav a:hover{color:#fff}
+.marche-card figcaption strong{color:#fff;text-shadow:0 0 20px rgba(255,255,255,.3)}
+/* Texte secondaire : blanc cassé lumineux */
+.sec-sub,.hero-lead,.groupe-texte,.equipe-bio,.card-body p,.feat p,.valeur p,.page-lead,.page-body,.sec-sub{color:var(--tb)!important}
+.hv-row small,.app-row small,.foot-copy{color:rgba(255,255,255,.6)}
