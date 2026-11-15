@@ -1,25 +1,190 @@
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content" />
-    <meta name="theme-color" content="#000000" />
-    <title>UQ Platform — Un compte, tout un écosystème</title>
-    <meta name="description" content="Découvrez UQ Platform : logiciels et applications pensés pour l’Afrique. Identité numérique, BORB Wallet, communication et commerce dans un même écosystème." />
-    <link rel="icon" type="image/svg+xml" href="./assets/uq-mark.svg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <script type="module" crossorigin src="./assets/index-DQMKJ8ef.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-DCG9PESm.css">
-    <link rel="stylesheet" href="./assets/redesign.css" />
-    <script type="module" src="./assets/redesign.js"></script>
-  </head>
-  <body>
-    <div id="root"></div>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UQ Platform — Un compte, tout un écosystème</title>
+<meta name="description" content="Logiciels et applications pensés pour l'Afrique. Identité numérique, BORB Wallet, communication et commerce dans un même écosystème.">
+<link rel="icon" type="image/svg+xml" href="./assets/uq-mark.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./site.css">
+</head>
+<body>
 
-  </body>
+<!-- ===== HEADER ===== -->
+<header class="hd">
+  <a class="hd-logo" href="#">
+    <img src="./assets/uq-mark.svg" alt="UQ" width="34" height="34">
+    <span>UQ Platform</span>
+  </a>
+  <nav class="hd-nav">
+    <a href="#produits">Produits</a>
+    <a href="#groupe">Le groupe</a>
+    <a href="#equipe">Équipe</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <div class="hd-actions">
+    <a class="hd-link" href="#contact">Se connecter</a>
+    <a class="btn btn-dark" href="#contact">Ouvrir un compte</a>
+  </div>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-inner">
+    <p class="eyebrow"><span class="dot"></span> Écosystème numérique africain</p>
+    <h1 class="hero-title">Un compte.<br><em>Tout un écosystème.</em></h1>
+    <p class="hero-lead">Identité numérique, portefeuille, communication et commerce — des outils connectés à votre quotidien, pensés pour l'Afrique.</p>
+    <div class="hero-cta">
+      <a class="btn btn-blue" href="#produits">Découvrir les produits</a>
+      <a class="btn btn-ghost" href="#groupe">Notre vision</a>
+    </div>
+    <div class="hero-meta">
+      <div><strong>4</strong><span>produits</span></div>
+      <div class="sep"></div>
+      <div><strong>100%</strong><span>numérique</span></div>
+      <div class="sep"></div>
+      <div><strong>24/7</strong><span>disponible</span></div>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="scene">
+      <div class="scene-photo"></div>
+      <span class="scene-tag"><i></i> CONSTRUIRE DEMAIN, ENSEMBLE</span>
+      <div class="glass">
+        <div class="glass-head">
+          <span class="glass-ico">⬡</span>
+          <div><strong>Votre univers UQ.</strong><small>Des outils connectés à votre quotidien</small></div>
+          <em class="glass-status">UN SEUL COMPTE</em>
+        </div>
+        <div class="app-row"><span class="app-ico">◈</span><div><strong>BORB Wallet</strong><small>Votre portefeuille numérique</small></div><b>↗</b></div>
+        <div class="app-row"><span class="app-ico">✦</span><div><strong>UQ Chat &amp; Mail</strong><small>Vos échanges, au même endroit</small></div><b>↗</b></div>
+        <div class="app-row"><span class="app-ico">🛡</span><div><strong>UQ Auth</strong><small>Votre identité numérique sécurisée</small></div><b>↗</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== RUBAN ===== -->
+<div class="ribbon">
+  <div class="ribbon-track">
+    <span>BORB WALLET</span><i>◆</i><span>UQ AUTH</span><i>◆</i><span>UQ CHAT</span><i>◆</i><span>UQ MAIL</span><i>◆</i><span>STUDIO ZANDO</span><i>◆</i><span>UQ TRADING</span><i>◆</i>
+    <span>BORB WALLET</span><i>◆</i><span>UQ AUTH</span><i>◆</i><span>UQ CHAT</span><i>◆</i><span>UQ MAIL</span><i>◆</i><span>STUDIO ZANDO</span><i>◆</i><span>UQ TRADING</span><i>◆</i>
+  </div>
+</div>
+
+<!-- ===== PRODUITS ===== -->
+<section class="produits" id="produits">
+  <div class="sec-head">
+    <p class="kicker">Nos produits</p>
+    <h2 class="sec-title">Tout ce qu'il vous faut,<br>sous un seul compte.</h2>
+    <p class="sec-sub">Chaque application partage la même identité UQ — connectez-vous une fois, utilisez tout.</p>
+  </div>
+  <div class="grid-apps">
+    <article class="card-app featured">
+      <div class="card-top"><span class="app-ico lg">◈</span><em class="statut ok">Disponible</em></div>
+      <h3>BORB Wallet</h3>
+      <p>Portefeuille numérique : coffre, trading P2P, studio créatif. Vos actifs, vos clés, vos règles.</p>
+      <span class="card-cta">Explorer →</span>
+    </article>
+    <article class="card-app">
+      <div class="card-top"><span class="app-ico lg">🛡</span><em class="statut ok">Disponible</em></div>
+      <h3>UQ Auth</h3>
+      <p>Identité numérique sécurisée : vérification humaine, accès unique, protection anti-robot.</p>
+      <span class="card-cta">Découvrir →</span>
+    </article>
+    <article class="card-app">
+      <div class="card-top"><span class="app-ico lg">✦</span><em class="statut soon">Bientôt</em></div>
+      <h3>UQ Chat &amp; Mail</h3>
+      <p>Messagerie et email intégrés — vos échanges professionnels et personnels, au même endroit.</p>
+      <span class="card-cta soon">Rejoindre la bêta →</span>
+    </article>
+    <article class="card-app">
+      <div class="card-top"><span class="app-ico lg">🎨</span><em class="statut soon">Bientôt</em></div>
+      <h3>Studio Zando</h3>
+      <p>Studio créatif : concevez, produisez et partagez vos contenus dans l'écosystème UQ.</p>
+      <span class="card-cta soon">Être informé →</span>
+    </article>
+  </div>
+</section>
+
+<!-- ===== GROUPE ===== -->
+<section class="groupe" id="groupe">
+  <div class="groupe-inner">
+    <p class="kicker light">Le groupe</p>
+    <h2 class="groupe-title">Bâtir le quotidien numérique<br><em>de l'Afrique.</em></h2>
+    <p class="groupe-texte">UQ Platform est née d'un constat : les outils numériques adaptés au continent restent rares. Nous construisons un écosystème complet — identité, finance, communication, création — pensé pour les réalités africaines : connectivité intermittente, mobile d'abord, sobriété numérique.</p>
+    <div class="valeurs">
+      <div class="valeur"><span>◈</span><h3>Souveraineté</h3><p>Vos données, vos clés, vos règles. Rien ne vous appartient moins que vous.</p></div>
+      <div class="valeur"><span>✦</span><h3>Simplicité</h3><p>Un compte, tout un écosystème. Zéro friction entre les outils.</p></div>
+      <div class="valeur"><span>🛡</span><h3>Confiance</h3><p>Sécurité et vérification humaine intégrées à chaque service.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ÉQUIPE ===== -->
+<section class="equipe" id="equipe">
+  <div class="equipe-inner">
+    <img class="equipe-avatar" src="./assets/eliezer.jpeg" alt="Eliezer — fondateur UQ Platform">
+    <div class="equipe-info">
+      <p class="kicker">L'équipe</p>
+      <h3 class="equipe-nom">Eliezer</h3>
+      <p class="equipe-role">Fondateur &amp; CEO — UQ Platform</p>
+      <p class="equipe-bio">Visionnaire de l'écosystème numérique africain. Il porte UQ Platform avec une conviction : les outils de demain se construisent ici, pour ici.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTACT ===== -->
+<section class="contact" id="contact">
+  <div class="contact-inner">
+    <div class="contact-gauche">
+      <p class="kicker">Contact</p>
+      <h2 class="sec-title">Parlons de<br>votre projet.</h2>
+      <p class="sec-sub">Partenariat, presse, bêta privée ou question produit — nous répondons sous 48h.</p>
+      <a class="contact-mail" href="mailto:contact@uqplatform.com">contact@uqplatform.com</a>
+    </div>
+    <form class="contact-form" id="form" onsubmit="return envoyer(event)">
+      <input type="text" name="nom" placeholder="Votre nom" required>
+      <input type="email" name="email" placeholder="Votre email" required>
+      <textarea name="message" rows="4" placeholder="Votre message" required></textarea>
+      <button class="btn btn-blue btn-lg" type="submit">Envoyer</button>
+      <p class="form-msg" id="msg"></p>
+    </form>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="foot">
+  <div class="foot-cols">
+    <div>
+      <a class="hd-logo" href="#"><img src="./assets/uq-mark.svg" alt="UQ" width="26" height="26"><span>UQ Platform</span></a>
+      <p class="foot-copy">© 2026 UQ Platform — Tous droits réservés.</p>
+    </div>
+    <nav class="foot-nav">
+      <a href="#produits">Produits</a><a href="#groupe">Le groupe</a><a href="#equipe">Équipe</a><a href="#contact">Contact</a>
+    </nav>
+    <div class="foot-links">
+      <button onclick="alert('CGU — bientôt')">CGU</button>
+      <button onclick="alert('Confidentialité — bientôt')">Confidentialité</button>
+    </div>
+  </div>
+</footer>
+
+<script>
+async function envoyer(e){
+  e.preventDefault();
+  const f=e.target, msg=document.getElementById('msg');
+  msg.textContent='Envoi…';
+  try{
+    const r=await fetch('https://api.uqplatform.com/api/contact',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nom:f.nom.value,email:f.email.value,message:f.message.value})});
+    msg.textContent=r.ok?'Message envoyé — nous vous répondons sous 48h.':'Erreur — réessayez.';
+    if(r.ok) f.reset();
+  }catch(_){ msg.textContent='Service indisponible — écrivez à contact@uqplatform.com'; }
+  return false;
+}
+</script>
+</body>
 </html>
