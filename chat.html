@@ -2,6 +2,7 @@
 function uqMenu(b){const m=document.querySelector('.menu');m.classList.toggle('on');b.setAttribute('aria-expanded',m.classList.contains('on'));}
 document.addEventListener('click',e=>{const m=document.querySelector('.menu');if(m&&m.classList.contains('on')&&!e.target.closest('.hd'))m.classList.remove('on')});
 addEventListener('scroll',()=>{const m=document.querySelector('.menu');if(m)m.classList.remove('on')},{passive:true});
+let _sy=0;addEventListener('scroll',()=>{const h=document.querySelector('.hd'),y=scrollY;h.classList.toggle('hide',y>_sy&&y>120);_sy=y},{passive:true});
 addEventListener('resize',()=>{if(innerWidth>900){const m=document.querySelector('.menu');if(m)m.classList.remove('on')}},{passive:true});
 </script>
 </body></html>

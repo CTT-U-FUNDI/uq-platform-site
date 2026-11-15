@@ -148,7 +148,7 @@
 
 <script>
 const hd=document.getElementById('hd');
-addEventListener('scroll',()=>hd.classList.toggle('sc',scrollY>40),{passive:true});
+let _sy=0;addEventListener('scroll',()=>{hd.classList.toggle('sc',scrollY>40);hd.classList.toggle('hide',scrollY>_sy&&scrollY>120);_sy=scrollY},{passive:true});
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}}),{threshold:.12});
 document.querySelectorAll('.rv').forEach(el=>io.observe(el));
 const cio=new IntersectionObserver(es=>es.forEach(e=>{
@@ -166,6 +166,7 @@ document.querySelectorAll('.card').forEach(c=>{
 function uqMenu(b){const m=document.querySelector('.menu');m.classList.toggle('on');b.setAttribute('aria-expanded',m.classList.contains('on'));}
 document.addEventListener('click',e=>{const m=document.querySelector('.menu');if(m&&m.classList.contains('on')&&!e.target.closest('.hd'))m.classList.remove('on')});
 addEventListener('scroll',()=>{const m=document.querySelector('.menu');if(m)m.classList.remove('on')},{passive:true});
+let _sy=0;addEventListener('scroll',()=>{const h=document.querySelector('.hd'),y=scrollY;h.classList.toggle('hide',y>_sy&&y>120);_sy=y},{passive:true});
 addEventListener('resize',()=>{if(innerWidth>900){const m=document.querySelector('.menu');if(m)m.classList.remove('on')}},{passive:true});
 </script>
 </body>
