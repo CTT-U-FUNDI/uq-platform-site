@@ -211,21 +211,13 @@ body>*:not(#sq-layer){position:relative;z-index:1}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
 
 /* ===== PLAQUES MICROSOFT — sections sans photo ===== */
-.plaque-blue{background:linear-gradient(135deg,#0078D4 0%,#005a9e 100%);color:#fff}
-.plaque-green{background:linear-gradient(135deg,#107C10 0%,#0b5c0c 100%);color:#fff}
-.plaque-pink{background:linear-gradient(135deg,#E3008C 0%,#a80068 100%);color:#fff}
-.plaque-teal{background:linear-gradient(135deg,#00B7C3 0%,#008a94 100%);color:#fff}
+.plaque-blue{background:linear-gradient(180deg,#0a1424 0%,#070a12 100%)}
+.plaque-green{background:linear-gradient(180deg,#0a1610 0%,#070a12 100%)}
+.plaque-pink{background:#0a0a0c}
+.plaque-teal{background:#0a0a0c}
 /* Contenu des plaques : tout blanc */
-.plaque-blue .sec-title,.plaque-green .groupe-title,.plaque-pink .equipe-nom,.plaque-teal .sec-title{color:#fff}
-.plaque-blue .sec-sub,.plaque-green .groupe-texte,.plaque-pink .equipe-bio,.plaque-teal .sec-sub{color:rgba(255,255,255,.85)}
-.plaque-blue .kicker,.plaque-green .kicker.light,.plaque-pink .kicker,.plaque-teal .kicker{color:#fff;border-color:rgba(255,255,255,.3);background:rgba(255,255,255,.12)}
-.plaque-blue .kicker::before,.plaque-green .kicker::before,.plaque-pink .kicker::before,.plaque-teal .kicker::before{background:#fff;box-shadow:0 0 0 4px rgba(255,255,255,.2)}
-.plaque-pink .equipe-role{color:rgba(255,255,255,.75)}
-.plaque-pink .equipe-avatar{border-color:rgba(255,255,255,.4)}
-.plaque-teal .contact-mail{color:#fff;border-color:rgba(255,255,255,.4)}
-.plaque-teal .contact-form{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2)}
-.plaque-teal .contact-form input,.plaque-teal .contact-form textarea{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.18);color:#fff}
-.plaque-teal .contact-form input::placeholder,.plaque-teal .contact-form textarea::placeholder{color:rgba(255,255,255,.5)}
+.plaque-teal .contact-form{border-top:3px solid var(--teal)}
+.plaque-pink .equipe-avatar{border-color:rgba(227,0,140,.5)}
 /* SVG icones épurés dans les titres */
 .sec-svg{width:34px;height:34px;stroke:#fff;vertical-align:-6px;margin-right:10px;opacity:.9}
 .groupe-title .sec-svg,.equipe-nom .sec-svg{width:38px;height:38px}
