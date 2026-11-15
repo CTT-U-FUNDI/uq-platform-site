@@ -262,5 +262,5 @@ footer{border-top:1px solid var(--line);padding:56px 40px 32px;background:#000}
 @media(max-width:900px){.uqz-tile{width:130px;height:130px}.uqz-txt.big{font-size:1.8rem}}
 
 /* Logo agrandi partout */
-.logo img{width:46px;height:46px}
-.fbrand .logo img{width:56px;height:56px}
+.logo img{width:46px;height:46px;border-radius:50%;object-fit:cover}
+.fbrand .logo img{width:56px;height:56px;border-radius:50%;object-fit:cover}
