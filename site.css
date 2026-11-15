@@ -217,3 +217,12 @@ html,body{overflow-x:hidden;overflow-x:clip}
 .card,.valeur,.marche-card{max-width:100%}
 .hero,.produits,.marche,.equipe,.contact,.groupe,.valeurs-sec{overflow-x:clip}
 @media(max-width:1100px){.dashboard{grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px}}
+
+/* ===== RUBAN (restauré) ===== */
+.ribbon{position:relative;z-index:10;border-block:1px solid rgba(255,255,255,.07);padding:20px 0;overflow:hidden;background:rgba(10,11,17,.6)}
+.ribbon-track{display:flex;gap:34px;width:max-content;animation:marquee 30s linear infinite}
+.ribbon-track span{font-family:var(--disp);font-size:15px;font-weight:600;letter-spacing:3px;color:var(--tb);white-space:nowrap}
+.ribbon-track i{color:var(--teal);font-style:normal;font-size:9px;align-self:center}
+@keyframes marquee{to{transform:translateX(-50%)}}
+/* Groupe : padding interne cohérent */
+.groupe-inner{padding:0 max(5vw,calc((100vw - 1100px)/2))}
