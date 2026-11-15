@@ -20,7 +20,7 @@
     const d=document.createElement('div');d.className='msq';
     d.style.background='linear-gradient(135deg,'+colors[i%colors.length]+','+colors[(i+3)%colors.length]+')';
     layer.appendChild(d);
-    sq.push({el:d,x:Math.random()*innerWidth,y:Math.random()*innerHeight,vx:(Math.random()-.5)*1.4,vy:(Math.random()-.5)*1.4,s:60+Math.random()*90});
+    sq.push({el:d,x:Math.random()*innerWidth,y:Math.random()*innerHeight,vx:(Math.random()-.5)*.45,vy:(Math.random()-.5)*.45,s:Math.min(innerWidth,innerHeight)*(.07+Math.random()*.09)});
   }
   function tick(){
     const W=innerWidth,H=innerHeight;
@@ -37,7 +37,7 @@
       if(d<min&&d>0){const nx=dx/d,ny=dy/d,p=(min-d)/2;
         a.x-=nx*p;b.x+=nx*p;a.y-=ny*p;b.y+=ny*p;
         const dvx=b.vx-a.vx,dvy=b.vy-a.vy;
-        a.vx+=nx*dvx*.9;a.vy+=ny*dvy*.9;b.vx-=nx*dvx*.9;b.vy-=ny*dvy*.9;}
+        a.vx+=nx*dvx*.98;a.vy+=ny*dvy*.98;b.vx-=nx*dvx*.98;b.vy-=ny*dvy*.98;}
     }
     requestAnimationFrame(tick);
   }
