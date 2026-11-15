@@ -301,3 +301,44 @@ body{font-size:16px}
 .back-link{display:inline-flex;align-items:center;gap:8px;margin-top:60px;font-size:13px;color:var(--dim);transition:color .2s}
 .back-link:hover{color:#fff}
 .back-link svg{width:14px;height:14px}
+
+/* ===== TUILES DE VERRE COLORÉES FLOTTANTES (style Fluent) ===== */
+.tile{
+  position:relative;border-radius:22px;overflow:hidden;
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.18);
+  box-shadow:0 14px 40px rgba(0,0,0,.4),inset 0 0 24px rgba(255,255,255,.06);
+  mix-blend-mode:screen;
+  animation:tileFloat 9s ease-in-out infinite alternate;
+  transition:transform .35s var(--spring),box-shadow .35s;
+}
+.tile:hover{transform:translateY(-8px) scale(1.02);box-shadow:0 22px 55px rgba(0,0,0,.55)}
+@keyframes tileFloat{0%{translate:0 0}50%{translate:0 -14px}100%{translate:0 6px}}
+.tile-in{position:relative;z-index:2;padding:30px 26px;color:#fff;display:flex;flex-direction:column;gap:12px;min-height:280px}
+.tile-ico{width:52px;height:52px;border-radius:14px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.25);display:grid;place-items:center;backdrop-filter:blur(6px)}
+.tile-ico svg{width:26px;height:26px}
+.tile h3{font-family:var(--serif);font-size:24px;font-weight:600;letter-spacing:-.5px}
+.tile p{font-size:13.5px;line-height:1.7;color:rgba(255,255,255,.88)}
+.tile .card-cta{color:#fff;font-weight:600}
+.tile .card-cta svg{color:#fff}
+.tile .statut{background:rgba(255,255,255,.18);color:#fff;border:1px solid rgba(255,255,255,.25)}
+.tile-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+
+/* Dégradés des tuiles */
+.t-blue{background:linear-gradient(135deg,#005fb8,#002b5c)}
+.t-cyan{background:linear-gradient(135deg,#00a2ff,#005c99)}
+.t-purple{background:linear-gradient(135deg,#b54dff,#5c1a99)}
+.t-red{background:linear-gradient(135deg,#ff5e3a,#a61b00)}
+.t-green{background:linear-gradient(135deg,#2ecc71,#0b6e2e)}
+.t-pink{background:linear-gradient(135deg,#ff4d9a,#991a5c)}
+.t-teal{background:linear-gradient(135deg,#00d2d3,#006666)}
+.t-multi{background:linear-gradient(45deg,#00d2ff,#3a7bd5 50%,#ff007f)}
+
+/* Grille tuiles */
+.tile-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.tile-grid .tile{animation-delay:var(--d,0s)}
+.tile-grid .tile:nth-child(1){--d:0s}.tile-grid .tile:nth-child(2){--d:-2s}.tile-grid .tile:nth-child(3){--d:-4s}.tile-grid .tile:nth-child(4){--d:-6s}
+.valeurs.tile-grid .tile{min-height:230px}
+
+@media(max-width:1020px){.tile-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.tile-grid{grid-template-columns:1fr}}
