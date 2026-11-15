@@ -53,6 +53,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .btn{display:inline-flex;align-items:center;gap:9px;padding:14px 28px;border-radius:12px;font-weight:600;font-size:14px;letter-spacing:.2px;transition:transform .2s var(--spring),box-shadow .3s,background .25s,color .25s,border-color .25s;white-space:nowrap;position:relative;overflow:hidden}
 .btn svg{width:16px;height:16px;transition:transform .3s var(--spring)}
 .btn:hover svg{transform:translateX(4px)}
+.btn-dark{background:#fff;color:#0b0d12}
+.btn-dark:hover{transform:translateY(-2px);box-shadow:0 12px 34px rgba(255,255,255,.18)}
 .btn-blue{background:linear-gradient(90deg,#0078D4,#00B7C3,#0078D4);background-size:200% auto;color:#fff;animation:gradShift 8s linear infinite}
 .btn-blue:hover{transform:translateY(-2px);box-shadow:0 12px 34px rgba(0,120,212,.4)}
 .btn-ghost{border:1px solid rgba(255,255,255,.12);color:var(--badge);background:rgba(255,255,255,.04)}
