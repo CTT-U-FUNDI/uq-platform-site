@@ -263,7 +263,7 @@ body>*:not(#sq-layer){position:relative;z-index:1}
 
 /* ===== RUBANS 2 BANDES SENS OPPOSÉS ===== */
 .m-row{overflow:hidden;gap:0;padding:4px 0}
-.m-row>.m-item{flex-shrink:0;margin-right:16px}
+.m-row>.m-item{flex-shrink:0;margin:6px 14px}
 .m-row>span{display:none}
 #rowTop{animation:marqL 30s linear infinite}
 #rowBot{animation:marqR 30s linear infinite}
@@ -276,7 +276,7 @@ body>*:not(#sq-layer){position:relative;z-index:1}
 /* ===== TUILES PRODUITS — grandes + flottantes ===== */
 .mosaic{padding:50px max(5vw,calc((100vw - 1280px)/2))}
 .m-row{gap:0;overflow:visible;animation:none!important;display:flex;flex-wrap:wrap;justify-content:center;width:100%}
-.m-item{flex-direction:column;align-items:center;gap:14px;padding:34px 30px;border-radius:20px;min-width:170px;
+.m-item{flex-direction:row;align-items:center;gap:14px;padding:20px 28px;border-radius:16px;min-width:220px;
   background:linear-gradient(160deg,rgba(255,255,255,.1),rgba(255,255,255,.03));
   border:1px solid rgba(255,255,255,.14);
   box-shadow:0 16px 44px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.14);
