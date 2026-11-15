@@ -13,9 +13,8 @@
 </head>
 <body>
 
-
 <!-- ===== HEADER ===== -->
-<header class="hd">
+<header class="hd" id="hd">
   <a class="hd-logo" href="#">
     <img src="./assets/uq-mark.svg" alt="UQ" width="34" height="34">
     <span>UQ Platform</span>
@@ -35,15 +34,16 @@
 <!-- ===== HERO ===== -->
 <section class="hero">
   <div class="hero-inner">
-    <p class="kicker"><span class="dot"></span> Écosystème numérique africain</p>
+    <p class="kicker">Écosystème numérique africain</p>
     <h1 class="hero-title">Un compte.<br><em>Tout un écosystème.</em></h1>
     <p class="hero-lead">Identité numérique, portefeuille, communication et commerce — des outils connectés à votre quotidien, pensés pour l'Afrique.</p>
     <div class="hero-cta">
-      <a class="btn btn-blue" href="#produits">Découvrir les produits</a>
+      <a class="btn btn-blue" href="#produits">Découvrir les produits
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
       <a class="btn btn-ghost" href="#groupe">Notre vision</a>
     </div>
     <div class="hero-meta">
-      <div><strong>4</strong><span>produits</span></div>
+      <div><strong>6</strong><span>produits</span></div>
       <div class="sep"></div>
       <div><strong>100%</strong><span>numérique</span></div>
       <div class="sep"></div>
@@ -62,58 +62,69 @@
   </div>
 </section>
 
-
-
 <!-- ===== MOSAÏQUE PRODUITS ===== -->
-<section class="mosaic"><div class="mosaic-grid rv"><div class="m-row" id="rowTop"><a class="m-item" href="borb.html"><span class="m-ico" style="background:#0078D4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">M4 7h16v10H4zM4 7l8 6 8-6</svg></span><span class="m-name">BORB Wallet</span></a><a class="m-item" href="auth.html"><span class="m-ico" style="background:#107C10"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">m12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6z</svg></span><span class="m-name">UQ Auth</span></a><a class="m-item" href="chat.html"><span class="m-ico" style="background:#00B7C3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">M21 11a8 8 0 0 1-8 8H8l-5 3V11a9 9 0 0 1 18 0Z</svg></span><span class="m-name">UQ Chat</span></a></div><div class="m-row" id="rowBot"><a class="m-item" href="mail.html"><span class="m-ico" style="background:#6264A7"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">M4 6h16v12H4zM4 7l8 6 8-6</svg></span><span class="m-name">UQ Mail</span></a><a class="m-item" href="trading.html"><span class="m-ico" style="background:#E3008C"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">M3 17l5-6 4 3 6-8M14 6h4v4</svg></span><span class="m-name">UQ Trading</span></a><a class="m-item" href="studio.html"><span class="m-ico" style="background:#D83B01"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">M12 3v3m0 12v3M3 12h3m12 0h3M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z</svg></span><span class="m-name">Studio Zando</span></a></div></div></section>
+<section class="mosaic">
+  <div class="mosaic-grid rv">
+    <div class="m-row" id="rowTop">
+      <a class="m-item" href="./borb.html"><span class="m-ico" style="background:#0078D4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="14" rx="3"/><path d="M3 10h18M16 15h3"/></svg></span><span class="m-name">BORB Wallet</span></a>
+      <a class="m-item" href="./auth.html"><span class="m-ico" style="background:#107C10"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6z"/><path d="m8 12 3 3 5-6"/></svg></span><span class="m-name">UQ Auth</span></a>
+      <a class="m-item" href="./chat.html"><span class="m-ico" style="background:#00B7C3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11a8 8 0 0 1-8 8H8l-5 3V11a9 9 0 0 1 18 0Z"/></svg></span><span class="m-name">UQ Chat</span></a>
+    </div>
+    <div class="m-row" id="rowBot">
+      <a class="m-item" href="./mail.html"><span class="m-ico" style="background:#6264A7"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span><span class="m-name">UQ Mail</span></a>
+      <a class="m-item" href="./trading.html"><span class="m-ico" style="background:#E3008C"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-6 4 3 6-8M14 6h4v4"/></svg></span><span class="m-name">UQ Trading</span></a>
+      <a class="m-item" href="./studio.html"><span class="m-ico" style="background:#D83B01"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3a15 15 0 0 1 0 18M3 12h18"/></svg></span><span class="m-name">Studio Zando</span></a>
+    </div>
+  </div>
+</section>
 
 <!-- ===== PRODUITS ===== -->
-<section class="produits rv plaque-blue" id="produits">
+<section class="produits rv" id="produits">
   <div class="sec-head">
     <p class="kicker">Nos produits</p>
     <h2 class="sec-title"><svg class="sec-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg>Tout ce qu'il vous faut,<br>sous un seul compte.</h2>
     <p class="sec-sub">Chaque application partage la même identité UQ — connectez-vous une fois, utilisez tout.</p>
   </div>
   <div class="dashboard">
-    <div class="card rv card-blue">
+    <div class="card card-blue rv">
       <div class="card-header"><div class="icon-box"><svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4C9.11 4 6.6 5.64 5.35 8.04C2.34 8.36 0 10.91 0 14C0 17.31 2.69 20 6 20H19C21.76 20 24 17.76 24 15C24 12.36 21.95 10.22 19.35 10.04Z"/></svg></div><div class="status-badge"><span class="status-dot"></span> Disponible</div></div>
       <div class="card-body"><h3>BORB Wallet</h3><p>Portefeuille numérique : coffre, trading P2P, studio créatif. Vos actifs, vos clés, vos règles.</p></div>
       <a href="./borb.html" class="btn-card">Explorer<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
     </div>
-    <div class="card rv card-green">
-      <div class="card-header"><div class="icon-box"><path d="M12 1L3 5V11C3 16.55 6.84 21.74 12 23C17.16 21.74 21 16.55 21 11V5L12 1ZM12 11.99H19C18.47 16.11 15.72 19.78 12 20.93V12H5V6.3L12 3.19V11.99Z"/></div><div class="status-badge"><span class="status-dot"></span> Disponible</div></div>
+    <div class="card card-green rv">
+      <div class="card-header"><div class="icon-box"><svg viewBox="0 0 24 24"><path d="M12 1L3 5V11C3 16.55 6.84 21.74 12 23C17.16 21.74 21 16.55 21 11V5L12 1ZM12 11.99H19C18.47 16.11 15.72 19.78 12 20.93V12H5V6.3L12 3.19V11.99Z"/></svg></div><div class="status-badge"><span class="status-dot"></span> Disponible</div></div>
       <div class="card-body"><h3>UQ Auth</h3><p>Identité numérique sécurisée : vérification humaine, accès unique, protection anti-robot.</p></div>
       <a href="./auth.html" class="btn-card">Découvrir<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
     </div>
-    <div class="card rv card-teal">
-      <div class="card-header"><div class="icon-box"><path d="M12 1L3 5V11C3 16.55 6.84 21.74 12 23C17.16 21.74 21 16.55 21 11V5L12 1Z"/></div><div class="status-badge"><span class="status-dot"></span> Bientôt</div></div>
+    <div class="card card-teal rv">
+      <div class="card-header"><div class="icon-box"><svg viewBox="0 0 24 24"><path d="M16 11C17.66 11 18.99 9.66 18.99 8C18.99 6.34 17.66 5 16 5C14.34 5 13 6.34 13 8C13 9.66 14.34 11 16 11ZM8 11C9.66 11 10.99 9.66 10.99 8C10.99 6.34 9.66 5 8 5C6.34 5 5 6.34 5 8C5 9.66 6.34 11 8 11ZM8 13C5.67 13 1 14.17 1 16.5V19H15V16.5C15 14.17 10.33 13 8 13ZM16 13C15.71 13 15.38 13.02 15.03 13.05C16.19 13.89 17 15.02 17 16.5V19H23V16.5C23 14.17 18.33 13 16 13Z"/></svg></div><div class="status-badge"><span class="status-dot"></span> Bientôt</div></div>
       <div class="card-body"><h3>UQ Chat &amp; Mail</h3><p>Messagerie et email intégrés — vos échanges professionnels et personnels, au même endroit.</p></div>
       <a href="./chat.html" class="btn-card">Rejoindre<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
     </div>
-    <div class="card rv card-purple">
-      <div class="card-header"><div class="icon-box"><path d="M13 2L3 14H12L11 22L21 10H12L13 2Z"/></div><div class="status-badge"><span class="status-dot"></span> Bientôt</div></div>
+    <div class="card card-purple rv">
+      <div class="card-header"><div class="icon-box"><svg viewBox="0 0 24 24"><path d="M13 2L3 14H12L11 22L21 10H12L13 2Z"/></svg></div><div class="status-badge"><span class="status-dot"></span> Bientôt</div></div>
       <div class="card-body"><h3>Studio Zando</h3><p>Studio créatif : concevez, produisez et partagez vos contenus dans l'écosystème UQ.</p></div>
-      <a href="./studio.html" class="btn-card">Être<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      <a href="./studio.html" class="btn-card">Être informé<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
     </div>
   </div>
 </section>
 
 <!-- ===== GROUPE ===== -->
-<section class="groupe plaque-green" id="groupe">
+<section class="groupe" id="groupe">
   <div class="groupe-inner rv">
     <img class="groupe-photo" src="./assets/img/groupe.jpg" alt="Équipe UQ Platform" loading="lazy" onerror="this.style.display='none'">
-    <p class="kicker light">Le groupe</p>
+    <p class="kicker">Le groupe</p>
     <h2 class="groupe-title"><svg class="sec-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/></svg>Bâtir le quotidien numérique<br><em>de l'Afrique.</em></h2>
     <p class="groupe-texte">UQ Platform est née d'un constat : les outils numériques adaptés au continent restent rares. Nous construisons un écosystème complet — identité, finance, communication, création — pensé pour les réalités africaines : connectivité intermittente, mobile d'abord, sobriété numérique.</p>
     <div class="valeurs-grid">
-      <div class="valeur rv valeur-blue"><div class="v-ico">◈</div><h3>Souveraineté</h3><p>Vos données, vos clés, vos règles. Rien ne vous appartient moins que vous.</p></div>
-      <div class="valeur rv valeur-green"><div class="v-ico">✦</div><h3>Simplicité</h3><p>Un compte, tout un écosystème. Zéro friction entre les outils.</p></div>
-      <div class="valeur rv valeur-red"><div class="v-ico">🛡</div><h3>Confiance</h3><p>Sécurité et vérification humaine intégrées à chaque service.</p></div>
+      <div class="valeur valeur-blue rv"><div class="v-ico">◈</div><h3>Souveraineté</h3><p>Vos données, vos clés, vos règles. Rien ne vous appartient moins que vous.</p></div>
+      <div class="valeur valeur-green rv"><div class="v-ico">✦</div><h3>Simplicité</h3><p>Un compte, tout un écosystème. Zéro friction entre les outils.</p></div>
+      <div class="valeur valeur-red rv"><div class="v-ico">🛡</div><h3>Confiance</h3><p>Sécurité et vérification humaine intégrées à chaque service.</p></div>
     </div>
   </div>
 </section>
 
-<!-- ===== MARCHÉ NUMÉRIQUE ===== -->
+<!-- ===== MARCHÉ ===== -->
 <section class="marche rv">
   <div class="sec-head center">
     <p class="kicker">Le marché</p>
@@ -121,17 +132,19 @@
     <p class="sec-sub">Paiements mobiles, commerce en ligne, échange pair-à-pair — le monde physique rencontre le numérique dans l'écosystème UQ.</p>
   </div>
   <div class="marche-grid">
-    <figure class="marche-card rv"><img src="./assets/img/marche1.jpg" alt="Paiement mobile" loading="lazy" onerror="this.parentElement.style.display='none'"><figcaption><strong>Paiements mobiles</strong><span>Payez partout, simplement</span></figcaption></figure>
-    <figure class="marche-card rv"><img src="./assets/img/marche2.jpg" alt="Commerce en ligne" loading="lazy" onerror="this.parentElement.style.display='none'"><figcaption><strong>Commerce en ligne</strong><span>Achetez et vendez en ligne</span></figcaption></figure>
-    <figure class="marche-card rv"><img src="./assets/img/marche3.jpg" alt="Finance numérique" loading="lazy" onerror="this.parentElement.style.display='none'"><figcaption><strong>Finance numérique</strong><span>Actifs et échanges sécurisés</span></figcaption></figure>
+    <figure class="marche-card"><img src="./assets/img/marche1.jpg" alt="Paiement mobile" loading="lazy" onerror="this.parentElement.style.display='none'"><figcaption><strong>Paiements mobiles</strong><span>Payez partout, simplement</span></figcaption></figure>
+    <figure class="marche-card"><img src="./assets/img/marche2.jpg" alt="Commerce en ligne" loading="lazy" onerror="this.parentElement.style.display='none'"><figcaption><strong>Commerce en ligne</strong><span>Achetez et vendez en ligne</span></figcaption></figure>
+    <figure class="marche-card"><img src="./assets/img/marche3.jpg" alt="Finance numérique" loading="lazy" onerror="this.parentElement.style.display='none'"><figcaption><strong>Finance numérique</strong><span>Actifs et échanges sécurisés</span></figcaption></figure>
   </div>
 </section>
 
 <!-- ===== ÉQUIPE ===== -->
-<section class="equipe rv plaque-pink" id="equipe">
-  <div class="equipe-inner rv">
-    <img class="equipe-avatar" src="./assets/eliezer.jpeg" alt="Eliezer — fondateur UQ Platform">
-    <img class="equipe-avatar second" src="./assets/img/equipe.jpg" alt="Membre UQ Platform" loading="lazy" onerror="this.style.display='none'">
+<section class="equipe rv" id="equipe">
+  <div class="equipe-inner">
+    <div>
+      <img class="equipe-avatar" src="./assets/eliezer.jpeg" alt="Eliezer — fondateur UQ Platform">
+      <img class="equipe-avatar" src="./assets/img/equipe.jpg" alt="Membre UQ Platform" loading="lazy" onerror="this.style.display='none'" style="margin-left:14px">
+    </div>
     <div class="equipe-info">
       <p class="kicker">L'équipe</p>
       <h3 class="equipe-nom"><svg class="sec-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>Eliezer</h3>
@@ -142,11 +155,11 @@
 </section>
 
 <!-- ===== CONTACT ===== -->
-<section class="contact rv plaque-teal" id="contact">
-  <div class="contact-inner rv">
+<section class="contact rv" id="contact">
+  <div class="contact-inner">
     <div class="contact-gauche">
       <p class="kicker">Contact</p>
-      <h2 class="sec-title"><svg class="sec-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 6h16v12H4z"/><path d="M4 7l8 6 8-6"/></svg>Parlons de<br>votre projet.</h2>
+      <h2 class="sec-title"><svg class="sec-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>Parlons de<br>votre projet.</h2>
       <p class="sec-sub">Partenariat, presse, bêta privée ou question produit — nous répondons sous 48h.</p>
       <a class="contact-mail" href="mailto:contact@uqplatform.com">contact@uqplatform.com</a>
     </div>
@@ -154,7 +167,8 @@
       <input type="text" name="nom" placeholder="Votre nom" required>
       <input type="email" name="email" placeholder="Votre email" required>
       <textarea name="message" rows="4" placeholder="Votre message" required></textarea>
-      <button class="btn btn-blue btn-lg" type="submit">Envoyer</button>
+      <button class="btn btn-blue btn-lg" type="submit">Envoyer
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/></svg></button>
       <p class="form-msg" id="msg"></p>
     </form>
   </div>
@@ -178,71 +192,56 @@
 </footer>
 
 <script>
+// Carrés gris flous 3D — fond vivant
+(function(){
+  const N=10,layer=document.createElement('div');layer.id='sq-layer';document.body.prepend(layer);
+  const W=innerWidth,H=innerHeight;
+  for(let i=0;i<N;i++){
+    const d=document.createElement('div');d.className='msq';
+    const s=Math.min(W,H)*(.11+Math.random()*.11);
+    d.style.width=d.style.height=s+'px';
+    d.style.opacity=.1+Math.random()*.15;
+    d.style.transform='translate('+(Math.random()*(W-s))+'px,'+(Math.random()*(H-s))+'px) perspective(900px) rotateX('+((Math.random()-.5)*50)+'deg) rotateY('+((Math.random()-.5)*50)+'deg) rotateZ('+((Math.random()-.5)*40)+'deg) translateZ('+((Math.random()-.5)*120)+'px)';
+    layer.appendChild(d);
+  }
+})();
+
+// Header : effet au scroll
+const hd=document.getElementById('hd');
+addEventListener('scroll',()=>hd.classList.toggle('scrolled',scrollY>40),{passive:true});
+
+// Révélation au scroll
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('is-in');io.unobserve(e.target)}}),{threshold:.1});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+
+// Mosaïque : double-clic = échange de ligne animé
+document.querySelectorAll('.m-item').forEach(el=>{
+  el.addEventListener('dblclick',e=>{
+    e.preventDefault();
+    const rows=[document.getElementById('rowTop'),document.getElementById('rowBot')];
+    const from=el.closest('.m-row'),to=from===rows[0]?rows[1]:rows[0];
+    if(!to)return;
+    const r=el.getBoundingClientRect(),tr=to.getBoundingClientRect();
+    const clone=el.cloneNode(true);
+    clone.style.cssText+=';position:fixed;left:'+r.left+'px;top:'+r.top+'px;width:'+r.width+'px;height:'+r.height+'px;z-index:99;margin:0;pointer-events:none;transition:all .5s cubic-bezier(.32,.72,0,1)';
+    el.style.visibility='hidden';document.body.appendChild(clone);
+    requestAnimationFrame(()=>{clone.style.left=(tr.left+16)+'px';clone.style.top=(tr.top+8)+'px'});
+    setTimeout(()=>{to.appendChild(el);el.style.visibility='';document.body.removeChild(clone)},520);
+  });
+});
+
+// Contact
 async function envoyer(e){
   e.preventDefault();
-  const f=e.target, msg=document.getElementById('msg');
+  const f=e.target,msg=document.getElementById('msg');
   msg.textContent='Envoi…';
   try{
     const r=await fetch('https://api.uqplatform.com/api/contact',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nom:f.nom.value,email:f.email.value,message:f.message.value})});
     msg.textContent=r.ok?'Message envoyé — nous vous répondons sous 48h.':'Erreur — réessayez.';
-    if(r.ok) f.reset();
-  }catch(_){ msg.textContent='Service indisponible — écrivez à contact@uqplatform.com'; }
+    if(r.ok)f.reset();
+  }catch(_){msg.textContent='Service indisponible — écrivez à contact@uqplatform.com';}
   return false;
 }
-</script>
-<script>
-const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('is-in');io.unobserve(e.target)}}),{threshold:.12});
-document.querySelectorAll('.rv').forEach(el=>io.observe(el));
-</script>
-<script>
-<script>
-// Carrés Microsoft 3D — statiques, profondeur + inclinaison
-(function(){
-  const colors=['#005fb8','#00a2ff','#b54dff','#ff5e3a','#2ecc71','#ff4d9a','#00d2d3'];
-  const N=10, layer=document.createElement('div');
-  layer.id='sq-layer';document.body.prepend(layer);
-  const W=innerWidth,H=innerHeight;
-  for(let i=0;i<N;i++){
-    const d=document.createElement('div');d.className='msq';
-    d.style.background='linear-gradient(135deg,rgba(255,255,255,.5),rgba(255,255,255,.15))';
-    const s=Math.min(W,H)*(.11+Math.random()*.11);
-    const rx=(Math.random()-.5)*50, ry=(Math.random()-.5)*50, rz=(Math.random()-.5)*40;
-    const z=(Math.random()-.5)*120, op=.15+Math.random()*.2;
-    const x=Math.random()*(W-s), y=Math.random()*(H-s);
-    d.style.width=d.style.height=s+'px';
-    d.style.opacity=op;
-    d.style.transform='translate('+x+'px,'+y+'px) perspective(900px) rotateX('+rx+'deg) rotateY('+ry+'deg) rotateZ('+rz+'deg) translateZ('+z+'px)';
-    layer.appendChild(d);
-  }
-})();
-</script><script>
-// Mosaïque : clic long = sauter de ligne (clic simple = ouvrir la page)
-document.querySelectorAll('.m-item').forEach(el=>{
-  let timer;
-  el.addEventListener('click',e=>{
-    e.preventDefault();
-    timer=setTimeout(()=>{location.href=el.dataset.p},350);
-  });
-  el.addEventListener('mousedown',()=>{el.classList.add('jump')});
-  el.addEventListener('mouseup',()=>setTimeout(()=>el.classList.remove('jump'),600));
-  el.addEventListener('mouseleave',()=>{clearTimeout(timer);el.classList.remove('jump')});
-});
-// Double-clic = échanger de ligne
-const rows=[document.getElementById('rowTop'),document.getElementById('rowBot')];
-document.querySelectorAll('.m-item').forEach(el=>{
-  el.addEventListener('dblclick',e=>{
-    e.preventDefault();
-    const from=el.closest('.m-row'),to=from===rows[0]?rows[1]:rows[0];
-    const r=el.getBoundingClientRect(),tr=to.getBoundingClientRect();
-    el.style.transition='none';
-    const clone=el.cloneNode(true);
-    el.style.display='none';
-    document.body.appendChild(clone);
-    clone.style.cssText+=';position:fixed;left:'+r.left+'px;top:'+r.top+'px;width:'+r.width+'px;height:'+r.height+'px;z-index:99;margin:0;transition:all .5s cubic-bezier(.32,.72,0,1)';
-    requestAnimationFrame(()=>{clone.style.left=(tr.left+16)+'px';clone.style.top=(tr.top+8)+'px'});
-    setTimeout(()=>{to.appendChild(el);el.style.display='';document.body.removeChild(clone)},520);
-  });
-});
 </script>
 </body>
 </html>
