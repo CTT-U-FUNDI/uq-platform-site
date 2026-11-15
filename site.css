@@ -60,6 +60,8 @@ img{max-width:100%;display:block}a{color:inherit;text-decoration:none}button{fon
 /* Hero */
 .hero{padding:90px 40px 70px;text-align:center;position:relative;overflow:hidden}
 .hero::before{content:'';position:absolute;top:8%;left:50%;transform:translateX(-50%);width:640px;height:640px;background:radial-gradient(circle,rgba(0,120,212,.16),transparent 70%);filter:blur(90px);z-index:-1;pointer-events:none}
+.hero-logo{width:88px;height:88px;margin:0 auto 30px;display:block;filter:drop-shadow(0 0 30px rgba(0,120,212,.45));animation:logoPulse 4s ease-in-out infinite}
+@keyframes logoPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
 .eyebrow{display:inline-block;padding:7px 16px;border-radius:20px;background:rgba(255,255,255,.04);border:1px solid var(--line);font-size:.78rem;color:var(--sub);font-weight:500;margin-bottom:26px;letter-spacing:.5px}
 h1,.h1{font-family:var(--disp);font-size:clamp(2.1rem,5.2vw,3.6rem);font-weight:700;line-height:1.12;letter-spacing:-1.6px;margin-bottom:24px;max-width:860px;margin-inline:auto;color:#fff;text-shadow:0 0 40px rgba(255,255,255,.18)}
 .lead{font-size:1.05rem;color:var(--dim);max-width:680px;margin:0 auto 38px;line-height:1.75}
