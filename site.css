@@ -4,8 +4,7 @@
    ============================================================ */
 :root{
   --tt:#e2e8f0;--tb:#94a3b8;--badge:#cbd5e1;
-  --blue:#0078D4;--green:#107C10;--teal:#00B7C3;
-  --purple:#6264A7;--pink:#E3008C;--red:#D83B01;
+  --blue:#fff;--green:#fff;--teal:#fff;--purple:#fff;--pink:#fff;--red:#fff;
   --sans:'Inter',system-ui,sans-serif;
   --disp:'Space Grotesk','Inter',sans-serif;
   --spring:cubic-bezier(.32,.72,0,1);
@@ -222,11 +221,7 @@ body>*:not(#sq-layer){position:relative;z-index:1}
 .sec-svg{width:34px;height:34px;stroke:#fff;vertical-align:-6px;margin-right:10px;opacity:.9}
 .groupe-title .sec-svg,.equipe-nom .sec-svg{width:38px;height:38px}
 /* Sections avec photo : bordures RGB theme */
-.marche .marche-card,.hero .hv-frame{border:1px solid transparent!important;
-  background-image:linear-gradient(rgba(13,15,22,.9),rgba(13,15,22,.9)),linear-gradient(120deg,#ff453a,#ffd60a,#f472b6,#0a84ff,#ff453a);
-  background-origin:border-box;background-clip:padding-box,border-box;
-  animation:rgbBorder 8s linear infinite}
-@keyframes rgbBorder{to{filter:hue-rotate(360deg)}}
+.marche .marche-card,.hero .hv-frame{border:1px solid rgba(255,255,255,.1)!important;background:rgba(255,255,255,.04)!important}
 .marche-card figcaption strong{color:#fff}
 
 /* ===== MONO 100% — noir miroir + glass morphique ===== */
