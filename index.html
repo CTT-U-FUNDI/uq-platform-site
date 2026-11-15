@@ -144,6 +144,21 @@ const hd=document.getElementById('hd');
 addEventListener('scroll',()=>hd.classList.toggle('scrolled',scrollY>40),{passive:true});
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('is-in');io.unobserve(e.target)}}),{threshold:.1});
 document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+// Compteurs animés — démarrent vite, ordre croissant
+const stats=document.querySelectorAll('.stat-value');
+const cio=new IntersectionObserver(es=>es.forEach(e=>{
+  if(!e.isIntersecting)return;cio.unobserve(e.target);
+  const el=e.target,txt=el.textContent.trim();
+  const m=txt.match(/(\d+)(.*)/);if(!m)return;
+  const target=+m[1],suffix=m[2]||'';
+  const t0=performance.now(),dur=900; // rapide
+  (function tick(t){
+    const p=Math.min((t-t0)/dur,1),ease=1-Math.pow(1-p,3); // ease-out
+    el.textContent=Math.round(target*ease)+suffix;
+    if(p<1)requestAnimationFrame(tick);else el.textContent=txt;
+  })(t0);
+}),{threshold:.4});
+stats.forEach(s=>{s.textContent='0'+(s.textContent.match(/(%|\/7)/)?.[0]||'');cio.observe(s);});
 // lueur souris sur les cartes
 document.querySelectorAll('.card').forEach(card=>{
   card.addEventListener('mousemove',e=>{
