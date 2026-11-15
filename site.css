@@ -228,3 +228,29 @@ body>*:not(#sq-layer){position:relative;z-index:1}
   animation:rgbBorder 8s linear infinite}
 @keyframes rgbBorder{to{filter:hue-rotate(360deg)}}
 .marche-card figcaption strong{color:#fff}
+
+/* ===== MONO 100% — noir miroir + glass morphique ===== */
+body{background:#000}
+#sq-layer .msq{filter:grayscale(1) brightness(1.4) contrast(1.1)}
+.plaque-blue,.plaque-green,.plaque-pink,.plaque-teal,.groupe,.ribbon,.foot{background:#000!important}
+.card,.valeur,.marche-card,.contact-form,.feat,.hv-card,.kicker{background:rgba(255,255,255,.045)!important;border:1px solid rgba(255,255,255,.08)!important;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+.icon-box,.v-ico,.f-ico,.hv-ico{background:rgba(255,255,255,.1)!important;box-shadow:none!important;color:#fff}
+.icon-box svg,.f-ico{fill:#fff;color:#fff}
+.status-dot{background:#fff;box-shadow:none}
+.valeur-blue,.valeur-green,.valeur-red{--vc:#fff}
+.sec-svg{stroke:#fff}
+.kicker::before{background:#fff;box-shadow:0 0 0 4px rgba(255,255,255,.12)}
+.card-blue,.card-green,.card-teal,.card-purple,.card-pink,.card-red{--cc:#fff}
+.btn-blue,.btn-dark{background:#fff;color:#000;border-color:#fff}
+.btn-blue:hover,.btn-dark:hover{background:#ddd}
+.btn-card:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2)}
+.card:hover{box-shadow:0 30px 60px -15px rgba(255,255,255,.15)}
+.marche .marche-card,.hero .hv-frame{border:1px solid rgba(255,255,255,.1)!important;background:rgba(255,255,255,.04)!important;animation:none}
+.marche-card img,.hv-frame img{filter:grayscale(.6) brightness(.7)}
+.groupe-photo{filter:grayscale(.4) brightness(.8)}
+.equipe-avatar{border-color:rgba(255,255,255,.25);filter:grayscale(.3)}
+.sec-title em,.hero-title em,.groupe-title em,.page-hero h1 em{color:#fff}
+.page-body a{color:#fff;border-color:rgba(255,255,255,.25)}
+.contact-form input:focus,.contact-form textarea:focus{border-color:rgba(255,255,255,.3);box-shadow:0 0 0 4px rgba(255,255,255,.08)}
+.marche-card figcaption strong{color:#fff}
+::selection{background:#fff;color:#000}
