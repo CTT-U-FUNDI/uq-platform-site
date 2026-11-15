@@ -144,11 +144,9 @@
 const hd=document.getElementById('hd');
 addEventListener('scroll',()=>hd.classList.toggle('scrolled',scrollY>40),{passive:true});
 
-// Révélation au scroll
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('is-in');io.unobserve(e.target)}}),{threshold:.1});
 document.querySelectorAll('.rv').forEach(el=>io.observe(el));
 
-// Compteurs animés — ordre croissant, départ rapide
 const cio=new IntersectionObserver(es=>es.forEach(e=>{
   if(!e.isIntersecting)return;cio.unobserve(e.target);
   const el=e.target,target=+el.dataset.count,suffix=el.dataset.suffix||'';
@@ -161,7 +159,6 @@ const cio=new IntersectionObserver(es=>es.forEach(e=>{
 }),{threshold:.4});
 document.querySelectorAll('.stat-value').forEach(s=>{s.textContent='0'+(s.dataset.suffix||'');cio.observe(s);});
 
-// Lueur souris sur les cartes
 document.querySelectorAll('.card').forEach(card=>{
   card.addEventListener('mousemove',e=>{
     const r=card.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;
