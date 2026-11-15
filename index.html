@@ -210,14 +210,19 @@ document.querySelectorAll('.rv').forEach(el=>io.observe(el));
       q.rot+=q.vx*.002;q.el.style.transform='translate('+q.x+'px,'+q.y+'px) rotate('+q.rot+'rad)';
       q.el.style.width=q.s+'px';q.el.style.height=q.s+'px';
     }
-    // collisions entre carrés : échange de vitesse
+    // collisions : séparation + échange de vitesse (stable, pas de jitter)
     for(let i=0;i<N;i++)for(let j=i+1;j<N;j++){
-      const a=sq[i],b=sq[j],dx=(b.x+b.s/2)-(a.x+a.s/2),dy=(b.y+b.s/2)-(a.y+a.s/2),d=Math.hypot(dx,dy),min=(a.s+b.s)/2;
-      if(d<min&&d>0){const nx=dx/d,ny=dy/d,p=(min-d)/2;
-        a.x-=nx*p;b.x+=nx*p;a.y-=ny*p;b.y+=ny*p;
-        const dvx=b.vx-a.vx,dvy=b.vy-a.vy;
-        a.vx+=nx*dvx*.98;a.vy+=ny*dvy*.98;b.vx-=nx*dvx*.98;b.vy-=ny*dvy*.98;}
+      const a=sq[i],b=sq[j],dx=(b.x+b.s/2)-(a.x+a.s/2),dy=(b.y+b.s/2)-(a.y+a.s/2),d=Math.hypot(dx,dy),min=(a.s+b.s)/2*.96;
+      if(d<min&&d>0.5){
+        const nx=dx/d,ny=dy/d,p=(min-d)/2;
+        a.x=Math.max(0,Math.min(W-a.s,a.x-nx*p));b.x=Math.max(0,Math.min(W-b.s,b.x+nx*p));
+        a.y=Math.max(0,Math.min(H-a.s,a.y-ny*p));b.y=Math.max(0,Math.min(H-b.s,b.y+ny*p));
+        const dvx=b.vx-a.vx,dvy=b.vy-a.vy,imp=Math.min(dvx*nx+dvy*ny,0);
+        if(imp<0){a.vx-=nx*imp*.9;a.vy-=ny*imp*.9;b.vx+=nx*imp*.9;b.vy+=ny*imp*.9;}
+      }
     }
+    // anti-jitter : recadrage final + amortissement léger
+    for(const q of sq){q.x=Math.max(0,Math.min(W-q.s,q.x));q.y=Math.max(0,Math.min(H-q.s,q.y));q.vx*=.9995;q.vy*=.9995}
     requestAnimationFrame(tick);
   }
   tick();
