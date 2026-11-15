@@ -44,7 +44,7 @@
         <div class="row r1"><div class="seq"><img src="./assets/img/marche_30464940.jpg"><img src="./assets/img/marche_28112436.jpg"><img src="./assets/img/marche_33662800.jpg"><img src="./assets/img/marche_37862875.jpg"><img src="./assets/img/marche_39013180.jpg"></div><div class="seq"><img src="./assets/img/marche_30464940.jpg"><img src="./assets/img/marche_28112436.jpg"><img src="./assets/img/marche_33662800.jpg"><img src="./assets/img/marche_37862875.jpg"><img src="./assets/img/marche_39013180.jpg"></div></div>
         <div class="row r2"><div class="seq"><img src="./assets/img/marche_30464940.jpg"><img src="./assets/img/marche_28112436.jpg"><img src="./assets/img/marche_33662800.jpg"><img src="./assets/img/marche_37862875.jpg"><img src="./assets/img/marche_39013180.jpg"></div><div class="seq"><img src="./assets/img/marche_30464940.jpg"><img src="./assets/img/marche_28112436.jpg"><img src="./assets/img/marche_33662800.jpg"><img src="./assets/img/marche_37862875.jpg"><img src="./assets/img/marche_39013180.jpg"></div></div>
       </div>
-      <div class="uqz-tile"><span class="uqz-txt big">UQZ</span></div>
+      <div class="uqz-tile" id="uqzTile"><span class="uqz-txt big" id="uqzWord">UQZ</span></div>
       <div class="eyebrow">Ufundi Quotidienne Zando</div>
       <h1>UQZ.<br><em>La super-app qui connecte l'Afrique.</em></h1>
       <p class="lead">Ton identité, ton argent, ton commerce, tes échanges, ta communauté — en une seule app, chiffrée sur ton appareil.</p>
@@ -149,7 +149,12 @@ document.querySelectorAll('.rv').forEach(el=>io.observe(el));
 const cio=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;const el=e.target,end=+el.dataset.count,suf=el.dataset.suffix||'',t0=performance.now(),D=900;
 (function f(t){const p=Math.min((t-t0)/D,1),v=Math.round(end*(1-Math.pow(1-p,3)));el.textContent=v+suf;if(p<1)requestAnimationFrame(f)})(t0);cio.unobserve(el)}),{threshold:.6});
 document.querySelectorAll('[data-count]').forEach(el=>cio.observe(el));
-document.querySelectorAll('.card').forEach(c=>c.addEventListener('mousemove',e=>{const r=c.getBoundingClientRect();c.style.setProperty('--mx',e.clientX-r.left+'px');c.style.setProperty('--my',e.clientY-r.top+'px')}));
+// Rotation des produits dans la tuile UQZ
+const UQZ_APPS=[['UQZ','#0a84ff'],['ZANDO','#e63946'],['UQ PLAY','#7b5ea7'],['UQ WIRELESS','#2e86de'],['UQ STREAM PAY','#d97706'],['UQ STUDIO','#b5378c'],['UQ CHAT','#0e7490'],['UQ WALLET','#c9a227']];
+let _ai=0;const _wt=document.getElementById('uqzWord'),_tile=document.getElementById('uqzTile');
+setInterval(()=>{_ai=(_ai+1)%UQZ_APPS.length;const[t,c]=UQZ_APPS[_ai];_wt.style.opacity=0;setTimeout(()=>{_wt.textContent=t;_wt.style.opacity=1;_tile.style.borderColor=c+'aa';_tile.style.boxShadow=`0 0 0 1px ${c}44,0 18px 50px rgba(0,0,0,.5),0 0 44px ${c}66`},350)},2900);
+_tile.style.transition='border-color 1s,box-shadow 1s';_wt.style.transition='opacity .35s';
+document.querySelectorAll('.card').forEach(c=>c.addEventListener('mousemove' ,e=>{const r=c.getBoundingClientRect();c.style.setProperty('--mx',e.clientX-r.left+'px');c.style.setProperty('--my',e.clientY-r.top+'px')}));
 </script>
 </body>
 </html>
