@@ -224,3 +224,15 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .equipe-avatar.second{margin-left:auto}
 .equipe-inner{justify-content:center}
 @media(max-width:760px){.groupe-photo{height:200px}}
+
+/* ===== MARCHÉ NUMÉRIQUE ===== */
+.marche{padding:110px max(5vw,calc((100vw - 1280px)/2))}
+.sec-head.center{text-align:center;margin-left:auto;margin-right:auto}
+.marche-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:56px}
+.marche-card{position:relative;border-radius:18px;overflow:hidden;border:1px solid transparent;background-image:linear-gradient(var(--card),var(--card)),var(--rgb);background-origin:border-box;background-clip:padding-box,border-box;animation:aq-spin 10s linear infinite}
+.marche-card img{width:100%;height:300px;object-fit:cover;filter:saturate(.6) brightness(.8);transition:transform .5s var(--spring),filter .4s}
+.marche-card:hover img{transform:scale(1.05);filter:saturate(.8) brightness(.9)}
+.marche-card figcaption{position:absolute;left:0;right:0;bottom:0;padding:60px 24px 22px;background:linear-gradient(to top,rgba(0,0,0,.85),transparent);color:#fff}
+.marche-card figcaption strong{display:block;font-family:var(--serif);font-size:19px;font-weight:600;letter-spacing:-.3px}
+.marche-card figcaption span{font-size:11.5px;color:var(--dim)}
+@media(max-width:900px){.marche-grid{grid-template-columns:1fr}.marche-card img{height:240px}}
