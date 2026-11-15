@@ -228,3 +228,29 @@ html,body{overflow-x:hidden;overflow-x:clip}
 @keyframes marquee{to{transform:translateX(-50%)}}
 /* Groupe : padding interne cohérent */
 .groupe-inner{padding:0 max(5vw,calc((100vw - 1100px)/2))}
+
+/* ===== LAYOUT UNIFIÉ — fini les éléments dispersés ===== */
+/* Tous les blocs de contenu : même largeur, même centrage */
+.hero,.produits,.marche,.equipe,.contact,.valeurs-sec,.foot{width:100%}
+.produits>.dashboard,.marche>.marche-grid,.contact>.contact-inner,.equipe>.equipe-inner,.foot>.foot-cols{max-width:1150px}
+.groupe-inner{max-width:1100px}
+/* Espacement vertical régulier entre sections */
+.produits,.marche,.equipe,.contact,.groupe,.valeurs-sec{padding-block:90px}
+.hero{padding:80px max(5vw,calc((100vw - 1280px)/2)) 90px}
+/* Hero : contenu centré, pas de colonne vide */
+.hero{display:block;text-align:left}
+.hero-inner{max-width:960px;margin:0 auto}
+/* Header/footer alignés sur la même grille */
+.hd,.foot{padding-left:max(5vw,calc((100vw - 1280px)/2));padding-right:max(5vw,calc((100vw - 1280px)/2))}
+/* Cartes : hauteur uniforme, contenu regroupé */
+.card{justify-content:flex-start;gap:0}
+.card-body{margin-bottom:auto}
+/* Groupe : contenu centré verticalement */
+.groupe{display:flex;align-items:center;min-height:60vh}
+/* Marge sous le titre de section uniforme */
+.sec-head{margin-bottom:48px}
+@media(max-width:760px){
+  .produits,.marche,.equipe,.contact,.groupe,.valeurs-sec{padding-block:60px}
+  .hero{padding:50px 6vw 60px}
+  .groupe{min-height:auto}
+}
