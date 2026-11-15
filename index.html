@@ -199,7 +199,7 @@ document.querySelectorAll('.rv').forEach(el=>io.observe(el));
     d.style.background='linear-gradient(135deg,'+colors[i%colors.length]+','+colors[(i+3)%colors.length]+')';
     layer.appendChild(d);
     const sp=.4+Math.random()*1.2,an=Math.random()*Math.PI*2;
-    sq.push({el:d,x:Math.random()*innerWidth,y:Math.random()*innerHeight,vx:Math.cos(an)*sp,vy:Math.sin(an)*sp,rot:(Math.random()-.5)*.6,s:Math.min(innerWidth,innerHeight)*(.07+Math.random()*.09)});
+    sq.push({el:d,x:Math.random()*innerWidth,y:Math.random()*innerHeight,vx:Math.cos(an)*sp,vy:Math.sin(an)*sp,rot:(Math.random()-.5)*.6,s:Math.min(innerWidth,innerHeight)*(.11+Math.random()*.11)});
   }
   function tick(){
     const W=innerWidth,H=innerHeight;
