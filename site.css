@@ -230,3 +230,20 @@ a,button{touch-action:manipulation}
 .pillar:hover img{transform:scale(1.05);filter:saturate(.9) brightness(.95)}
 .pillar img{border:1px solid var(--line)}
 .groupe-img{border:1.5px solid transparent;background-image:linear-gradient(#0d0f16,#0d0f16),conic-gradient(from var(--a),#ff453a,#ffd60a,#f472b6,#0a84ff,#ff453a);background-origin:border-box;background-clip:padding-box,border-box;animation:spin var(--spin-dur) linear infinite}
+
+/* ===== Hero fenêtre glass 3D ===== */
+.hero{display:flex;justify-content:center;padding:56px 40px 84px}
+.hero-win{width:100%;max-width:1060px;border-radius:22px;overflow:hidden;background:linear-gradient(165deg,rgba(255,255,255,.10),rgba(255,255,255,.04) 40%,rgba(0,120,212,.10));border:1px solid rgba(255,255,255,.2);backdrop-filter:blur(24px) saturate(1.4);box-shadow:0 30px 80px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.08),inset 0 1px 0 rgba(255,255,255,.15);transform:perspective(1400px) rotateX(2deg);animation:winFloat 8s ease-in-out infinite}
+@keyframes winFloat{0%,100%{transform:perspective(1400px) rotateX(2deg) translateY(0)}50%{transform:perspective(1400px) rotateX(1deg) translateY(-8px)}}
+.win-bar{display:flex;align-items:center;gap:8px;padding:14px 18px;border-bottom:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05)}
+.dot{width:12px;height:12px;border-radius:50%}
+.dot.r{background:#ff5f57}.dot.y{background:#febc2e}.dot.g{background:#28c840}
+.win-title{margin-left:14px;font-size:.78rem;color:var(--dim);letter-spacing:.04em}
+.win-body{position:relative;padding:70px 40px 84px;text-align:center;overflow:hidden;min-height:520px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.win-body .mosaic{inset:0;opacity:.55}
+.win-body .mosaic img{width:200px;height:120px;opacity:.22}
+.uqz-tile{width:120px;height:120px;margin-bottom:26px;border-radius:30px}
+.uqz-tile img{width:52px;height:52px}
+.hero-win h1{font-size:clamp(2.8rem,6vw,4.6rem)}
+.hero-win .lead{max-width:560px;font-size:1.02rem}
+@media(max-width:900px){.hero{padding:36px 20px 60px}.win-body{padding:54px 18px 64px;min-height:460px}.hero-win h1{font-size:2.4rem}.uqz-tile{width:100px;height:100px}}
