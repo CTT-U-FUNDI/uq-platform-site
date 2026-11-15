@@ -342,3 +342,9 @@ body{font-size:16px}
 
 @media(max-width:1020px){.tile-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:560px){.tile-grid{grid-template-columns:1fr}}
+
+/* Valeurs : carrés exacts style Microsoft */
+.square-tile{aspect-ratio:1/1;min-height:0!important}
+.square-tile .tile-in{min-height:0;height:100%;justify-content:flex-start}
+.valeurs .tile-grid{grid-template-columns:repeat(3,1fr)}
+@media(max-width:760px){.valeurs .tile-grid{grid-template-columns:1fr}}
