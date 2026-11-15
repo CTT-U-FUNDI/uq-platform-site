@@ -26,7 +26,7 @@
     <a class="lnk" href="./contact.html">Se connecter</a>
     <a class="btn btn-p" href="./contact.html">Ouvrir un compte</a>
   </div>
-  <button class="burger" aria-label="Menu" onclick="document.querySelector('.menu').classList.toggle('on')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  <button class="burger" aria-label="Menu" onclick="uqMenu(this)" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
   <div class="menu"><ul>
     <li><a href="./borb.html">BORB Wallet</a></li>
     <li><a href="./auth.html">UQ Auth</a></li>
@@ -161,6 +161,12 @@ document.querySelectorAll('.card').forEach(c=>{
   c.addEventListener('mousemove',e=>{const r=c.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;const col=getComputedStyle(c).getPropertyValue('--c').trim();c.style.background='radial-gradient(circle at '+x+'px '+y+'px,'+col+'30 0%,rgba(255,255,255,.02) 60%)'});
   c.addEventListener('mouseleave',()=>{c.style.background=''});
 });
+</script>
+<script>
+function uqMenu(b){const m=document.querySelector('.menu');m.classList.toggle('on');b.setAttribute('aria-expanded',m.classList.contains('on'));}
+document.addEventListener('click',e=>{const m=document.querySelector('.menu');if(m&&m.classList.contains('on')&&!e.target.closest('.hd'))m.classList.remove('on')});
+addEventListener('scroll',()=>{const m=document.querySelector('.menu');if(m)m.classList.remove('on')},{passive:true});
+addEventListener('resize',()=>{if(innerWidth>900){const m=document.querySelector('.menu');if(m)m.classList.remove('on')}},{passive:true});
 </script>
 </body>
 </html>
