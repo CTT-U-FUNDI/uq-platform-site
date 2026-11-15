@@ -13,159 +13,153 @@
 </head>
 <body>
 
-<header id="hd">
-  <a class="logo" href="./index.html"><img class="logo-img" src="./assets/uq-logo.svg" width="32" height="32" alt="UQ"> Platform</a>
-  <nav><ul>
+<header class="hd" id="hd">
+  <a class="logo" href="./index.html"><img src="./assets/uq-logo.svg" alt="UQ"> Platform</a>
+  <nav class="nav"><ul>
     <li><a href="./borb.html">BORB Wallet</a></li>
     <li><a href="./auth.html">UQ Auth</a></li>
     <li><a href="./chat.html">Chat &amp; Mail</a></li>
     <li><a href="./trading.html">Trading</a></li>
     <li><a href="./studio.html">Studio Zando</a></li>
   </ul></nav>
-  <button class="nav-burger" aria-label="Menu" onclick="document.querySelector('nav ul').classList.toggle('open')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
-  <div class="nav-actions">
-    <a href="./contact.html" class="btn-login">Se connecter</a>
-    <a href="./contact.html" class="btn-nav-primary">Ouvrir un compte</a>
+  <div class="act">
+    <a class="lnk" href="./contact.html">Se connecter</a>
+    <a class="btn btn-p" href="./contact.html">Ouvrir un compte</a>
   </div>
+  <button class="burger" aria-label="Menu" onclick="document.querySelector('.menu').classList.toggle('on')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  <div class="menu"><ul>
+    <li><a href="./borb.html">BORB Wallet</a></li>
+    <li><a href="./auth.html">UQ Auth</a></li>
+    <li><a href="./chat.html">Chat &amp; Mail</a></li>
+    <li><a href="./mail.html">UQ Mail</a></li>
+    <li><a href="./trading.html">UQ Trading</a></li>
+    <li><a href="./studio.html">Studio Zando</a></li>
+    <li><a href="./contact.html">Contact</a></li>
+  </ul></div>
 </header>
 
 <div class="page">
   <section class="hero">
-    <div class="hero-eyebrow">Écosystème numérique africain</div>
+    <div class="eyebrow">Écosystème numérique africain</div>
     <h1>Tes données. Ton réseau.<br>Ton écosystème.</h1>
-    <p>UQ ne garde rien. Pas parce qu'on promet de ne pas regarder — parce qu'on en est techniquement incapable. Ton wallet, tes messages, tes créations : chiffrés sur ton appareil, distribués dans un cloud P2P que tu fais vivre.</p>
-    <div class="hero-actions">
-      <a href="#produits" class="btn-hero btn-hero-primary">Découvrir les produits
+    <p class="lead">UQ ne garde rien. Pas parce qu'on promet de ne pas regarder — parce qu'on en est techniquement incapable. Ton wallet, tes messages, tes créations : chiffrés sur ton appareil, distribués dans un cloud P2P que tu fais vivre.</p>
+    <div class="cta">
+      <a class="btn btn-p btn-lg" href="#produits">Découvrir les produits
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-      <a href="#groupe" class="btn-hero btn-hero-secondary">Notre vision</a>
+      <a class="btn btn-ghost btn-lg" href="#groupe">Notre vision</a>
     </div>
   </section>
 
-  <div class="container">
-    <div class="stats-banner rv">
-      <div class="stat-item rgb-frame"><div class="stat-value" data-count="6">6</div><div class="stat-label">produits</div></div>
-      <div class="stat-item rgb-frame"><div class="stat-value" data-count="100" data-suffix="%">100%</div><div class="stat-label">numérique</div></div>
-      <div class="stat-item rgb-frame"><div class="stat-value" data-count="24" data-suffix="/7">24/7</div><div class="stat-label">disponible</div></div>
-    </div>
-  </div>
+  <div class="wrap"><div class="stats rv">
+    <div class="stat rgb"><b data-count="6">6</b><span>produits</span></div>
+    <div class="stat rgb"><b data-count="100" data-suffix="%">100%</b><span>numérique</span></div>
+    <div class="stat rgb"><b data-count="24" data-suffix="/7">24/7</b><span>disponible</span></div>
+  </div></div>
 
-  <section class="section" id="produits">
-    <div class="section-header rv"><h2>Nos produits</h2><p>Tout ce qu'il vous faut, sous un seul compte. Chaque application partage la même identité UQ — connectez-vous une fois, utilisez tout.</p></div>
-    <div class="container"><div class="dashboard">
-      <div class="card rgb-frame card-blue rv">
-        <div class="card-header"><div class="icon-box"><svg viewBox="0 0 24 24"><path d="M21 7.28V5c0-1.1-.9-2-2-2H5C3.34 3 2 4.34 2 6v12c0 1.66 1.34 3 3 3h14c1.1 0 2-.9 2-2v-2.28c.6-.35 1-.98 1-1.72V9c0-.74-.4-1.37-1-1.72zM20 9v6h-7V9h7zM5 19V5h14v2h-6c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h6v2H5z"/></svg></div><div class="status-badge"><span class="status-dot"></span> Disponible</div></div>
-        <div class="card-body"><h3>BORB Wallet</h3><p>Portefeuille numérique : coffre, trading P2P, studio créatif. Vos actifs, vos clés, vos règles.</p></div>
+  <section class="sec" id="produits">
+    <div class="sec-h rv"><h2>Nos produits</h2><p>Tout ce qu'il vous faut, sous un seul compte. Chaque application partage la même identité UQ.</p></div>
+    <div class="wrap"><div class="grid">
+      <div class="card c-blue rv">
+        <div class="card-top"><div class="ico"><svg viewBox="0 0 24 24"><path d="M21 7.28V5c0-1.1-.9-2-2-2H5C3.34 3 2 4.34 2 6v12c0 1.66 1.34 3 3 3h14c1.1 0 2-.9 2-2v-2.28c.6-.35 1-.98 1-1.72V9c0-.74-.4-1.37-1-1.72zM20 9v6h-7V9h7zM5 19V5h14v2h-6c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h6v2H5z"/></svg></div><span class="badge"><span class="dot"></span> Disponible</span></div>
+        <div><h3>BORB Wallet</h3><p>Portefeuille numérique : coffre, trading P2P, studio créatif. Vos actifs, vos clés, vos règles.</p></div>
         <a class="btn-card" href="./borb.html">Explorer <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
       </div>
-      <div class="card rgb-frame card-teal rv">
-        <div class="card-header"><div class="icon-box"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg></div><div class="status-badge"><span class="status-dot"></span> Disponible</div></div>
-        <div class="card-body"><h3>UQ Auth</h3><p>Identité numérique sécurisée : vérification humaine, accès unique, protection anti-robot.</p></div>
+      <div class="card c-teal rv">
+        <div class="card-top"><div class="ico"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg></div><span class="badge"><span class="dot"></span> Disponible</span></div>
+        <div><h3>UQ Auth</h3><p>Identité numérique sécurisée : vérification humaine, accès unique, protection anti-robot.</p></div>
         <a class="btn-card" href="./auth.html">Découvrir <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
       </div>
-      <div class="card rgb-frame card-purple rv">
-        <div class="card-header"><div class="icon-box"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></div><div class="status-badge"><span class="status-dot"></span> Bientôt</div></div>
-        <div class="card-body"><h3>UQ Chat &amp; Mail</h3><p>Messagerie et email intégrés — vos échanges professionnels et personnels, au même endroit.</p></div>
+      <div class="card c-purple rv">
+        <div class="card-top"><div class="ico"><svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></div><span class="badge"><span class="dot"></span> Bientôt</span></div>
+        <div><h3>UQ Chat &amp; Mail</h3><p>Messagerie et email intégrés — vos échanges professionnels et personnels, au même endroit.</p></div>
         <a class="btn-card" href="./chat.html">Rejoindre <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
       </div>
-      <div class="card rgb-frame card-pink rv">
-        <div class="card-header"><div class="icon-box"><svg viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8l-6.2 4.5 2.4-7.4L2 9.4h7.6L12 2z"/></svg></div><div class="status-badge"><span class="status-dot"></span> Bientôt</div></div>
-        <div class="card-body"><h3>Studio Zando</h3><p>Studio créatif : concevez, produisez et partagez vos contenus dans l'écosystème UQ.</p></div>
+      <div class="card c-pink rv">
+        <div class="card-top"><div class="ico"><svg viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8l-6.2 4.5 2.4-7.4L2 9.4h7.6L12 2z"/></svg></div><span class="badge"><span class="dot"></span> Bientôt</span></div>
+        <div><h3>Studio Zando</h3><p>Studio créatif : concevez, produisez et partagez vos contenus dans l'écosystème UQ.</p></div>
         <a class="btn-card" href="./studio.html">Être informé <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
       </div>
     </div></div>
   </section>
 
-  <section class="section">
-    <div class="ownership-block rv rgb-frame">
+  <section class="sec">
+    <div class="panel rv rgb">
       <h2>Pourquoi « tout le monde est propriétaire » n'est pas un slogan chez UQ.</h2>
-      <p>Parce que l'architecture le rend vrai. Dans un cloud centralisé classique, tes fichiers vivent sur le serveur de quelqu'un d'autre. Ici, ils vivent sur les appareils chiffrés des utilisateurs — y compris le tien. UQ n'a pas de backdoor, pas de copie maîtresse, pas de salle serveur où tes données dorment. La seule chose qui nous appartient, c'est le code qui fait tourner le réseau. Et ce code, la communauté le fait évoluer avec nous.</p>
+      <p>Parce que l'architecture le rend vrai. Dans un cloud centralisé classique, tes fichiers vivent sur le serveur de quelqu'un d'autre. Ici, ils vivent sur les appareils chiffrés des utilisateurs — y compris le tien. UQ n'a pas de backdoor, pas de copie maîtresse, pas de salle serveur où tes données dorment.</p>
     </div>
   </section>
 
-  <section class="section" id="groupe">
-    <div class="section-header rv"><h2>Le groupe</h2><p>Bâtir le quotidien numérique de l'Afrique.</p>
-      <p style="margin-top:16px;">UQ Platform est née d'un constat : les outils numériques adaptés au continent restent rares. Nous construisons un écosystème complet — identité, finance, communication, création — pensé pour les réalités africaines : connectivité intermittente, mobile d'abord, sobriété numérique.</p></div>
-    <div class="container"><div class="pillar-grid">
-      <div class="pillar rv rgb-frame"><h3>Souveraineté</h3><p>Vos données, vos clés, vos règles. Rien ne vous appartient moins que vous.</p></div>
-      <div class="pillar rv rgb-frame"><h3>Simplicité</h3><p>Un compte, tout un écosystème. Zéro friction entre les outils.</p></div>
-      <div class="pillar rv rgb-frame"><h3>Confiance</h3><p>Sécurité et vérification humaine intégrées à chaque service.</p></div>
+  <section class="sec" id="groupe">
+    <div class="sec-h rv"><h2>Le groupe</h2><p>Bâtir le quotidien numérique de l'Afrique.</p>
+      <p style="margin-top:14px">UQ Platform est née d'un constat : les outils numériques adaptés au continent restent rares. Nous construisons un écosystème complet — identité, finance, communication, création — pensé pour les réalités africaines.</p></div>
+    <div class="wrap"><div class="pillars">
+      <div class="pillar rv"><h3>Souveraineté</h3><p>Vos données, vos clés, vos règles. Rien ne vous appartient moins que vous.</p></div>
+      <div class="pillar rv"><h3>Simplicité</h3><p>Un compte, tout un écosystème. Zéro friction entre les outils.</p></div>
+      <div class="pillar rv"><h3>Confiance</h3><p>Sécurité et vérification humaine intégrées à chaque service.</p></div>
     </div></div>
   </section>
 
-  <section class="section">
-    <div class="section-header rv"><h2>Le marché</h2><p>Le marché physique, version numérique.</p>
-      <p style="margin-top:16px;">Paiements mobiles, commerce en ligne, échange pair-à-pair — le monde physique rencontre le numérique dans l'écosystème UQ.</p></div>
-    <div class="container"><div class="pillar-grid">
-      <div class="pillar rv rgb-frame"><img src="./assets/img/marche1.jpg" alt="Paiements mobiles" loading="lazy" onerror="this.remove()"><h3>Paiements mobiles</h3><p>Payez partout, simplement.</p></div>
-      <div class="pillar rv rgb-frame"><img src="./assets/img/marche2.jpg" alt="Commerce en ligne" loading="lazy" onerror="this.remove()"><h3>Commerce en ligne</h3><p>Achetez et vendez en ligne.</p></div>
-      <div class="pillar rv rgb-frame"><img src="./assets/img/marche3.jpg" alt="Finance numérique" loading="lazy" onerror="this.remove()"><h3>Finance numérique</h3><p>Actifs et échanges sécurisés.</p></div>
+  <section class="sec">
+    <div class="sec-h rv"><h2>Le marché</h2><p>Le marché physique, version numérique.</p></div>
+    <div class="wrap"><div class="pillars">
+      <div class="pillar rv"><img src="./assets/img/marche1.jpg" alt="Paiements mobiles" loading="lazy" onerror="this.remove()"><h3>Paiements mobiles</h3><p>Payez partout, simplement.</p></div>
+      <div class="pillar rv"><img src="./assets/img/marche2.jpg" alt="Commerce en ligne" loading="lazy" onerror="this.remove()"><h3>Commerce en ligne</h3><p>Achetez et vendez en ligne.</p></div>
+      <div class="pillar rv"><img src="./assets/img/marche3.jpg" alt="Finance numérique" loading="lazy" onerror="this.remove()"><h3>Finance numérique</h3><p>Actifs et échanges sécurisés.</p></div>
     </div></div>
   </section>
 
-  <section class="section" id="equipe">
-    <div class="section-header rv"><h2>L'équipe</h2></div>
-    <div class="team-card rv rgb-frame">
-      <div class="team-avatar"><img src="./assets/eliezer.jpeg" alt="Eliezer" onerror="this.parentElement.textContent='E'"></div>
+  <section class="sec" id="equipe">
+    <div class="sec-h rv"><h2>L'équipe</h2></div>
+    <div class="team rv rgb">
+      <div class="avatar"><img src="./assets/eliezer.jpeg" alt="Eliezer" onerror="this.parentElement.textContent='E'"></div>
       <h3>Eliezer</h3>
-      <div class="team-role">Fondateur &amp; CEO — UQ Platform</div>
+      <div class="role">Fondateur &amp; CEO — UQ Platform</div>
       <p>Visionnaire de l'écosystème numérique africain. Il porte UQ Platform avec une conviction : les outils de demain se construisent ici, pour ici.</p>
     </div>
   </section>
 
-  <section class="section" id="contact">
-    <div class="contact-cta rv rgb-frame">
+  <section class="sec" id="contact">
+    <div class="cta-box rv rgb">
       <h2>Parlons de votre projet.</h2>
       <p>Partenariat, presse, bêta privée ou question produit — nous répondons sous 48h.</p>
-      <a href="./contact.html" class="contact-email">contact@uqplatform.com</a>
+      <a class="mail" href="./contact.html">contact@uqplatform.com</a>
     </div>
   </section>
 </div>
 
 <footer>
-  <div class="footer-content">
-    <div class="footer-brand">
-      <a class="logo" href="./index.html"><img class="logo-img" src="./assets/uq-logo.svg" width="32" height="32" alt="UQ"> Platform</a>
-      <p>Infrastructure numérique détenue par ses utilisateurs. Pas de serveur central de données. Pas d'accès à tes contenus.</p>
+  <div class="fcols">
+    <div class="fbrand">
+      <a class="logo" href="./index.html"><img src="./assets/uq-logo.svg" alt="UQ"> Platform</a>
+      <p>Infrastructure numérique détenue par ses utilisateurs. Pas de serveur central de données.</p>
     </div>
-    <div class="footer-col"><h4>Produits</h4><ul>
+    <div class="fcol"><h4>Produits</h4><ul>
       <li><a href="./borb.html">BORB Wallet</a></li><li><a href="./auth.html">UQ Auth</a></li>
       <li><a href="./chat.html">UQ Chat &amp; Mail</a></li><li><a href="./mail.html">UQ Mail</a></li>
       <li><a href="./trading.html">UQ Trading</a></li><li><a href="./studio.html">Studio Zando</a></li></ul></div>
-    <div class="footer-col"><h4>Plateforme</h4><ul>
+    <div class="fcol"><h4>Plateforme</h4><ul>
       <li><a href="./index.html#groupe">Le groupe</a></li><li><a href="./index.html#equipe">Équipe</a></li><li><a href="./contact.html">Contact</a></li></ul></div>
-    <div class="footer-col"><h4>Légal</h4><ul>
-      <li><a href="./souverainete.html">Souveraineté des données</a></li><li><a href="./juridique.html">Cadre juridique</a></li>
+    <div class="fcol"><h4>Légal</h4><ul>
+      <li><a href="./souverainete.html">Souveraineté</a></li><li><a href="./juridique.html">Juridique</a></li>
       <li><a href="./cgu.html">CGU</a></li><li><a href="./confidentialite.html">Confidentialité</a></li></ul></div>
   </div>
-  <div class="footer-bottom">© 2026 UQ Platform — Tous droits réservés.</div>
+  <div class="fbot">© 2026 UQ Platform — Tous droits réservés.</div>
 </footer>
 
 <script>
 const hd=document.getElementById('hd');
-addEventListener('scroll',()=>hd.classList.toggle('scrolled',scrollY>40),{passive:true});
-
-const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('is-in');io.unobserve(e.target)}}),{threshold:.1});
+addEventListener('scroll',()=>hd.classList.toggle('sc',scrollY>40),{passive:true});
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}}),{threshold:.12});
 document.querySelectorAll('.rv').forEach(el=>io.observe(el));
-
 const cio=new IntersectionObserver(es=>es.forEach(e=>{
   if(!e.isIntersecting)return;cio.unobserve(e.target);
-  const el=e.target,target=+el.dataset.count,suffix=el.dataset.suffix||'';
-  const t0=performance.now(),dur=900;
-  (function tick(t){
-    const p=Math.min((t-t0)/dur,1),ease=1-Math.pow(1-p,3);
-    el.textContent=Math.round(target*ease)+suffix;
-    if(p<1)requestAnimationFrame(tick);
-  })(t0);
+  const el=e.target,t=+el.dataset.count,s=el.dataset.suffix||'',t0=performance.now(),d=900;
+  (function k(x){const p=Math.min((x-t0)/d,1),e=1-Math.pow(1-p,3);el.textContent=Math.round(t*e)+s;if(p<1)requestAnimationFrame(k)})(t0);
 }),{threshold:.4});
-document.querySelectorAll('.stat-value').forEach(s=>{s.textContent='0'+(s.dataset.suffix||'');cio.observe(s);});
-
-document.querySelectorAll('.card').forEach(card=>{
-  card.addEventListener('mousemove',e=>{
-    const r=card.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;
-    const c=getComputedStyle(card).getPropertyValue('--card-color').trim();
-    card.style.background='radial-gradient(circle at '+x+'px '+y+'px, '+c+'25 0%, rgba(255,255,255,0.02) 60%)';
-  });
-  card.addEventListener('mouseleave',()=>{card.style.background='';});
+document.querySelectorAll('[data-count]').forEach(el=>{el.textContent='0'+(el.dataset.suffix||'');cio.observe(el)});
+document.querySelectorAll('.card').forEach(c=>{
+  c.addEventListener('mousemove',e=>{const r=c.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;const col=getComputedStyle(c).getPropertyValue('--c').trim();c.style.background='radial-gradient(circle at '+x+'px '+y+'px,'+col+'30 0%,rgba(255,255,255,.02) 60%)'});
+  c.addEventListener('mouseleave',()=>{c.style.background=''});
 });
 </script>
 </body>
