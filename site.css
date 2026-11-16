@@ -272,3 +272,7 @@ footer{border-top:1px solid var(--line);padding:56px 40px 32px;background:#000}
 .soc:hover{transform:translateY(-3px) scale(1.08)}
 .soc.wa{background:rgba(37,211,102,.15);color:#25D366}
 .soc.yt{background:rgba(255,0,0,.15);color:#ff5a5a}
+
+/* Équipe : sous-textes */
+.team-sub{font-size:.82rem!important;margin-top:8px}
+.team-sub a{color:var(--teal);text-decoration:underline}
