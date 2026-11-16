@@ -318,16 +318,3 @@ h1,h2,h3,h4,strong,.hd-logo,.card-body h3,.valeur h3,.feat h3,.equipe-nom,.sec-t
 .plaque-green{border-top:2px solid #107C10}
 .plaque-pink{border-top:2px solid #E3008C}
 .plaque-teal{border-top:2px solid #00B7C3}
-
-/* ===== Transparence P2P + badges ===== */
-.p2p-note{margin-top:56px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:36px 40px}
-.p2p-note h3{font-family:'Space Grotesk';font-size:22px;color:#fff;margin-bottom:24px}
-.p2p-cols{display:grid;grid-template-columns:1fr 1fr;gap:28px}
-.p2p-col h4{font-size:13px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:14px}
-.p2p-oui h4{color:#3ddc84}.p2p-non h4{color:#f5b942}
-.p2p-col ul{list-style:none;padding:0}
-.p2p-col li{font-size:14.5px;color:rgba(255,255,255,.75);padding:9px 0 9px 26px;position:relative;border-bottom:1px solid rgba(255,255,255,.07)}
-.p2p-col li::before{content:'';position:absolute;left:0;top:16px;width:8px;height:8px;border-radius:2px}
-.p2p-oui li::before{background:#3ddc84}.p2p-non li::before{background:#f5b942}
-.badge-soon{display:inline-block;background:rgba(245,185,66,.12);border:1px solid rgba(245,185,66,.35);color:#f5b942;font-size:12px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;padding:6px 14px;border-radius:20px;margin:14px 0 8px}
-@media(max-width:760px){.p2p-cols{grid-template-columns:1fr}.p2p-note{padding:24px}}
