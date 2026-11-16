@@ -51,4 +51,5 @@ addEventListener('scroll',()=>{const m=document.querySelector('.menu');if(m)m.cl
 let _sy=0;addEventListener('scroll',()=>{const h=document.querySelector('.hd'),y=scrollY;h.classList.toggle('hide',y>_sy&&y>120);_sy=y},{passive:true});
 addEventListener('resize',()=>{if(innerWidth>900){const m=document.querySelector('.menu');if(m)m.classList.remove('on')}},{passive:true});
 </script>
+<script src="./theme.js" defer></script>
 </body></html>

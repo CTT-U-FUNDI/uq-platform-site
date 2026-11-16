@@ -1,0 +1,73 @@
+/* ============ UQZ — VERSION CLAIRE ============ */
+:root{
+  --bg:#f6f7f9;--card:#ffffff;
+  --line:rgba(10,14,22,.09);--line2:rgba(10,14,22,.16);
+  --tx:#0d1117;--dim:#5c6672;
+  --glass:rgba(255,255,255,.72);
+}
+/* Header */
+.hd{background:rgba(255,255,255,.7)}
+.hd.sc{background:rgba(255,255,255,.92)}
+.menu{background:rgba(255,255,255,.97)}
+.menu a,.nav a{color:var(--dim)}
+.menu a:active,.nav a:hover{color:#fff;background:rgba(10,14,22,.06)}
+.burger{background:rgba(10,14,22,.06)}
+.burger svg,.burger span{color:#0d1117}
+.burger span{background:#0d1117}
+/* Hero / win */
+.hero-win{background:linear-gradient(165deg,rgba(255,255,255,.9),rgba(255,255,255,.6) 45%,rgba(0,120,212,.06));border-color:rgba(10,14,22,.12);box-shadow:0 30px 80px rgba(10,20,40,.18),0 0 0 1px rgba(10,14,22,.06)}
+.mosaic img{opacity:.4;filter:saturate(.9) brightness(.95);border-color:rgba(10,14,22,.1)}
+.uqz-tile{background:linear-gradient(160deg,rgba(0,120,212,.14),rgba(97,184,255,.08) 45%,rgba(0,183,195,.12));border-color:rgba(0,120,212,.3);box-shadow:0 18px 50px rgba(10,20,40,.2),0 0 40px rgba(0,120,212,.2)}
+.uqz-txt,.uqz-txt.big{color:#0d1117;text-shadow:none}
+.eyebrow{color:var(--blue);background:rgba(0,120,212,.08);border-color:rgba(0,120,212,.25)}
+.lead{color:var(--dim)}
+.hero-icons svg{color:rgba(10,14,22,.08)}
+/* Stats / cards */
+.stat{background:var(--glass);border-color:var(--line);box-shadow:0 8px 30px rgba(10,20,40,.06)}
+.card{background:linear-gradient(160deg,color-mix(in srgb,var(--c) 8%,#fff),rgba(255,255,255,.7) 60%);border-color:color-mix(in srgb,var(--c) 25%,transparent);box-shadow:0 10px 30px rgba(10,20,40,.07)}
+.card:hover{box-shadow:0 18px 44px color-mix(in srgb,var(--c) 18%,transparent)}
+.card p,.card a{color:var(--dim)}
+.card a{color:var(--c)}
+/* Panneaux / rgb */
+.rgb,.panel.rgb{background:rgba(255,255,255,.75)}
+.panel p{color:#3c4450}
+.panel p strong{color:#0d1117}
+.pillar{background:var(--glass);border-color:var(--line)}
+.pillar p{color:var(--dim)}
+.pillar img{border-color:var(--line);filter:none}
+.vision-icon{background:rgba(0,120,212,.08)}
+.groupe-img{filter:none}
+/* Team / CTA */
+.team-card{background:var(--glass);border-color:var(--line)}
+.team-card p{color:var(--dim)}
+.avatar{border-color:var(--teal)}
+.cta-box{background:linear-gradient(160deg,rgba(0,120,212,.08),rgba(255,255,255,.8));border:1px solid var(--line)}
+.cta-box p{color:var(--dim)}
+/* Footer */
+footer{background:#fff;border-top-color:var(--line)}
+.fbrand p,.fcol a,.fcol h4,.fbot{color:var(--dim)}
+.fcol a:hover{color:#0d1117}
+/* Pages intérieures */
+.content p,.content li{color:#3c4450}
+.content .meta{color:var(--dim)}
+.content h2{color:#0d1117}
+.content a{color:var(--blue)}
+.back{color:var(--dim)}
+.back:hover{color:#0d1117}
+.panel h3{color:#0d1117}
+/* Formulaires */
+.mail input,.mail textarea,.mail select,.fg input,.fg select,.fg textarea{background:#fff;border-color:var(--line2);color:#0d1117}
+.mail input::placeholder,.mail textarea::placeholder,.fg input::placeholder,.fg textarea::placeholder{color:#8a94a3}
+.fg label,.mail label{color:var(--dim)}
+.fmsg{color:var(--dim)}
+/* Reveal : brightness filter doit disparaitre en clair */
+.rv{filter:brightness(1) blur(0)}
+.rv.on{filter:none}
+/* Remplace le fond 3-couches par un clair */
+body{background:
+  radial-gradient(1200px 600px at 50% -10%,rgba(0,120,212,.08),transparent 60%),
+  radial-gradient(900px 500px at 85% 110%,rgba(227,0,140,.05),transparent 60%),
+  linear-gradient(rgba(10,14,22,.03) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(10,14,22,.03) 1px,transparent 1px),
+  var(--bg);
+  background-size:auto,auto,56px 56px,56px 56px,auto}
