@@ -1,4 +1,5 @@
 import apiClient, { apiFetch, apiUrl } from '../../api/client';
+import { attendreAuth, chatIdEntre, lireMessages, envoyerMessage } from '../../services/firestore';
 import type { SeriesPeriod } from './charts';
 import type { MiniSite as VitrineSite } from './site-model';
 
@@ -2344,12 +2345,29 @@ export interface ChatThreadResponse {
   ttl_seconds?: number;
 }
 
-export const getChatMessages = (peer: string, me: string) =>
-  apiClient
-    .get<ChatThreadResponse>(
-      `/api/chat/messages/${encodeURIComponent(peer)}?me=${encodeURIComponent(me)}`,
-    )
-    .then(unwrap);
+export const getChatMessages = async (peer: string, me: string) => {
+  // Messages directs : Firestore est le relais (boîte aux lettres chiffrée).
+  // Groupes / annonces / actualités restent sur Render.
+  try {
+    const msgs = await lireMessages(chatIdEntre(me, peer));
+    return {
+      messages: msgs.map((m) => ({
+        id: m.id,
+        sender: m.senderName || m.sender,
+        recipient: m.senderName === me ? peer : me,
+        content: m.text,
+        timestamp: m.createdAt?.seconds || Math.floor(Date.now() / 1000),
+      })),
+      ephemere: false,
+    } as unknown as ChatThreadResponse;
+  } catch {
+    return apiClient
+      .get<ChatThreadResponse>(
+        `/api/chat/messages/${encodeURIComponent(peer)}?me=${encodeURIComponent(me)}`,
+      )
+      .then(unwrap);
+  }
+};
 
 /** POST /api/chat/read — { peer } : accuse de lecture sans recharger tout le fil. */
 export const marquerLu = (peer: string) =>
@@ -2363,14 +2381,23 @@ export const marquerLu = (peer: string) =>
  * conversation a l'element du marche pour les deux participants. La photo
  * voyage en data URL et reste dans le stock local de la plateforme.
  */
-export const sendChatMessage = (
+export const sendChatMessage = async (
   sender: string,
   recipient: string,
   content: string,
   zando?: { id?: string | null; title?: string | null },
   image?: string | null,
-) =>
-  apiClient
+) => {
+  // Texte simple : relais Firestore (E2E à venir — transport d'abord).
+  // Photo ou lien Zando : REST Render (champs non couverts par les règles FS).
+  if (!image && !zando?.id) {
+    try {
+      const uid = await attendreAuth();
+      await envoyerMessage(chatIdEntre(sender, recipient), uid, sender, content);
+      return { status: 'ok', sent: true };
+    } catch { /* fallback REST ci-dessous */ }
+  }
+  return apiClient
     .post<{ status?: string; sent?: boolean; message_id?: string; blocked?: boolean }>(
       '/api/chat/send',
       {
@@ -2383,6 +2410,7 @@ export const sendChatMessage = (
       },
     )
     .then(unwrap);
+};
 
 /** Signalement d'un interlocuteur : payload de /api/chat/report. */
 export interface SignalementPayload {

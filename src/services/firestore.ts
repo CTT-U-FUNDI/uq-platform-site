@@ -5,7 +5,7 @@
 // ============================================================
 import { initializeApp, getApps } from 'firebase/app';
 import { getFirestore, collection, doc, addDoc, onSnapshot,
-         query, orderBy, limit, serverTimestamp } from 'firebase/firestore';
+         query, orderBy, limit, serverTimestamp, getDocs } from 'firebase/firestore';
 import { getAuth, signInAnonymously, onAuthStateChanged } from 'firebase/auth';
 
 const firebaseConfig = {
@@ -60,6 +60,17 @@ export function ecouterMessages(chatId: string, cb: (msgs: MsgUQ[]) => void) {
   return onSnapshot(q, (snap) => {
     cb(snap.docs.map(d => ({ id: d.id, ...d.data() } as MsgUQ)).reverse());
   });
+}
+
+// Lecture ponctuelle (polling UI v2) — même forme que ecouterMessages
+export async function lireMessages(chatId: string): Promise<MsgUQ[]> {
+  const q = query(
+    collection(db, 'chats', chatId, 'messages'),
+    orderBy('createdAt', 'desc'),
+    limit(100)
+  );
+  const snap = await getDocs(q);
+  return snap.docs.map(d => ({ id: d.id, ...d.data() } as MsgUQ)).reverse();
 }
 
 // Envoi message — règles : sender == auth.uid, text <= 2000
