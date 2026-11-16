@@ -32,10 +32,15 @@ git checkout -b ma-contribution
 
 ## Workflow
 
-1. Fork le repo → branche `ma-contribution`
+Le repo a **2 branches** :
+
+- `main` — développement (les PR des contributeurs arrivent ici)
+- `gh-pages` — ce qui est en ligne sur uqplatform.com
+
+1. Fork le repo → branche `ma-contribution` depuis `main`
 2. Commit avec un message clair : `fix: ...` / `feat: ...` / `style: ...`
-3. Ouvre une **Pull Request** — décris ce que tu changes et pourquoi
-4. On review ensemble avant merge sur `gh-pages`
+3. Ouvre une **Pull Request vers `main`** — on review ensemble
+4. Une fois validé, on reporte sur `gh-pages` pour publier
 
 ## Idées de contributions
 
