@@ -8,7 +8,8 @@ import {
   useState,
   type ReactNode,
 } from 'react';
-import { authResume, getMe, getPreferences, setPreferences } from './api';
+import { authResume, firebaseToken, getMe, getPreferences, setPreferences } from './api';
+import { connecterUQ } from '../../services/firestore';
 import { authentifierParPasskey, lireCleAppareil, oublierCleAppareil } from './webauthn';
 
 export type ThemeMode = 'light' | 'dark';
@@ -252,6 +253,11 @@ export function SessionProvider({ children }: { children: ReactNode }) {
       } catch {
         // Le token est valide mais /api/me peut echouer : on garde la session.
       }
+      // Pont UQ Auth -> Firebase : lie auth.uid au numero UQ pour le chat E2E.
+      // Non bloquant : si Firebase est down, la session UQ reste valide.
+      firebaseToken()
+        .then((r) => (r?.custom_token ? connecterUQ(async () => r.custom_token!) : null))
+        .catch(() => {});
       const numero = localStorage.getItem(STORAGE.uq) || '';
       if (numero) {
         localStorage.setItem(STORAGE.dernierCompte, numero);

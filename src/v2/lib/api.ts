@@ -705,6 +705,12 @@ export interface ResumeResponse {
   httpStatus?: number;
 }
 
+/** POST /api/auth/firebase-token — custom token Firebase lie a l'identite UQ. */
+export const firebaseToken = () =>
+  apiClient
+    .post<{ status?: string; custom_token?: string }>('/api/auth/firebase-token', {})
+    .then(unwrap);
+
 export const authResume = (uq_number: string, credential_id: string) =>
   apiClient
     .post<ResumeResponse>(

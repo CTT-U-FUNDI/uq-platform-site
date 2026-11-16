@@ -6,7 +6,7 @@
 import { initializeApp, getApps } from 'firebase/app';
 import { getFirestore, collection, doc, addDoc, onSnapshot,
          query, orderBy, limit, serverTimestamp, getDocs } from 'firebase/firestore';
-import { getAuth, signInAnonymously, onAuthStateChanged } from 'firebase/auth';
+import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from 'firebase/auth';
 import { getDoc, setDoc } from 'firebase/firestore';
 import { chiffrer, dechiffrerAvec, maClePublique, estChiffre } from './e2e';
 
@@ -35,6 +35,23 @@ export function attendreAuth(): Promise<string> {
     signInAnonymously(fbAuth).catch(reject);
     setTimeout(() => reject(new Error('Firebase Auth timeout')), 15000);
   });
+}
+
+// ---------- Pont UQ Auth → Firebase ----------
+// Le backend UQ (Render) émet un custom token via /api/auth/firebase-token.
+// On s'authentifie dessus : auth.uid devient le numéro UQ (ex: UQ-00000001)
+// au lieu d'un uid anonyme — les clés E2E et profils sont alors liés au vrai compte.
+export async function lierUQVersFirebase(customToken: string): Promise<string> {
+  const cred = await signInWithCustomToken(fbAuth, customToken);
+  authPret = true;
+  return cred.user.uid;
+}
+
+// Récupère le custom token auprès du backend UQ puis lie la session.
+// `fetchToken` = fonction fournie par l'appelant (évite l'import circulaire api<->firestore).
+export async function connecterUQ(fetchToken: () => Promise<string>): Promise<string> {
+  const customToken = await fetchToken();
+  return lierUQVersFirebase(customToken);
 }
 
 // ---------- UQ Chat : messages 1:1 ----------
