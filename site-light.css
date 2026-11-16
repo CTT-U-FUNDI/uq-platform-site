@@ -71,3 +71,12 @@ body{background:
   linear-gradient(90deg,rgba(10,14,22,.03) 1px,transparent 1px),
   var(--bg);
   background-size:auto,auto,56px 56px,56px 56px,auto}
+
+/* Survol boutons : bleu visible en mode clair */
+.btn:hover{background:rgba(0,120,212,.14);border-color:rgba(0,120,212,.4);transform:translateY(-2px)}
+.btn-p:hover{background:linear-gradient(135deg,#1a86e8,#2792ff)}
+.hd-cta:hover{background:var(--blue);color:#fff}
+.card a:hover{text-decoration:underline}
+.nav a:hover,.menu a:hover{color:var(--blue);background:rgba(0,120,212,.08);border-color:rgba(0,120,212,.2)}
+.fcol a:hover{color:var(--blue)}
+.soc:hover{transform:translateY(-3px) scale(1.08);filter:brightness(1.1)}
