@@ -284,3 +284,11 @@ footer{border-top:1px solid var(--line);padding:56px 40px 32px;background:#000}
 /* Équipe : sous-textes */
 .team-sub{font-size:.82rem!important;margin-top:8px}
 .team-sub a{color:var(--teal);text-decoration:underline}
+
+/* Formulaire contact (.fg/.fmsg — contact.html) */
+.fg{margin-bottom:16px}
+.fg label{display:block;font-size:.82rem;font-weight:500;color:var(--dim);margin-bottom:7px}
+.fg input,.fg select,.fg textarea{width:100%;background:var(--glass);border:1px solid var(--line2);border-radius:11px;padding:13px 15px;color:#fff;font-size:16px;font-family:inherit;outline:none;transition:border-color .2s}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--blue)}
+.fg textarea{min-height:130px;resize:vertical}
+.fmsg{margin-top:14px;font-size:.9rem;color:var(--dim);min-height:20px}
