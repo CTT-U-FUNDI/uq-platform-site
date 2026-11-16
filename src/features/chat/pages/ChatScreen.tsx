@@ -19,6 +19,7 @@ import {
   Users,
 } from 'lucide-react';
 import api from '../../../api/client';
+import { attendreAuth, ecouterMessages, envoyerMessage, chatIdEntre } from '../../../services/firestore';
 import { useLanguage } from '../../../i18n/LanguageContext';
 import { PublicUserIdentity } from '../../../components/ui/PublicUserIdentity';
 import { ScreenHeader } from '../../../components/layout/ScreenHeader';
@@ -95,6 +96,7 @@ export default function ChatScreen({ onBack }: Props) {
   const [requestError, setRequestError] = useState('');
   const [e2e, setE2e] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const chatUnsub = useRef<(() => void) | null>(null);
   const [mobileShowThread, setMobileShowThread] = useState(false);
 
   const loadInbox = useCallback(async () => {
@@ -130,11 +132,19 @@ export default function ChatScreen({ onBack }: Props) {
   const loadThread = useCallback(async (peer: string) => {
     if (!me || !peer) return;
     try {
-      const r = await api.get(
-        `/api/chat/messages/${encodeURIComponent(peer)}?me=${encodeURIComponent(me)}`
-      );
-      setRequestError('');
-      setMessages(r.data.messages || []);
+      chatUnsub.current?.();
+      await attendreAuth();
+      const cid = chatIdEntre(me, peer);
+      chatUnsub.current = ecouterMessages(cid, (msgs) => {
+        setMessages(msgs.map((m: any) => ({
+          id: m.id,
+          sender: m.sender,
+          recipient: m.sender === me ? peer : me,
+          content: m.text,
+          timestamp: m.createdAt?.seconds || 0,
+        })));
+        setRequestError('');
+      });
     } catch {
       setRequestError(t('chat.loadError'));
     }
@@ -160,6 +170,7 @@ export default function ChatScreen({ onBack }: Props) {
     }
   }, [t]);
 
+  useEffect(() => () => chatUnsub.current?.(), []);
   useEffect(() => {
     loadInbox();
     loadGroups();
@@ -365,12 +376,9 @@ export default function ChatScreen({ onBack }: Props) {
         await loadGroupMessages(activeGroup.group_id);
         await loadGroups();
       } else if (activePeer) {
-        await api.post('/api/chat/send', {
-          sender: me,
-          recipient: activePeer,
-          content: text,
-        });
-        await loadThread(activePeer);
+        await attendreAuth();
+        const cid = chatIdEntre(me, activePeer);
+        await envoyerMessage(cid, me, me, text);
         await loadInbox();
       }
     } catch {

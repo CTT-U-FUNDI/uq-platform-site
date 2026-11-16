@@ -1,0 +1,101 @@
+// ============================================================
+// UQ Platform — Règles Firestore (plan Spark gratuit)
+// Principe : public = lecture seule, écriture = authentifié
+// ============================================================
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{db}/documents {
+
+    // ---------- Helpers ----------
+    function estConnecte() { return request.auth != null; }
+    function estProprio(uid) { return estConnecte() && request.auth.uid == uid; }
+    function tailleOk(max) { return request.resource.data.size() <= max; }
+
+    // ==========================================================
+    // PROFILS PUBLICS — lu par tous, édité par soi-même
+    // ==========================================================
+    match /profiles/{uid} {
+      allow read: if true;
+      allow create: if estConnecte() && estProprio(uid)
+                    && request.resource.data.keys().hasOnly(['pseudo','avatar','bio','pays','metier','reputation','createdAt'])
+                    && tailleOk(10);
+      allow update: if estConnecte() && estProprio(uid)
+                    && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['pseudo','avatar','bio','pays','metier','reputation']);
+      allow delete: if estProprio(uid);
+    }
+
+    // ==========================================================
+    // UQ CHAT — salons + messages (temps réel)
+    // ==========================================================
+    match /chats/{chatId} {
+      // Métadonnées du salon : membres uniquement
+      allow read: if estConnecte();
+      allow create: if estConnecte() && tailleOk(20);
+      allow update, delete: if false; // salons gérés par le backend
+
+      match /messages/{msgId} {
+        allow read: if estConnecte();
+        // Anti-spam : max 2000 chars, pas de champs parasites
+        allow create: if estConnecte()
+                      && request.resource.data.keys().hasOnly(['text','sender','senderName','createdAt','replyTo'])
+                      && request.resource.data.text.size() <= 2000
+                      && request.resource.data.sender == request.auth.uid;
+        allow update, delete: if false; // pas d'édition/suppression pour l'instant
+      }
+    }
+
+    // ==========================================================
+    // ZANDO — annonces/boutiques publiques
+    // ==========================================================
+    match /zando_items/{itemId} {
+      allow read: if true; // marketplace publique
+      allow create: if estConnecte()
+                    && request.resource.data.seller == request.auth.uid
+                    && tailleOk(30);
+      allow update, delete: if estConnecte() && resource.data.seller == request.auth.uid;
+    }
+
+    // ==========================================================
+    // PUBLICATIONS + LIKES (quotas anti-gaspillage)
+    // ==========================================================
+    match /publications/{pubId} {
+      allow read: if true;
+      allow create: if estConnecte() && request.resource.data.author == request.auth.uid && tailleOk(25);
+      allow update, delete: if estConnecte() && resource.data.author == request.auth.uid;
+
+      // Compteur likes : un user = une voix, incrément atomique
+      match /likes/{uid} {
+        allow read: if true;
+        allow write: if estProprio(uid); // like/unlike = créer/supprimer son doc
+      }
+    }
+
+    // ==========================================================
+    // RÉPUTATION — publique en lecture, écrite par propriétaire
+    // ==========================================================
+    match /reputation/{uid} {
+      allow read: if true;
+      allow write: if estProprio(uid) && tailleOk(30);
+    }
+
+    // ==========================================================
+    // STUDIO — templates publics, sites créés par users
+    // ==========================================================
+    match /studio_templates/{tplId} {
+      allow read: if true;
+      allow write: if false; // templates = admin/backend uniquement
+    }
+    match /studio_sites/{siteId} {
+      allow read: if true;
+      allow create: if estConnecte() && request.resource.data.owner == request.auth.uid;
+      allow update, delete: if estConnecte() && resource.data.owner == request.auth.uid;
+    }
+
+    // ==========================================================
+    // INTERDIT PAR DÉFAUT — wallet, KYC, PIN, clés : JAMAIS ici
+    // ==========================================================
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

@@ -10,6 +10,7 @@
   "dependencies": {
     "@tanstack/react-query": "^5.51.0",
     "axios": "^1.7.4",
+    "firebase": "^10.14.1",
     "framer-motion": "^11.3.0",
     "html2canvas": "^1.4.1",
     "html5-qrcode": "^2.3.8",
