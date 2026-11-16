@@ -37,7 +37,7 @@ service cloud.firestore {
         allow read: if estConnecte();
         // Anti-spam : max 2000 chars, pas de champs parasites
         allow create: if estConnecte()
-                      && request.resource.data.keys().hasOnly(['text','sender','senderName','createdAt','replyTo'])
+                      && request.resource.data.keys().hasOnly(['text','sender','senderName','pub','createdAt','replyTo'])
                       && request.resource.data.text.size() <= 2000
                       && request.resource.data.sender == request.auth.uid;
         allow update, delete: if false; // pas d'édition/suppression pour l'instant
@@ -94,6 +94,14 @@ service cloud.firestore {
     // ==========================================================
     // INTERDIT PAR DÉFAUT — wallet, KYC, PIN, clés : JAMAIS ici
     // ==========================================================
+    match /keys/{pseudo} {
+      allow read: if true;
+      allow write: if estConnecte() && tailleOk(10);
+    }
+    match /directory/{pseudo} {
+      allow read: if true;
+      allow write: if estConnecte() && tailleOk(15);
+    }
     match /{document=**} {
       allow read, write: if false;
     }
