@@ -331,8 +331,3 @@ h1,h2,h3,h4,strong,.hd-logo,.card-body h3,.valeur h3,.feat h3,.equipe-nom,.sec-t
 .p2p-oui li::before{background:#3ddc84}.p2p-non li::before{background:#f5b942}
 .badge-soon{display:inline-block;background:rgba(245,185,66,.12);border:1px solid rgba(245,185,66,.35);color:#f5b942;font-size:12px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;padding:6px 14px;border-radius:20px;margin:14px 0 8px}
 @media(max-width:760px){.p2p-cols{grid-template-columns:1fr}.p2p-note{padding:24px}}
-
-/* ===== Equipe ===== */
-.equipe-join{margin-top:18px;border-color:rgba(255,255,255,.4)!important;color:#fff!important}
-.equipe-alt{display:block;margin-top:14px;font-size:13.5px;color:rgba(255,255,255,.6);text-decoration:none}
-.equipe-alt:hover{color:#fff;text-decoration:underline}
