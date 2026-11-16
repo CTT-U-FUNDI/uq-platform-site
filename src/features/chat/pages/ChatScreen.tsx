@@ -378,7 +378,8 @@ export default function ChatScreen({ onBack }: Props) {
       } else if (activePeer) {
         await attendreAuth();
         const cid = chatIdEntre(me, activePeer);
-        await envoyerMessage(cid, me, me, text);
+        const uid = await attendreAuth();
+        await envoyerMessage(cid, uid, me, activePeer, text);
         await loadInbox();
       }
     } catch {

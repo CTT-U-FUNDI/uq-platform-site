@@ -7,6 +7,8 @@ import { initializeApp, getApps } from 'firebase/app';
 import { getFirestore, collection, doc, addDoc, onSnapshot,
          query, orderBy, limit, serverTimestamp, getDocs } from 'firebase/firestore';
 import { getAuth, signInAnonymously, onAuthStateChanged } from 'firebase/auth';
+import { getDoc, setDoc } from 'firebase/firestore';
+import { chiffrer, dechiffrerAvec, maClePublique, estChiffre } from './e2e';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyB-CLMP1vAcSw627mJi2RCecc5PKC315Q8',
@@ -47,7 +49,20 @@ export interface MsgUQ {
   text: string;
   sender: string;
   senderName: string;
+  pub?: JsonWebKey;
   createdAt: any;
+}
+
+// Déchiffre les messages E2E (clé publique de l'expéditeur jointe au doc)
+async function decryptAll(msgs: MsgUQ[]): Promise<MsgUQ[]> {
+  return Promise.all(msgs.map(async (m) => {
+    if (estChiffre(m.text)) {
+      const pt = m.pub ? await dechiffrerAvec(m.text, m.pub) : null;
+      if (pt !== null) return { ...m, text: pt };
+      return { ...m, text: '🔒 [message chiffré illisible]' };
+    }
+    return m;
+  }));
 }
 
 // Écoute temps réel d'une conversation (quota-safe : limit 100)
@@ -57,8 +72,8 @@ export function ecouterMessages(chatId: string, cb: (msgs: MsgUQ[]) => void) {
     orderBy('createdAt', 'desc'),
     limit(100)
   );
-  return onSnapshot(q, (snap) => {
-    cb(snap.docs.map(d => ({ id: d.id, ...d.data() } as MsgUQ)).reverse());
+  return onSnapshot(q, async (snap) => {
+    cb(await decryptAll(snap.docs.map(d => ({ id: d.id, ...d.data() } as MsgUQ)).reverse()));
   });
 }
 
@@ -70,15 +85,47 @@ export async function lireMessages(chatId: string): Promise<MsgUQ[]> {
     limit(100)
   );
   const snap = await getDocs(q);
-  return snap.docs.map(d => ({ id: d.id, ...d.data() } as MsgUQ)).reverse();
+  return decryptAll(snap.docs.map(d => ({ id: d.id, ...d.data() } as MsgUQ)).reverse());
 }
 
-// Envoi message — règles : sender == auth.uid, text <= 2000
-export async function envoyerMessage(chatId: string, sender: string, senderName: string, text: string) {
+// ---------- Annuaire de clés publiques (keys/{pseudo}) ----------
+// TOFU : la première clé vue est acceptée. La liaison pseudo<->compte
+// sera renforcée quand UQ Auth émettra des custom tokens Firebase.
+export async function publierCle(pseudo: string): Promise<JsonWebKey> {
+  const pub = await maClePublique();
+  await setDoc(doc(db, 'keys', pseudo), { pub, updatedAt: serverTimestamp() });
+  return pub;
+}
+
+export async function clePubliqueDe(pseudo: string): Promise<JsonWebKey | null> {
+  const snap = await getDoc(doc(db, 'keys', pseudo));
+  return snap.exists() ? (snap.data().pub as JsonWebKey) : null;
+}
+
+// ---------- Profil public (directory/{pseudo}) ----------
+export interface ProfilUQ {
+  pseudo: string; avatar?: string; bio?: string;
+  pays?: string; metier?: string; reputation?: number; createdAt?: any;
+}
+export async function lireProfil(pseudo: string): Promise<ProfilUQ | null> {
+  const snap = await getDoc(doc(db, 'directory', pseudo));
+  return snap.exists() ? (snap.data() as ProfilUQ) : null;
+}
+export async function ecrireProfil(p: ProfilUQ) {
+  await setDoc(doc(db, 'directory', p.pseudo), { ...p, updatedAt: serverTimestamp() }, { merge: true });
+}
+
+// Envoi message — chiffré E2E avant Firestore (règles : sender == auth.uid)
+export async function envoyerMessage(chatId: string, sender: string, senderName: string, destinataire: string, text: string) {
+  const pub = await publierCle(senderName);
+  let contenu = text.slice(0, 2000);
+  const pubDest = await clePubliqueDe(destinataire);
+  if (pubDest) contenu = await chiffrer(contenu, pubDest);
   await addDoc(collection(db, 'chats', chatId, 'messages'), {
-    text: text.slice(0, 2000),
+    text: contenu,
     sender,
     senderName: senderName.slice(0, 40),
+    pub,
     createdAt: serverTimestamp(),
   });
 }

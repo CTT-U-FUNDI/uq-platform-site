@@ -2393,7 +2393,7 @@ export const sendChatMessage = async (
   if (!image && !zando?.id) {
     try {
       const uid = await attendreAuth();
-      await envoyerMessage(chatIdEntre(sender, recipient), uid, sender, content);
+      await envoyerMessage(chatIdEntre(sender, recipient), uid, sender, recipient, content);
       return { status: 'ok', sent: true };
     } catch { /* fallback REST ci-dessous */ }
   }
