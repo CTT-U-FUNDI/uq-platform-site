@@ -10,7 +10,14 @@
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--tx);font-family:Inter,system-ui,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased}
+body{color:var(--tx);
+  background:
+    radial-gradient(1200px 600px at 50% -10%,rgba(0,120,212,.08),transparent 60%),
+    radial-gradient(900px 500px at 85% 110%,rgba(227,0,140,.05),transparent 60%),
+    linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px),
+    var(--bg);
+  background-size:auto,auto,56px 56px,56px 56px,auto;font-family:Inter,system-ui,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased}
 h1,h2,h3,.logo,.btn{font-family:'Space Grotesk',sans-serif;letter-spacing:-.02em}
 a{color:inherit;text-decoration:none}
 img{max-width:100%;display:block}
@@ -51,6 +58,7 @@ img{max-width:100%;display:block}
 
 /* SECTIONS */
 .sec{padding:var(--sec-pad) 40px}
+.sec:nth-of-type(even){background:rgba(255,255,255,.014)}
 .sec-h{text-align:center;max-width:620px;margin:0 auto 48px}
 .sec-h h2{font-size:clamp(1.8rem,4vw,2.6rem);margin-bottom:12px}
 .sec-h p{color:var(--dim);font-size:1.02rem}
