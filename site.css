@@ -292,3 +292,21 @@ footer{border-top:1px solid var(--line);padding:56px 40px 32px;background:#000}
 .fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--blue)}
 .fg textarea{min-height:130px;resize:vertical}
 .fmsg{margin-top:14px;font-size:.9rem;color:var(--dim);min-height:20px}
+
+/* ===== Bloc Contribuer ===== */
+.contrib{margin-top:44px;padding:32px;border-radius:18px;background:var(--glass);backdrop-filter:blur(14px);border:1px solid var(--line);display:flex;gap:24px;align-items:flex-start;transition:.3s}
+.contrib:hover{border-color:var(--line2);transform:translateY(-3px)}
+.contrib-ico{flex-shrink:0;width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.06);border:1px solid var(--line2)}
+.contrib-ico svg{width:26px;height:26px;color:#fff}
+.contrib-body{flex:1;min-width:0}
+.contrib-body h2{font-size:1.25rem;margin-bottom:10px}
+.contrib-body>p{font-size:.92rem;color:var(--dim);margin-bottom:18px}
+.contrib-links{display:flex;gap:12px;flex-wrap:wrap}
+.contrib-btn{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:11px;font-size:.88rem;font-weight:600;color:#fff;background:linear-gradient(135deg,var(--blue),#0a84ff);border:0;transition:.25s}
+.contrib-btn svg{width:17px;height:17px}
+.contrib-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,120,212,.4)}
+.contrib-btn.ghost{background:transparent;border:1px solid var(--line2);color:var(--tx)}
+.contrib-btn.ghost:hover{background:rgba(255,255,255,.08);border-color:var(--line2)}
+.contrib-btn.ghost svg{stroke:var(--tx)}
+.contrib-note{margin-top:14px;font-size:.8rem;color:var(--dim)}
+@media(max-width:600px){.contrib{flex-direction:column;padding:24px}}

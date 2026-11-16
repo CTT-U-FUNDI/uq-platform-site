@@ -80,3 +80,12 @@ body{background:
 .nav a:hover,.menu a:hover{color:var(--blue);background:rgba(0,120,212,.08);border-color:rgba(0,120,212,.2)}
 .fcol a:hover{color:var(--blue)}
 .soc:hover{transform:translateY(-3px) scale(1.08);filter:brightness(1.1)}
+
+/* Bloc Contribuer — mode clair */
+.contrib{background:rgba(255,255,255,.8);border-color:var(--line);box-shadow:0 10px 30px rgba(10,20,40,.06)}
+.contrib-ico{background:rgba(0,120,212,.08);border-color:rgba(0,120,212,.2)}
+.contrib-ico svg{color:var(--blue)}
+.contrib-body>p,.contrib-note{color:var(--dim)}
+.contrib-btn.ghost{background:#fff;border-color:var(--line2);color:#0d1117}
+.contrib-btn.ghost:hover{background:rgba(0,120,212,.06);border-color:rgba(0,120,212,.35)}
+.contrib-btn.ghost svg{stroke:#0d1117}
