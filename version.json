@@ -1,1 +1,1 @@
-{"app":"uqz","version":"1.0.4","apk":"https://uqplatform.com/uqz-latest.apk","notes":"logo UQ original + badge Z + halo Microsoft, palette MS, OTA discret"}
+{"app":"uqz","version":"1.0.5","apk":"https://uqplatform.com/uqz-latest.apk","notes":"fix timeout cold start Render (90s) + catch erreur login"}
