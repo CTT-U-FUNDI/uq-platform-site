@@ -13,8 +13,7 @@ import { HelpHost, HelpProvider } from './lib/help';
 import { getZandoItem, BOUTIQUE_SYSTEME_ID, type ZandoItem } from './lib/api';
 import { parseMediaUrls } from './lib/format';
 import { useLearningSync } from './lib/learning';
-import { AuthScreen } from './screens/AuthScreen';
-import { LandingScreen } from './screens/LandingScreen';
+import { MobileLoginScreen } from './screens/MobileLoginScreen';
 import { CreateAccountScreen } from './screens/CreateAccountScreen';
 import { FeedScreen } from './screens/FeedScreen';
 import { MarketScreen } from './screens/MarketScreen';
@@ -445,15 +444,8 @@ function Shell() {
                 setCreating(false);
               }}
             />
-          ) : montreAuth ? (
-            <AuthScreen
-              onCreateAccount={() => setCreating(true)}
-              prefill={prefill}
-              onBack={() => setMontreAuth(false)}
-            />
           ) : (
-            <LandingScreen
-              onLogin={() => setMontreAuth(true)}
+            <MobileLoginScreen
               onCreateAccount={() => setCreating(true)}
             />
           )
