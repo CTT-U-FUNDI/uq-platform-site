@@ -92,8 +92,8 @@ function Shell() {
   );
   /** Identifiants UQ remis a l'ecran de connexion apres une creation reussie. */
   const [prefill, setPrefill] = useState<{ number: string; email: string } | null>(null);
-  /** Page d'accueil « rencontre » : false = landing vitrine, true = connexion. */
-  const [montreAuth, setMontreAuth] = useState(false);
+  /** Page d'accueil « rencontre » : true = connexion directe (défaut app), false = landing vitrine. */
+  const [montreAuth, setMontreAuth] = useState(true);
   const [activeItem, setActiveItem] = useState<ZandoItem | null>(null);
   /** Contenu preselectionne pour le lecteur (bouton « Lire » de la fiche). */
   const [playItem, setPlayItem] = useState<ZandoItem | null>(null);
