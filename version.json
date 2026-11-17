@@ -1,1 +1,1 @@
-{"app":"uqz","version":"1.0.20","apk":"https://uqplatform.com/uqz-latest.apk","notes":"logo login = LogoUQ d'origine + consentement + permissions"}
+{"app":"uqz","version":"1.0.21","apk":"https://uqplatform.com/uqz-latest.apk","notes":"fix token tfa perime a finalize (login owner)"}
