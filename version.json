@@ -1,1 +1,1 @@
-{"app":"uqz","version":"1.0.25","apk":"https://uqplatform.com/uqz-latest.apk","notes":"MAJ: compare semver, bouton seulement si version superieure"}
+{"app":"uqz","version":"1.0.26","apk":"https://uqplatform.com/uqz-latest.apk","notes":"cache taux 60s local + fallback hors-ligne"}
