@@ -232,8 +232,12 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     localStorage.setItem(STORAGE.name, nextName);
     if (nextUq) localStorage.setItem(STORAGE.dernierCompte, nextUq);
     setNumeroMemorise(nextUq || localStorage.getItem(STORAGE.dernierCompte) || '');
-    if (me.me.is_owner) localStorage.setItem(STORAGE.owner, 'true');
-    else localStorage.removeItem(STORAGE.owner);
+    if (me.me.is_owner) {
+      localStorage.setItem(STORAGE.owner, 'true');
+    } else {
+      localStorage.removeItem(STORAGE.owner);
+      localStorage.removeItem('uq_linked_owner');
+    }
     // La bascule ne demande jamais le numero du proprietaire : il est retenu
     // des qu'une session proprietaire est ouverte sur ce terminal.
     if (me.me.is_owner && nextUq) localStorage.setItem('uq_linked_owner', nextUq);

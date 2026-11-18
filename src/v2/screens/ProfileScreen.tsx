@@ -177,10 +177,12 @@ export function ProfileScreen({
   // Bascule possible : le proprietaire peut descendre vers le profil rattache ;
   // un profil rattache ne peut remonter que si le terminal connait son proprietaire.
   const switchedFrom = localStorage.getItem('uq_switched_from') || '';
-  const linkedOwner = localStorage.getItem('uq_linked_owner') || switchedFrom;
+  // Securite : le bouton n'apparait QUE pour le owner (vers profil2) ou pour
+  // une vraie session profil2 ouverte par bascule (uq_switched_from). Les
+  // comptes normaux ne voient jamais ce bouton, meme si des cles persistent.
   const switchTarget: 'owner' | 'profil2' | null = isGuardian
     ? 'profil2'
-    : linkedOwner
+    : switchedFrom
       ? 'owner'
       : null;
 
