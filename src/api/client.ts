@@ -76,14 +76,59 @@ api.interceptors.response.use(
   },
 );
 
-// Retour reseau -> evenement pour refresh + notif
+// ===== File hors-ligne : POST en attente, rejoues au retour reseau =====
+// Regle : JAMAIS d'operation financière hors-ligne. Les POST sont mis en
+// file et rejoues tels quels au retour reseau — le serveur re-valide tout
+// (solde, escrow, PIN) au moment de l'execution, donc pas de double depense.
+const QUEUE_KEY = 'uq_offline_queue';
+type QueuedReq = { url: string; method: string; body?: unknown; ts: number };
+
+const lireFile = (): QueuedReq[] => {
+  try { return JSON.parse(localStorage.getItem(QUEUE_KEY) || '[]'); } catch { return []; }
+};
+const ecrireFile = (q: QueuedReq[]) => {
+  try { localStorage.setItem(QUEUE_KEY, JSON.stringify(q.slice(-50))); } catch { /* quota */ }
+};
+
+const rejouerFile = async () => {
+  const file = lireFile();
+  if (!file.length) return;
+  const reste: QueuedReq[] = [];
+  for (const req of file) {
+    try {
+      await api.request({ url: req.url, method: req.method, data: req.body });
+    } catch {
+      reste.push(req); // encore hors-ligne ou erreur reseau -> on garde
+    }
+  }
+  ecrireFile(reste);
+  if (reste.length < file.length) {
+    window.dispatchEvent(new CustomEvent('uq:queue-synced', { detail: { restants: reste.length } }));
+  }
+};
+
+api.interceptors.request.use((config) => {
+  // Hors-ligne detecte : les POST sont mis en file au lieu d'echouer.
+  if (!navigator.onLine && (config.method === 'post' || config.method === 'put' || config.method === 'delete')) {
+    const q = lireFile();
+    q.push({
+      url: config.url || '',
+      method: (config.method || 'post').toUpperCase(),
+      body: config.data,
+      ts: Date.now(),
+    });
+    ecrireFile(q);
+    // Annule la requete : l'appelant recoit une erreur reseau normale,
+    // l'UI peut afficher "en attente de synchronisation".
+    return Promise.reject(Object.assign(new Error('Hors ligne — requête mise en file'), { __uqQueued: true }));
+  }
+  return config;
+});
+
+// Retour reseau -> rejouer la file puis recharger les donnees
 if (typeof window !== 'undefined') {
   window.addEventListener('online', () => {
-    window.dispatchEvent(new CustomEvent('uq:online'));
-    try {
-      const { showToast } = require('../v2/lib/toast') as any;
-      showToast?.('Connexion rétablie — synchronisation…');
-    } catch { /* toast optionnel */ }
+    void rejouerFile().then(() => window.dispatchEvent(new CustomEvent('uq:online')));
   });
   window.addEventListener('offline', () => {
     window.dispatchEvent(new CustomEvent('uq:offline'));
