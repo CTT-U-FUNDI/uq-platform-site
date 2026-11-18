@@ -8,6 +8,7 @@ import {
   IconCatLoisirs, IconCatConstruction, IconCatUrgence,
   UQ_COLORS
 } from '../components/ui/UQIcons';
+import { LogoUQ } from '../components/ui/LogoUQ';
 import { Icon } from '../components/ui/Icon';
 import { HeartIcon3D } from '../components/ui/Icons3D';
 import { PublicUserIdentity } from '../components/ui/PublicUserIdentity';
@@ -85,7 +86,7 @@ export function DashboardScreen({ onLogout, onZandoClick }: DashboardScreenProps
     try {
       const resp = await apiClient.get('/api/zando/items');
       const itemsList: Item[] = resp.data.items || [];
-      const publishedItems = itemsList.filter((item) => item.published === true);
+      const publishedItems = itemsList.filter((item) => (item.published as unknown) === true || (item.published as unknown) === 1 || (item.published as unknown) === '1' || (item.published as unknown) === 'true');
       setItems(publishedItems);
       setFilteredItems(publishedItems);
       setLoadError('');
@@ -153,6 +154,21 @@ export function DashboardScreen({ onLogout, onZandoClick }: DashboardScreenProps
     }
   };
 
+  const handleBuy = async (item: Item) => {
+    if (!hasToken()) { setInteractionNotice('Connectez-vous pour acheter.'); return; }
+    try {
+      const r = await apiClient.post('/api/escrow/buy', { product_id: Number(item.id) });
+      const oid = r.data?.order_id;
+      if (oid) { sessionStorage.setItem('escrow_order_id', String(oid)); window.dispatchEvent(new CustomEvent('uq:navigate', { detail: 'escrow-chat' })); }
+      setInteractionNotice('Interet enregistre — le vendeur va te choisir.');
+    } catch (e: any) {
+      setInteractionNotice(e.response?.data?.message || 'Produit deja en discussion ou indisponible.');
+    }
+  };
+  const handleComment = (item: Item) => {
+    setInteractionNotice(`Commentaires pour « ${item.title} » — messagerie directe avec le vendeur.`);
+  };
+
   const handleShare = async (item: Item) => {
     const shareUrl = new URL(window.location.href);
     shareUrl.searchParams.set('item', item.id);
@@ -186,7 +202,8 @@ export function DashboardScreen({ onLogout, onZandoClick }: DashboardScreenProps
       <header className="uq-screen-header z-20">
         <div className="uq-screen-header-inner gap-2">
 
-          {/* GAUCHE : Icône Catégorie + Dropdown */}
+          {/* GAUCHE : Logo UQ + Icône Catégorie */}
+          <LogoUQ variant="header" className="shrink-0" />
           <div className="relative shrink-0" ref={dropdownRef}>
             <button
               onClick={() => setShowCategories(!showCategories)}
@@ -236,7 +253,7 @@ export function DashboardScreen({ onLogout, onZandoClick }: DashboardScreenProps
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder={t('market.search')}
-              className="w-full rounded-full border border-white/[0.08] bg-[#161F2F]/70 py-2.5 pl-10 pr-4 text-sm text-white placeholder-[#64748B] focus:border-accent focus:outline-none"
+              className="w-full rounded-full border border-[var(--v2-line)] bg-[#161F2F]/70 py-2.5 pl-10 pr-4 text-sm text-white placeholder-[#64748B] focus:border-accent focus:outline-none"
             />
             <div className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none">
               <IconSearch size={16} color={UQ_COLORS.gray} />
@@ -298,6 +315,8 @@ export function DashboardScreen({ onLogout, onZandoClick }: DashboardScreenProps
                 isLiked={likedItems.has(item.id)}
                 onLike={() => handleLike(item)}
                 onShare={() => handleShare(item)}
+                onBuy={() => handleBuy(item)}
+                onComment={() => handleComment(item)}
               />
             ))}
           </div>
@@ -338,12 +357,16 @@ function ShopCardVertical({
   isLiked,
   onLike,
   onShare,
+  onBuy,
+  onComment,
 }: {
   item: Item;
   isActive: boolean;
   isLiked: boolean;
   onLike: () => void;
   onShare: () => void;
+  onBuy?: () => void;
+  onComment?: () => void;
 }) {
   const { t } = useLanguage();
   const [showDetails, setShowDetails] = useState(false);
@@ -353,14 +376,15 @@ function ShopCardVertical({
     try {
       if (item.media_urls) {
         const urls = typeof item.media_urls === 'string' ? JSON.parse(item.media_urls) : item.media_urls;
-        return urls[0] || null;
+        // ignore les entrees video:xxx — ce sont des videos, pas des images
+        return urls.find((u: string) => typeof u === 'string' && !u.startsWith('video:')) || null;
       }
       return null;
     } catch { return null; }
   })();
 
   return (
-    <article className="relative h-full min-h-full snap-start snap-always overflow-hidden bg-[var(--uq-bg-primary)] text-white">
+    <article className="relative h-full min-h-full snap-start snap-always overflow-hidden bg-[var(--v2-bg)] text-white">
       {photoUrl && (
         <img
           src={photoUrl}
@@ -373,7 +397,7 @@ function ShopCardVertical({
       )}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_40%,rgba(0,229,255,0.1),transparent_55%),linear-gradient(to_bottom,rgba(5,7,10,0.15),rgba(5,7,10,0.2)_45%,#05070A_95%)]" />
 
-      <div className="absolute left-4 top-4 z-10 flex items-center gap-2 rounded-full border border-white/[0.08] bg-[#0D121B]/70 px-3 py-1.5 text-[11px] font-semibold backdrop-blur-xl">
+      <div className="absolute left-4 top-4 z-10 flex items-center gap-2 rounded-full border border-[var(--v2-line)] bg-[var(--v2-surface)]/70 px-3 py-1.5 text-[11px] font-semibold backdrop-blur-xl">
         <span className="h-2 w-2 rounded-full bg-accent shadow-[0_0_10px_rgba(0,229,255,0.7)]" />
         Offre publiée
         {item.category && <span className="text-white/55">· {item.category}</span>}
@@ -411,7 +435,7 @@ function ShopCardVertical({
           </div>
           <p className="uq-mono shrink-0 text-right text-xl font-bold text-white sm:text-2xl">
             {item.price_borb > 0 ? item.price_borb.toLocaleString() : '—'}
-            {item.price_borb > 0 && <span className="ml-1 text-sm">BORB</span>}
+            {item.price_borb > 0 && <span className="ml-1 rounded-md bg-amber-400/20 px-1.5 py-0.5 text-[10px] font-bold text-amber-300">BORB</span>}
           </p>
         </div>
 
@@ -437,8 +461,8 @@ function ShopCardVertical({
               {isLiked ? 'Offre enregistrée' : 'Enregistrer l’offre'}
             </span>
           </button>
-          <p className="max-w-28 text-[10px] leading-tight text-white/45">
-            Achat et paiement en ligne non disponibles
+          <p className="max-w-28 text-[10px] leading-tight text-emerald-400/80">
+            Achat sécurisé UQZ
           </p>
         </div>
       </div>
@@ -454,6 +478,24 @@ function ShopCardVertical({
             <HeartIcon3D size={28} liked={isLiked} />
           </span>
           <span className="text-[10px] font-semibold">{isLiked ? 'Enregistré' : 'Garder'}</span>
+        </button>
+        <button
+          onClick={onBuy}
+          className="flex flex-col items-center active:scale-90 transition-all"
+        >
+          <div className="w-11 h-11 rounded-full bg-emerald-500/80 backdrop-blur-md border border-emerald-400/50 flex items-center justify-center text-white text-xl shadow-lg shadow-emerald-500/30">
+            🛒
+          </div>
+          <span className="text-emerald-400 text-[10px] font-semibold mt-0.5">Acheter</span>
+        </button>
+        <button
+          onClick={onComment}
+          className="flex flex-col items-center active:scale-90 transition-all"
+        >
+          <div className="w-11 h-11 rounded-full bg-black/60 backdrop-blur-md border border-white/20 flex items-center justify-center text-white text-xl">
+            💬
+          </div>
+          <span className="text-white text-[10px] font-semibold mt-0.5">Commenter</span>
         </button>
         <button
           onClick={onShare}

@@ -556,11 +556,11 @@ export function VideoFeed({
                     </p>
                   ) : (
                     <p className="mt-1.5 flex items-baseline gap-1.5">
-                      <span className="text-[19px] font-bold tabular-nums text-[color:var(--v2-gold)]">
+                      <span className="text-[19px] font-bold tabular-nums text-[color:var(--v2-accent)]">
                         {money.format(item.price_borb)}
                       </span>
                       {typeSoloLabel ? (
-                        <span className="rounded-pill bg-white/12 px-2 py-0.5 text-[11px] font-bold text-white/85 ring-1 ring-white/20">
+                        <span className="rounded-pill px-2 py-0.5 text-[11px] font-bold" style={{background:"var(--v2-accent-soft)",color:"var(--v2-accent)",border:"1px solid var(--v2-accent)"}}>
                           {typeSoloLabel}
                         </span>
                       ) : item.type ? (

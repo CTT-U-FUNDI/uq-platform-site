@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import api from '../../../api/client';
 import { TrendingDown, TrendingUp } from 'lucide-react';
 
+import { getPriceAll } from '../../../lib/priceCache';
 export function ExchangeView() {
   const [prices, setPrices] = useState<{
     borb_usd: number | null;
@@ -13,7 +14,7 @@ export function ExchangeView() {
   const [priceError, setPriceError] = useState('');
 
   useEffect(() => {
-    api.get('/api/price/all')
+    getPriceAll()
       .then((r) => {
         const data = r.data?.prices;
         const rate = Number(data?.borb_usd);

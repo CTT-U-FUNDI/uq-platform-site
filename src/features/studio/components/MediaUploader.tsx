@@ -1,5 +1,5 @@
 import { Icon } from '../../../components/ui/Icon';
-﻿import { useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 
 interface MediaUploaderProps {
   onUpload: (url: string, type: 'image' | 'video') => void;
@@ -10,6 +10,8 @@ export function MediaUploader({ onUpload, currentUrl }: MediaUploaderProps) {
   const [preview, setPreview] = useState<string | null>(currentUrl || null);
   const [mediaType, setMediaType] = useState<'image' | 'video'>('image');
   const [uploading, setUploading] = useState(false);
+  // Photo/vidéo candidate en attente de confirmation (on ne l'envoie pas sans validation)
+  const [pending, setPending] = useState<{ url: string; type: 'image' | 'video' } | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -18,19 +20,34 @@ export function MediaUploader({ onUpload, currentUrl }: MediaUploaderProps) {
 
     setUploading(true);
 
-    // Détecter le type
     const isVideo = file.type.startsWith('video/');
-    setMediaType(isVideo ? 'video' : 'image');
+    const type = isVideo ? 'video' : 'image';
 
-    // Lire le fichier en base64 (pour l'aperçu et le stockage local)
     const reader = new FileReader();
     reader.onload = (event) => {
       const dataUrl = event.target?.result as string;
+      // On montre l'aperçu et on ATTEND la confirmation — rien n'est envoyé.
+      setPending({ url: dataUrl, type });
+      setMediaType(type);
       setPreview(dataUrl);
-      onUpload(dataUrl, isVideo ? 'video' : 'image');
       setUploading(false);
+      // reset l'input pour pouvoir re-choisir le même fichier
+      if (fileInputRef.current) fileInputRef.current.value = '';
     };
+    reader.onerror = () => setUploading(false);
     reader.readAsDataURL(file);
+  };
+
+  const confirmer = () => {
+    if (!pending) return;
+    onUpload(pending.url, pending.type);
+    setPending(null);
+  };
+
+  const reprendre = () => {
+    setPending(null);
+    setPreview(currentUrl || null);
+    if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
   const handleClick = () => {
@@ -39,6 +56,7 @@ export function MediaUploader({ onUpload, currentUrl }: MediaUploaderProps) {
 
   const handleRemove = () => {
     setPreview(null);
+    setPending(null);
     onUpload('', 'image');
     if (fileInputRef.current) fileInputRef.current.value = '';
   };
@@ -69,20 +87,47 @@ export function MediaUploader({ onUpload, currentUrl }: MediaUploaderProps) {
             />
           )}
 
-          {/* Bouton supprimer */}
-          <button
-            onClick={handleRemove}
-            className="absolute top-3 right-3 w-9 h-9 rounded-full bg-black/70 backdrop-blur-md flex items-center justify-center text-white text-lg active:scale-90 transition-all"
-          >
-            <Icon name="x" size={20} />
-          </button>
-
           {/* Badge type */}
           <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-black/70 backdrop-blur-md">
             <span className="text-white text-xs font-semibold">
               {mediaType === 'video' ? '🎥 Vidéo' : '📸 Photo'}
             </span>
           </div>
+
+          {pending ? (
+            <>
+              {/* En attente de confirmation : on voit la photo avant envoi */}
+              <div className="absolute bottom-3 left-3 right-3 flex gap-2">
+                <button
+                  onClick={reprendre}
+                  className="flex-1 py-2.5 rounded-xl bg-black/70 backdrop-blur-md border border-white/20 text-white text-sm font-semibold active:scale-95 transition-all"
+                >
+                  Reprendre
+                </button>
+                <button
+                  onClick={confirmer}
+                  className="flex-1 py-2.5 rounded-xl bg-emerald-500 text-white text-sm font-bold active:scale-95 transition-all"
+                >
+                  Confirmer
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
+              <button
+                onClick={handleRemove}
+                className="absolute top-3 right-3 w-9 h-9 rounded-full bg-black/70 backdrop-blur-md flex items-center justify-center text-white text-lg active:scale-90 transition-all"
+              >
+                <Icon name="x" size={20} />
+              </button>
+              <button
+                onClick={handleClick}
+                className="absolute bottom-3 left-3 px-3 py-1.5 rounded-full bg-black/70 backdrop-blur-md text-white text-xs font-semibold active:scale-95"
+              >
+                Changer
+              </button>
+            </>
+          )}
         </div>
       ) : (
         <button

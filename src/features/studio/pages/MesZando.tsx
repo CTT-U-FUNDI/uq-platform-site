@@ -238,8 +238,9 @@ export function MesZando({ onBack }: MesZandoProps) {
                           const urls = typeof item.media_urls === 'string'
                             ? JSON.parse(item.media_urls)
                             : item.media_urls;
-                          if (urls && urls[0]) {
-                            return <img src={urls[0]} alt={item.title} className="w-full h-full object-cover" />;
+                          const premiereImage = urls?.find((u: string) => typeof u === 'string' && !u.startsWith('video:'));
+                          if (premiereImage) {
+                            return <img src={premiereImage} alt={item.title} className="w-full h-full object-cover" />;
                           }
                         } catch {}
                         return (

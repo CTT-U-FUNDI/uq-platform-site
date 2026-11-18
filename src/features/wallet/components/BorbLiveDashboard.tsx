@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import apiClient from '../../../api/client';
 import { Icon } from '../../../components/ui/Icon';
 
+import { getPriceAll } from '../../../lib/priceCache';
 interface CaseData {
   id: string;
   label: string;
@@ -65,7 +66,7 @@ export function BorbLiveDashboard({ uqNumber }: Props) {
   // Charger les prix
   const chargerPrices = async () => {
     try {
-      const r = await apiClient.get('/api/price/all');
+      const r = await getPriceAll();
       if (r.data?.status !== 'success' || !r.data?.prices) {
         throw new Error(r.data?.message || 'Réponse des prix invalide.');
       }

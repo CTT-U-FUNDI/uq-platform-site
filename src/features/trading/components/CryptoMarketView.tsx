@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import api from '../../../api/client';
 
+import { getPriceAll } from '../../../lib/priceCache';
 export function CryptoMarketView() {
   const [btc, setBtc] = useState<number | null>(null);
   const [gold, setGold] = useState<number | null>(null);
@@ -11,7 +12,7 @@ export function CryptoMarketView() {
     const load = async () => {
       try {
         const [all, hist] = await Promise.all([
-          api.get('/api/price/all'),
+          getPriceAll(),
           api.get('/api/price/history/btc'),
         ]);
         setBtc(all.data.prices?.btc_usd ?? null);

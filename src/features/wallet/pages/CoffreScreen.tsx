@@ -24,6 +24,7 @@ import { ScannerModal } from "../components/ScannerModal";
 import { ExternalTransferModal } from "../components/ExternalTransferModal";
 import { MultiWallets } from "../components/MultiWallets";
 import { BorbLiveDashboard } from "../components/BorbLiveDashboard";
+import { getPriceAll } from '../../../lib/priceCache';
 import {
   IconDashboard, IconCoffre, IconTransactions,
   IconSend, IconReceive, IconConvert, IconTrading, IconUbi,
@@ -186,7 +187,7 @@ export default function CoffreScreen({ onBack, onTradingClick }: {
 
       // Prix marché live (or, BTC, BORB) — un seul appel pour les trois
       try {
-        const priceR = await apiClient.get('/api/price/all');
+        const priceR = await getPriceAll();
         const prices = priceR.data?.prices || {};
         if (prices.borb_usd) setBorbUsdRate(prices.borb_usd);
         if (prices.btc_usd) setBtcPrice(prices.btc_usd);

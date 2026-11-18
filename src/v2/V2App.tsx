@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { App as CapApp } from '@capacitor/app';
 import './styles/v2.css';
 import { Icon, type IconName } from './components/Icon';
 import { Loader, ToastHost } from './components/Ui';
@@ -165,6 +166,22 @@ function Shell() {
     setVideoFeed(true);
     setTab('feed');
   }, [authenticated]);
+
+  // Bouton retour Android : navigue en arriere dans l'app ; sur l'accueil,
+  // double appui rapide pour quitter.
+  const backAt = useRef(0);
+  useEffect(() => {
+    let h: any;
+    CapApp.addListener('backButton', () => {
+      if (overlay) { setOverlay(null); return; }
+      if (tab !== 'feed') { goTab('feed'); return; }
+      const now = Date.now();
+      if (now - backAt.current < 2000) { CapApp.exitApp(); return; }
+      backAt.current = now;
+    }).then((l) => { h = l; });
+    return () => { h?.remove(); };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [overlay, tab]);
 
   const goTab = (target: Tab) => {
     setOverlay(null);

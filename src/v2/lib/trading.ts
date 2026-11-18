@@ -197,6 +197,7 @@ export interface P2POrder {
   numero_de_preuve?: string;
   operator: string;
   status: P2POrderStatus;
+  proof_code?: string;
   chat_group_id: string;
   created_at: number;
   updated_at: number;
@@ -410,7 +411,7 @@ export const getP2POrders = (uq: string) =>
     .get<P2POrdersResponse>(`/api/p2p/market/orders/${encodeURIComponent(uq)}`)
     .then(unwrap);
 
-export const confirmP2POrder = (id: number, uq: string, derogation = false) =>
+export const confirmP2POrder = (id: number, uq: string, derogation = false, proofCode = '') =>
   apiClient
     .post<{
       status: string;

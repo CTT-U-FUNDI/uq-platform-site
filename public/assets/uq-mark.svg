@@ -1,27 +1,27 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none">
   <defs>
     <linearGradient id="uq-bg" x1="12" y1="8" x2="118" y2="122" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#25172D"/>
-      <stop offset=".48" stop-color="#111C32"/>
-      <stop offset="1" stop-color="#0B2433"/>
+      <stop stop-color="#0A2A4A"/>
+      <stop offset=".48" stop-color="#0A2A4A"/>
+      <stop offset="1" stop-color="#1E6FD9"/>
     </linearGradient>
     <linearGradient id="uq-mark" x1="30" y1="33" x2="104" y2="91" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#FFF8F4"/>
-      <stop offset=".55" stop-color="#FFF"/>
-      <stop offset="1" stop-color="#BCEBFF"/>
+      <stop stop-color="#FFFFFF"/>
+      <stop offset=".55" stop-color="#EAF4FF"/>
+      <stop offset="1" stop-color="#9CCBFF"/>
     </linearGradient>
     <linearGradient id="uq-edge" x1="20" y1="18" x2="111" y2="108" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#FF8C93" stop-opacity=".85"/>
-      <stop offset=".52" stop-color="#C89CFF" stop-opacity=".52"/>
-      <stop offset="1" stop-color="#6DDCFF" stop-opacity=".8"/>
+      <stop stop-color="#FF2D55" stop-opacity="1"/>
+      <stop offset=".52" stop-color="#FF2D55" stop-opacity=".85"/>
+      <stop offset="1" stop-color="#2D9CFF" stop-opacity="1"/>
     </linearGradient>
     <radialGradient id="uq-glow-warm" cx="0" cy="0" r="1" gradientTransform="matrix(49 47 -39 41 22 17)" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#F04E68" stop-opacity=".38"/>
-      <stop offset="1" stop-color="#F04E68" stop-opacity="0"/>
+      <stop stop-color="#FF2D55" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#FF2D55" stop-opacity="0"/>
     </radialGradient>
     <radialGradient id="uq-glow-cool" cx="0" cy="0" r="1" gradientTransform="matrix(47 43 -37 41 111 110)" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#35BFE8" stop-opacity=".32"/>
-      <stop offset="1" stop-color="#35BFE8" stop-opacity="0"/>
+      <stop stop-color="#2D9CFF" stop-opacity=".5"/>
+      <stop offset="1" stop-color="#2D9CFF" stop-opacity="0"/>
     </radialGradient>
     <filter id="uq-mark-shadow" x="19" y="23" width="93" height="81" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse">
       <feFlood flood-opacity="0" result="BackgroundImageFix"/>
@@ -41,10 +41,10 @@
     <rect x="4" y="4" width="120" height="120" rx="35" fill="url(#uq-bg)"/>
     <rect x="4" y="4" width="120" height="120" fill="url(#uq-glow-warm)"/>
     <rect x="4" y="4" width="120" height="120" fill="url(#uq-glow-cool)"/>
-    <path d="M13 44C20 22 43 10 64 10" stroke="#FFF" stroke-opacity=".08" stroke-width="1.2"/>
-    <path d="M115 82c-6 21-25 35-47 36" stroke="#FFF" stroke-opacity=".08" stroke-width="1.2"/>
-    <circle cx="19" cy="39" r="2" fill="#FF9AA3"/>
-    <circle cx="108" cy="88" r="2" fill="#78DDF8"/>
+    <path d="M13 44C20 22 43 10 64 10" stroke="#EAF4FF" stroke-opacity=".08" stroke-width="1.2"/>
+    <path d="M115 82c-6 21-25 35-47 36" stroke="#EAF4FF" stroke-opacity=".08" stroke-width="1.2"/>
+    <circle cx="19" cy="39" r="2" fill="#FF8A93"/>
+    <circle cx="108" cy="88" r="2" fill="#8CCBFF"/>
     <g filter="url(#uq-mark-shadow)" stroke="url(#uq-mark)" stroke-linecap="round" stroke-linejoin="round">
       <path d="M25 34v31c0 11.6 8.7 20.5 20 20.5S65 76.6 65 65V34" stroke-width="8"/>
       <circle cx="84" cy="55" r="19" stroke-width="8"/>

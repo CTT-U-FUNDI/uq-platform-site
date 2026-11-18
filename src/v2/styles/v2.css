@@ -6,7 +6,7 @@
 
 .v2-root {
   /* Typographie */
-  --v2-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto,
+  --v2-font: "Segoe UI", -apple-system, BlinkMacSystemFont, Inter, Roboto,
     "Helvetica Neue", Arial, sans-serif;
   --v2-font-mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, monospace;
 
@@ -25,14 +25,14 @@
   --v2-topbar-h: 56px;
 
   /* Couleurs de marque */
-  --v2-accent: #EA4335;
-  --v2-accent-strong: #c22b38;
-  --v2-accent-soft: rgba(230, 57, 70, 0.1);
+  --v2-accent: #0078D4;
+  --v2-accent-strong: #005A9E;
+  --v2-accent-soft: rgba(0, 120, 212, 0.1);
   --v2-accent-ink: #ffffff;
-  --v2-info: #1A73E8;
-  --v2-info-soft: rgba(46, 134, 222, 0.1);
+  --v2-info: #0078D4;
+  --v2-info-soft: rgba(0, 120, 212, 0.1);
   --v2-info-ink: #ffffff;
-  --v2-gold: #c9a227;
+  --v2-gold: #F2B700;
   --v2-gold-soft: rgba(255, 215, 0, 0.16);
   --v2-purple: #7b5ea7;
   --v2-purple-soft: rgba(123, 94, 167, 0.12);
@@ -46,13 +46,13 @@
   --v2-warning-soft: rgba(181, 71, 8, 0.12);
 
   /* Surfaces (clair par defaut) */
-  --v2-bg: #f2f5fa;
-  --v2-surface: #ffffff;
-  --v2-surface-2: #eef2f8;
-  --v2-surface-3: #e4eaf3;
-  --v2-ink: #0D121B;
-  --v2-ink-2: #46536a;
-  --v2-ink-3: #7b879c;
+  --v2-bg: #FAF9F8;
+  --v2-surface: #FFFFFF;
+  --v2-surface-2: #F3F2F1;
+  --v2-surface-3: #EBE9E8;
+  --v2-ink: #201F1E;
+  --v2-ink-2: #42413F;
+  --v2-ink-3: #797775;
   --v2-line: rgba(11, 18, 32, 0.08);
   --v2-line-strong: rgba(11, 18, 32, 0.14);
   --v2-shadow-sm: 0 1px 2px rgba(11, 18, 32, 0.06), 0 4px 12px rgba(11, 18, 32, 0.05);
@@ -70,13 +70,13 @@
 }
 
 .v2-root[data-theme='dark'] {
-  --v2-accent: #ff5a66;
-  --v2-accent-strong: #ff8088;
-  --v2-accent-soft: rgba(255, 90, 102, 0.16);
-  --v2-accent-ink: #0D121B;
-  --v2-info: #5aa9ff;
-  --v2-info-soft: rgba(90, 169, 255, 0.14);
-  --v2-info-ink: #08192b;
+  --v2-accent: #4CC2FF;
+  --v2-accent-strong: #8CD4FF;
+  --v2-accent-soft: rgba(76, 194, 255, 0.16);
+  --v2-accent-ink: #00263A;
+  --v2-info: #4CC2FF;
+  --v2-info-soft: rgba(76, 194, 255, 0.14);
+  --v2-info-ink: #00263A;
   --v2-gold: #ffd75e;
   --v2-gold-soft: rgba(255, 215, 94, 0.14);
   --v2-purple: #a98bdb;
@@ -90,13 +90,13 @@
   --v2-warning: #f5b544;
   --v2-warning-soft: rgba(245, 181, 68, 0.14);
 
-  --v2-bg: #0c1020;
-  --v2-surface: #141a2b;
-  --v2-surface-2: #1b2336;
-  --v2-surface-3: #252f46;
-  --v2-ink: #f3f6fb;
-  --v2-ink-2: #a9b6c9;
-  --v2-ink-3: #74829a;
+  --v2-bg: #201F1E;
+  --v2-surface: #2B2A28;
+  --v2-surface-2: #323130;
+  --v2-surface-3: #3B3A38;
+  --v2-ink: #FFFFFF;
+  --v2-ink-2: #D2D0CE;
+  --v2-ink-3: #A19F9D;
   --v2-line: rgba(255, 255, 255, 0.08);
   --v2-line-strong: rgba(255, 255, 255, 0.16);
   --v2-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
@@ -6369,3 +6369,20 @@ button.v2-hint:active {
   transition: background 0.2s ease, transform 0.2s ease;
 }
 .v2-auth-back:hover { background: rgba(255, 255, 255, 0.14); transform: translateX(-2px); }
+
+/* Bordure glass rouge+rose MS — fine, sur tous les elements interactifs */
+.v2-card, .v2-sheet, .v2-menu-pop, .v2-input, .v2-btn-primary, .v2-segmented {
+  border: 1px solid transparent;
+  background-image:
+    linear-gradient(var(--v2-surface, rgba(255,255,255,0.04)), var(--v2-surface, rgba(255,255,255,0.04))),
+    linear-gradient(135deg, rgba(232,17,35,0.55), rgba(255,45,85,0.35) 45%, rgba(255,105,180,0.5));
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+}
+/* Version simple fallback : liseré rouge->rose en haut */
+.v2-card::before, .v2-sheet::before {
+  content: '';
+  position: absolute; top: 0; left: 8%; right: 8%; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(232,17,35,0.7), rgba(255,105,180,0.7), transparent);
+  pointer-events: none;
+}

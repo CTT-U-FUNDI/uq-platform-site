@@ -1104,7 +1104,7 @@ export default function ProfilePage({ onBack }: ProfileProps) {
   // RETOUR AU PROFIL 1 (owner) - SANS MOT DE PASSE
   // ====================
   const handleReturnToOwner = async () => {
-    const ownerUq = localStorage.getItem('uq_switched_from') || 'UQ-00000001';
+    const ownerUq = localStorage.getItem('uq_switched_from') || uqNumber;
 
     // Re-login automatique au owner (sans mdp car deja authentifie)
     try {
@@ -1178,7 +1178,7 @@ export default function ProfilePage({ onBack }: ProfileProps) {
       setKycMessage('Format email invalide');
       return;
     }
-    if (uqClean === 'UQ-00000001') {
+    if (uqClean === uqNumber) {
       setKycMessage('Impossible de valider le compte owner');
       return;
     }
@@ -1190,7 +1190,7 @@ export default function ProfilePage({ onBack }: ProfileProps) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          owner_uq: 'UQ-00000001',
+          owner_uq: uqNumber,
           owner_email: 'delis@ufundi.uq',
           target_uq: uqClean,
           target_email: emailClean,
@@ -1237,7 +1237,7 @@ export default function ProfilePage({ onBack }: ProfileProps) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-Switch-From': 'UQ-00000001',
+          'X-Switch-From': uqNumber,
         },
         body: JSON.stringify({ uq_number: switchUq }),
       });
@@ -1291,7 +1291,7 @@ export default function ProfilePage({ onBack }: ProfileProps) {
       localStorage.setItem('uq_pseudo', dataFinal.account?.uq_pseudo || '');
       localStorage.setItem('uq_email', dataFinal.account?.uq_email || '');
       localStorage.setItem('uq_is_owner', 'false');
-      localStorage.setItem('uq_switched_from', 'UQ-00000001');
+      localStorage.setItem('uq_switched_from', uqNumber);
 
       console.log('[SWITCH] Basculé vers', dataFinal.uq_number);
       console.log('[SWITCH] uq_switched_from =', localStorage.getItem('uq_switched_from'));
@@ -1435,6 +1435,17 @@ export default function ProfilePage({ onBack }: ProfileProps) {
                 </p>
               </div>
             )}
+
+            <button
+              onClick={() => window.dispatchEvent(new CustomEvent('uq:navigate',{detail:'mes-clients'}))}
+              className="w-full mb-3 p-3 rounded-lg border border-emerald-500/30 bg-emerald-500/5 hover:bg-emerald-500/10 transition-colors text-left"
+            >
+              <div className="flex items-center justify-between mb-1">
+                <span className="text-[10px] uppercase tracking-wider text-emerald-400 font-bold">Mes clients</span>
+                <span className="text-[10px] text-emerald-400"><Icon name="arrowRight" size={12} /></span>
+              </div>
+              <p className="text-[10px] text-[#5A5A6A] leading-tight">Acheteurs interesses par tes produits Zando</p>
+            </button>
 
             {account.is_owner && (
               <button

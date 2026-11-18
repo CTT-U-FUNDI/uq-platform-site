@@ -13,6 +13,7 @@ import { MarketplaceSheet } from '../components/MarketplaceSheet';
 import { PublicProfileSheet } from '../components/PublicProfileSheet';
 import { PublicationsPanel } from '../components/PublicationsPanel';
 import { StatusRail } from '../components/StatusRail';
+import { NotificationsSheet } from '../components/NotificationsSheet';
 import {
   Avatar,
   Button,
@@ -33,6 +34,7 @@ import {
   Textarea,
 } from '../components/Ui';
 import { useAsync, useKeyboardInset, usePolling } from '../lib/hooks';
+import { useNotifications } from '../lib/notifications';
 import { useSession } from '../lib/session';
 import { useHelp } from '../lib/help';
 import {
@@ -138,6 +140,9 @@ export function ChatScreen({
   const [groupName, setGroupName] = useState('');
   const [groupDescription, setGroupDescription] = useState('');
   const [groupVisibility, setGroupVisibility] = useState('public');
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [notifOpen, setNotifOpen] = useState(false);
+  const notifications = useNotifications();
   const [busy, setBusy] = useState(false);
   const [contactsOpen, setContactsOpen] = useState(false);
   const [contactQuery, setContactQuery] = useState('');
@@ -673,27 +678,45 @@ export function ChatScreen({
         onBack={onBack}
         dense
         right={
-          <>
-            <IconButton
-              name="info"
-              label="Guide du chat"
-              compact
-              onClick={() => help.openHelp('chat')}
-            />
-            <IconButton
-              name="contact"
-              label="Contacts"
-              compact
-              onClick={() => setContactsOpen(true)}
-            />
+          <div style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: 4 }}>
+            <IconButton name="bell" label="Notifications" compact onClick={() => setNotifOpen(true)} />
             <IconButton name="plus" label="Nouveau message" compact onClick={() => setNewOpen(true)} />
             <IconButton
-              name="users"
-              label="Nouveau groupe"
+              name={menuOpen ? 'close' : 'more'}
+              label="Menu chat"
               compact
-              onClick={() => setNewGroupOpen(true)}
+              onClick={() => setMenuOpen((v) => !v)}
             />
-          </>
+            {menuOpen && (
+              <div style={{
+                position: 'absolute', right: 0, top: 44, zIndex: 60,
+                minWidth: 210, borderRadius: 14, padding: 6,
+                background: 'var(--v2-surface, rgba(13,18,27,0.96))',
+                border: '1px solid rgba(76,194,255,0.18)',
+                boxShadow: '0 16px 48px rgba(0,0,0,0.55)',
+                backdropFilter: 'blur(16px)',
+              }}>
+                {[
+                  { icon: 'info', label: 'Guide du chat', fn: () => { setMenuOpen(false); help.openHelp('chat'); } },
+                  { icon: 'contact', label: 'Contacts', fn: () => { setMenuOpen(false); setContactsOpen(true); } },
+                  { icon: 'users', label: 'Nouveau groupe', fn: () => { setMenuOpen(false); setNewGroupOpen(true); } },
+                ].map((it) => (
+                  <button
+                    key={it.label}
+                    onClick={it.fn}
+                    style={{
+                      display: 'flex', alignItems: 'center', gap: 10, width: '100%',
+                      padding: '11px 12px', borderRadius: 10, border: 'none',
+                      background: 'transparent', color: 'var(--v2-text, #eaf2ff)',
+                      fontSize: 14, fontWeight: 600, cursor: 'pointer', textAlign: 'left',
+                    }}
+                  >
+                    <Icon name={it.icon as any} size={17} /> {it.label}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
         }
       />
 
@@ -1325,7 +1348,15 @@ export function ChatScreen({
             : undefined
         }
       />
-    </>
+          <NotificationsSheet
+        open={notifOpen}
+        onClose={() => setNotifOpen(false)}
+        onNavigate={(scope) => {
+          setNotifOpen(false);
+          if (scope === 'zando') { /* retour flux via onglet */ }
+        }}
+      />
+</>
   );
 }
 
@@ -2642,7 +2673,7 @@ function ChatThread({
               onPhotoFile={thread.kind === 'direct' ? (file) => void sendPhoto(file) : undefined}
             />
           )}
-        </>
+</>
       )}
 
       {photoView && (

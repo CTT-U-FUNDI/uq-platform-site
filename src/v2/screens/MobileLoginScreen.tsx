@@ -29,6 +29,17 @@ interface Props {
  * Menu 3 points : creer un compte, visiter uqplatform.com, wallet offline,
  * politique de confidentialite. Icone IA conservee en haut.
  */
+export const CHECK_URL = 'https://uqplatform.com/version.json';
+const CURRENT = '1.0.36';
+const plusRecente = (a: string, b: string) => {
+  const pa = a.split('.').map(Number), pb = b.split('.').map(Number);
+  for (let i = 0; i < 3; i++) {
+    const d = (pa[i] || 0) - (pb[i] || 0);
+    if (d !== 0) return d > 0;
+  }
+  return false;
+};
+
 export function MobileLoginScreen({ onCreateAccount }: Props) {
   const { completeLogin, toast } = useSession();
 
@@ -43,6 +54,7 @@ export function MobileLoginScreen({ onCreateAccount }: Props) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [aiOpen, setAiOpen] = useState(false);
   const [apkUrl, setApkUrl] = useState<string | null>(null);
+  const [majStatus, setMajStatus] = useState('');
   const [dlPct, setDlPct] = useState<number | null>(null);
 
   // Etat de session serveur (transporte entre les etapes)
@@ -51,16 +63,43 @@ export function MobileLoginScreen({ onCreateAccount }: Props) {
   const [isOwner, setIsOwner] = useState(false);
   const [tentativesOk, setTentativesOk] = useState(0);
 
+  // Permissions materiel : demandees a l'ouverture (pas a l'install)
+  const [permInfo, setPermInfo] = useState(false);
+  const [consent, setConsent] = useState<boolean>(() => {
+    try { return localStorage.getItem('uq_consent_v1') === '1'; } catch { return false; }
+  });
+  const demanderPermissions = () => {
+    if (!Capacitor.isNativePlatform()) return;
+    import('@capacitor/core').then(async ({ registerPlugin }) => {
+      const UqUpdater = registerPlugin<any>('UqUpdater');
+      try {
+        const r: any = await UqUpdater.requestPermissions();
+        setPermInfo(!r?.allGranted);
+      } catch { setPermInfo(true); }
+    });
+  };
+
+  const accepterConsentement = () => {
+    try { localStorage.setItem('uq_consent_v1', '1'); } catch {}
+    setConsent(true);
+    demanderPermissions();
+  };
+
   // Pont OTA : verifie version.json sur uqplatform.com — si plus recent, propose l'APK.
   useEffect(() => {
-    const CHECK_URL = 'https://uqplatform.com/version.json';
-    const CURRENT = '1.0.1';
-    fetch(CHECK_URL, { cache: 'no-store' })
-      .then((r) => (r.ok ? r.json() : null))
-      .then((v) => {
-        if (v?.apk && v?.version && v.version !== CURRENT) setApkUrl(v.apk);
-      })
-      .catch(() => undefined);
+
+    const verifier = () => {
+      fetch(CHECK_URL, { cache: 'no-store' })
+        .then((r) => (r.ok ? r.json() : null))
+        .then((v) => {
+          if (v?.apk && v?.version && plusRecente(v.version, CURRENT)) setApkUrl(v.apk);
+        })
+        .catch(() => undefined);
+    };
+    verifier();
+    // Ecoute le serveur : re-verifie toutes les 60s (nouveau patch -> bouton MAJ)
+    const timer = setInterval(verifier, 60000);
+    return () => clearInterval(timer);
   }, []);
 
   /** Telecharge l'APK dans l'app (progression) puis ouvre l'installateur. */
@@ -131,8 +170,8 @@ export function MobileLoginScreen({ onCreateAccount }: Props) {
     }
   };
 
-  const finaliser = async (owner: boolean) => {
-    const data = await authFinalize(owner, sessionId, tfaToken, lireCleAppareil());
+  const finaliser = async (owner: boolean, token?: string) => {
+    const data = await authFinalize(owner, sessionId, token || tfaToken, lireCleAppareil());
     if (data.status !== 'success' || !data.token) {
       setError('Connexion refusee. Reessaie.');
       setEtape('password');
@@ -177,10 +216,14 @@ export function MobileLoginScreen({ onCreateAccount }: Props) {
       if (res.tfa_token) setTfaToken(res.tfa_token);
       if (owner && res.step === 3) {
         // Owner : code de login (ex: 3543) en etape dediee
+        if (res.tfa_token) setTfaToken(res.tfa_token);
         setEtape('code_owner');
         return;
       }
-      await finaliser(owner);
+      await finaliser(owner, res.tfa_token || undefined);
+    } catch (e: any) {
+      setError(e?.response?.data?.message || e?.message || 'Serveur injoignable — reessaie.');
+      setPassword('');
     } finally {
       setBusy(false);
     }
@@ -201,8 +244,9 @@ export function MobileLoginScreen({ onCreateAccount }: Props) {
         setCodeOwner('');
         return;
       }
+      const nouveauToken = res.tfa_token || tfaToken;
       if (res.tfa_token) setTfaToken(res.tfa_token);
-      await finaliser(true);
+      await finaliser(true, nouveauToken);
     } finally {
       setBusy(false);
     }
@@ -218,6 +262,50 @@ export function MobileLoginScreen({ onCreateAccount }: Props) {
     },
   ];
 
+  // ===== Ecran consentement (premier lancement) =====
+  if (!consent) {
+    return (
+      <div style={{
+        minHeight: '100dvh', display: 'flex', alignItems: 'center', justifyContent: 'center',
+        padding: 24, background: 'radial-gradient(120% 120% at 50% 0%, #0a0f1c 0%, #060a12 55%, #03050a 100%)',
+      }}>
+        <div style={{
+          width: '100%', maxWidth: 340, borderRadius: 22, padding: '28px 22px',
+          background: 'rgba(13,20,35,0.9)', border: '1px solid rgba(76,194,255,0.3)',
+          boxShadow: '0 20px 60px rgba(0,0,0,0.6)', textAlign: 'center', color: '#eaf2ff',
+        }}>
+          <div style={{ fontSize: 20, fontWeight: 800, marginBottom: 6 }}>Bienvenue sur UQZ</div>
+          <p style={{ fontSize: 13, color: '#9fb8d8', lineHeight: 1.6, margin: '0 0 18px' }}>
+            UQZ a besoin de tes autorisations (position, caméra, micro, stockage)
+            pour toutes ses fonctions. Tes données servent uniquement à améliorer ton expérience.
+          </p>
+          <button
+            type="button"
+            onClick={() => window.open('https://uqplatform.com', '_blank')}
+            style={{
+              display: 'block', width: '100%', marginBottom: 10, padding: '12px',
+              borderRadius: 12, border: '1px solid rgba(76,194,255,0.4)',
+              background: 'rgba(0,164,239,0.08)', color: '#7fd4ff', fontSize: 13, fontWeight: 600, cursor: 'pointer',
+            }}
+          >
+            Lire les conditions d'utilisation UQZ
+          </button>
+          <button
+            type="button"
+            onClick={accepterConsentement}
+            style={{
+              display: 'block', width: '100%', padding: '13px', borderRadius: 12,
+              border: 'none', background: 'linear-gradient(135deg,#0067C0,#00A4EF)',
+              color: '#fff', fontSize: 15, fontWeight: 700, cursor: 'pointer',
+            }}
+          >
+            OK — Continuer
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div
       className="v2-auth"
@@ -228,70 +316,46 @@ export function MobileLoginScreen({ onCreateAccount }: Props) {
         alignItems: 'center',
         justifyContent: 'center',
         padding: '24px 20px',
-        background: 'radial-gradient(120% 120% at 50% 0%, #0d1b2e 0%, #070b14 55%, #04060c 100%)',
+        position: 'relative',
+        background: 'radial-gradient(120% 120% at 50% 0%, #0a0f1c 0%, #060a12 55%, #03050a 100%)',
         color: '#eaf2ff',
       }}
     >
+      {/* Bouton retour — etape precedente, champs reinitialises */}
+      {(etape === 'password' || etape === 'code_owner') && (
+        <button
+          type="button"
+          aria-label="Retour"
+          onClick={() => {
+            if (etape === 'code_owner') { setCodeOwner(''); setEtape('password'); }
+            else { setPassword(''); setError(''); setEtape('numero'); }
+          }}
+          style={{
+            position: 'absolute', top: 14, left: 16, zIndex: 30,
+            width: 36, height: 36, borderRadius: '50%',
+            border: '1px solid rgba(255,255,255,0.15)',
+            background: 'rgba(255,255,255,0.06)',
+            color: '#eaf2ff', fontSize: 18,
+            display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+            cursor: 'pointer',
+          }}
+        >
+          ‹
+        </button>
+      )}
       {/* Entete : logo + menu 3 points + IA */}
-      {/* Logo UQ original + badge Z + halo Microsoft (lettres intactes) */}
+      {/* Logo UQ — identique a l'ancien ecran de connexion */}
       <div style={{ marginBottom: 32, display: 'flex', justifyContent: 'center', position: 'relative', width: '100%' }}>
         <div style={{ position: 'relative', display: 'inline-block' }}>
-          {/* Halo degrade Microsoft derriere le logo */}
-          <div style={{
-            position: 'absolute', inset: -10, borderRadius: '50%',
-            background: 'conic-gradient(from 210deg, #0067C0, #00A4EF, #4CC2FF, #7B61FF, #FCE100, #0067C0)',
-            filter: 'blur(10px)', opacity: 0.55, zIndex: 0,
-          }} />
-          <div style={{
-            position: 'relative', zIndex: 1, borderRadius: '50%', padding: 3,
-            background: 'linear-gradient(135deg,#0067C0,#00A4EF,#4CC2FF)',
-          }}>
-            <LogoUQ size={78} className="v2-auth-logo" />
-          </div>
-          {/* Petit Z accent sous le Q */}
+          <LogoUQ size={80} className="v2-auth-logo" />
           <span style={{
-            position: 'absolute', right: -4, bottom: -2, zIndex: 2,
-            width: 26, height: 26, borderRadius: '50%',
-            background: 'linear-gradient(135deg,#FCE100,#FFB900)',
-            color: '#1a1a1a', fontWeight: 900, fontSize: 15,
-            display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-            border: '2px solid rgba(255,255,255,0.85)',
-            boxShadow: '0 2px 8px rgba(0,0,0,0.4)',
+            position: 'absolute', right: 2, top: 2, zIndex: 2,
+            color: '#FFFFFF', fontWeight: 900, fontSize: 13,
+            textShadow: '0 1px 3px rgba(0,0,0,0.6)',
+            pointerEvents: 'none',
           }}>Z</span>
         </div>
-        {apkUrl && dlPct === null && (
-          <button
-            type="button"
-            aria-label="Verifier les mises a jour"
-            title="Mise a jour disponible"
-            onClick={() => telechargerEtInstaller(apkUrl)}
-            style={{
-              position: 'absolute',
-              right: 0,
-              top: '50%',
-              transform: 'translateY(-50%)',
-              width: 36,
-              height: 36,
-              borderRadius: '50%',
-              border: '1px solid rgba(76,194,255,0.5)',
-              background: 'rgba(0,164,239,0.12)',
-              color: '#7fd4ff',
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer',
-            }}
-          >
-            <Icon name="refresh" size={17} />
-          </button>
-        )}
-        {dlPct !== null && (
-          <div style={{ position: 'absolute', right: 0, top: '50%', transform: 'translateY(-50%)', fontSize: 11, color: '#7fd4ff', whiteSpace: 'nowrap' }}>
-            {dlPct}%
-          </div>
-        )}
       </div>
-
       {/* Carte de connexion */}
       <div
         style={{
@@ -307,18 +371,20 @@ export function MobileLoginScreen({ onCreateAccount }: Props) {
         }}
       >
         <div style={{ textAlign: 'center', marginBottom: 24 }}>
-          <div style={{ fontSize: 22, fontWeight: 700 }}>UQ Platform</div>
+          <div style={{ fontSize: 22, fontWeight: 700 }}>
+            {etape === 'numero' ? 'Bienvenue dans la famille' : 'UQZ'}
+          </div>
           <div style={{ fontSize: 13, opacity: 0.6, marginTop: 4 }}>
-            {etape === 'numero' && 'Entre ton numero UQ'}
-            {etape === 'password' && `Bienvenue ${uq}`}
+            {etape === 'password' && 'Entrez votre mot de passe'}
             {etape === 'code_owner' && 'Code de login proprietaire'}
             {etape === 'succes' && 'Connexion…'}
+            {etape === 'numero' && 'Entre ton numero UQ'}
           </div>
         </div>
 
         {etape === 'numero' && (
           <>
-            <label style={labelStyle}>Numero UQ</label>
+            
             <input
               value={uq}
               onChange={(e) => {
@@ -329,7 +395,7 @@ export function MobileLoginScreen({ onCreateAccount }: Props) {
               placeholder="UQ-00000000"
               inputMode="numeric"
               autoComplete="username"
-              style={{ ...inputStyle, ...(glassInput) }}
+              style={{ ...inputStyle, ...(glassInput), textAlign: 'center', letterSpacing: 1 }}
               onKeyDown={(e) => e.key === 'Enter' && soumettreNumero()}
             />
             <button
@@ -456,33 +522,62 @@ export function MobileLoginScreen({ onCreateAccount }: Props) {
         </div>
       )}
 
-      {/* Menu 3 points */}
-      <Sheet open={menuOpen} onClose={() => setMenuOpen(false)} title="Options">
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-          {menuItems.map((item) => (
-            <button
-              key={item.label}
-              type="button"
-              role="menuitem"
-              onClick={() => {
-                setMenuOpen(false);
-                item.action();
-              }}
-              style={{
-                textAlign: 'left',
-                padding: '14px 16px',
-                borderRadius: 12,
-                border: '1px solid rgba(255,255,255,0.08)',
-                background: 'rgba(255,255,255,0.04)',
-                color: 'inherit',
-                fontSize: 15,
-              }}
-            >
-              {item.label}
-            </button>
-          ))}
+      {/* Menu 3 points — popup centre glassmorphique */}
+      {menuOpen && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          onClick={() => setMenuOpen(false)}
+          style={{
+            position: 'fixed', inset: 0, zIndex: 60,
+            background: 'rgba(0,0,0,0.55)',
+            backdropFilter: 'blur(6px)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            padding: 24,
+          }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              width: '100%', maxWidth: 320,
+              borderRadius: 20, padding: '20px 16px',
+              background: 'rgba(13,20,35,0.85)',
+              border: '1px solid rgba(76,194,255,0.25)',
+              boxShadow: '0 20px 60px rgba(0,0,0,0.6), 0 0 30px rgba(0,164,239,0.12)',
+              backdropFilter: 'blur(20px)',
+            }}
+          >
+            <div style={{ textAlign: 'center', fontSize: 13, fontWeight: 700, letterSpacing: 1, color: '#7fd4ff', marginBottom: 14, textTransform: 'uppercase' }}>
+              Options
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {menuItems.map((item) => (
+                <button
+                  key={item.label}
+                  type="button"
+                  role="menuitem"
+                  onClick={() => {
+                    setMenuOpen(false);
+                    item.action();
+                  }}
+                  style={{
+                    textAlign: 'left',
+                    padding: '14px 16px',
+                    borderRadius: 12,
+                    border: '1px solid rgba(76,194,255,0.18)',
+                    background: 'rgba(0,164,239,0.07)',
+                    color: '#eaf2ff',
+                    fontSize: 15,
+                    cursor: 'pointer',
+                  }}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
-      </Sheet>
+      )}
 
       {/* Petits boutons centres sous la carte */}
       <div

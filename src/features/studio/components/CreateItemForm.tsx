@@ -1,5 +1,6 @@
 ﻿import { useState, useEffect } from 'react';
 import { getTemplate } from '../templates';
+import { StudioMediaPicker } from './StudioMediaPicker';
 import { MediaUploader } from './MediaUploader';
 import { PinModal } from '../../../components/ui/PinModal';
 import api from '../../../api/client';
@@ -66,6 +67,8 @@ export function CreateItemForm({ type, onPublish, onCancel, onBack, initialData 
       prix: initialData.price_borb?.toString() || '',
       categorie: initialData.category || 'general',
       photo: mediaUrls[0] || '',
+      photos: mediaUrls.filter((u:string)=>!u.startsWith('video:')),
+      video: mediaUrls.find((u:string)=>u.startsWith('video:'))?.slice(6) || '',
     };
   });
   const [loading, setLoading] = useState(false);
@@ -110,7 +113,7 @@ export function CreateItemForm({ type, onPublish, onCancel, onBack, initialData 
       title: String(formData.titre || '').trim(),
       description: String(formData.description || '').trim(),
       price_borb: Number(formData.prix),
-      media_urls: JSON.stringify(formData.photo ? [formData.photo] : []),
+      media_urls: JSON.stringify([...(formData.photos||[]), ...(formData.video?['video:'+formData.video]:[])]),
       category: String(formData.categorie || 'general'),
     };
 
@@ -205,9 +208,14 @@ export function CreateItemForm({ type, onPublish, onCancel, onBack, initialData 
               <h3 className="text-white text-base font-bold"><Icon name="camera" size={18} /> Ajoute un média</h3>
               <p className="text-gray-500 text-xs mt-1">Photo ou vidéo de ton item</p>
             </div>
-            <MediaUploader
-              onUpload={(url) => handleChange('photo', url)}
-              currentUrl={formData.photo}
+            <StudioMediaPicker
+              photos={formData.photos || []}
+              video={formData.video || null}
+              onChange={(photos, video) => {
+                handleChange('photos', photos);
+                handleChange('video', video || '');
+                handleChange('photo', photos[0] || '');
+              }}
             />
           </div>
         )}

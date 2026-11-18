@@ -13,6 +13,9 @@ import PlayerPage from './pages/PlayerPage';
 import ProfilePage from './pages/ProfilePage';
 import TradingScreen from './features/trading/pages/TradingScreen';
 import ChatScreen from './features/chat/pages/ChatScreen';
+import { MesClients } from './features/escrow/MesClients';
+import { EscrowChat } from './features/escrow/EscrowChat';
+import { EscrowFollow } from './features/escrow/EscrowFollow';
 import { Navigation } from './components/ui/Navigation';
 import V2App from './v2/V2App';
 import { Icon } from './components/ui/Icon';
@@ -31,7 +34,10 @@ type Screen =
   | 'chat'       // Chat
   | 'profil'     // Profil
   | 'player'
-  | 'create-account';    // Lecteur UQ
+  | 'create-account'    // Lecteur UQ
+  | 'mes-clients'
+  | 'escrow-chat'
+  | 'escrow-follow';
 
 // ====================
 // APP
@@ -44,6 +50,14 @@ function AppInner() {
   );
   const [currentScreen, setCurrentScreen] = useState<Screen>('dashboard');
   const [isCreatingAccount, setIsCreatingAccount] = useState(false);
+  useEffect(() => {
+    const h = (e: Event) => {
+      const scr = (e as CustomEvent).detail as Screen;
+      if (scr) setCurrentScreen(scr);
+    };
+    window.addEventListener('uq:navigate', h);
+    return () => window.removeEventListener('uq:navigate', h);
+  }, []);
 
   const [isChecking, setIsChecking] = useState(true);
 
@@ -295,6 +309,17 @@ function AppInner() {
   }
 
   // Écran PLAYER
+  if (currentScreen === 'mes-clients') {
+    return <div className="min-h-screen bg-black"><MesClients /></div>;
+  }
+  if (currentScreen === 'escrow-chat') {
+    const oid = Number(sessionStorage.getItem('escrow_order_id') || '0');
+    return <div className="h-screen bg-black flex flex-col"><EscrowChat orderId={oid} /></div>;
+  }
+  if (currentScreen === 'escrow-follow') {
+    const oid = Number(sessionStorage.getItem('escrow_order_id') || '0');
+    return <div className="min-h-screen bg-black"><EscrowFollow orderId={oid} /></div>;
+  }
   if (currentScreen === 'player') {
     return withMainMenu(
       <PageLoaderWrapper 

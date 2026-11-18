@@ -25,7 +25,7 @@ export function apiFetch(path: string, init: RequestInit = {}): Promise<Response
 export const api: AxiosInstance = axios.create({
   baseURL: API_BASE,
   headers: { 'Content-Type': 'application/json' },
-  timeout: 15000,
+  timeout: 90000, // 90s : cold start Render free tier ~50s
 });
 
 api.interceptors.request.use((config) => {

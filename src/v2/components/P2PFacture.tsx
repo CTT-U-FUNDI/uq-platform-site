@@ -385,6 +385,7 @@ export function FactureAcheteur({
   const { uq, toast } = useSession();
   const [feuille, setFeuille] = useState(false);
   const [assume, setAssume] = useState(false);
+  const [codePreuve, setCodePreuve] = useState('');
   const [occupation, setOccupation] = useState(false);
   const preuve = order.my_proof;
   const ecartee = preuve?.verdict === 'rejet';
@@ -393,7 +394,7 @@ export function FactureAcheteur({
   const annoncer = async () => {
     setOccupation(true);
     try {
-      await confirmP2POrder(order.id, uq, ecartee && assume);
+      await confirmP2POrder(order.id, uq, ecartee && assume, codePreuve);
       toast('Paiement annoncé au vendeur', 'success');
       onRefresh();
     } catch (error) {
@@ -414,11 +415,27 @@ export function FactureAcheteur({
           Ajouter la preuve
         </Button>
       )}
+      {preuve && order.proof_code ? (
+        <div className="v2-muted" style={{ fontSize: 12.5 }}>
+          Code de cette commande : <b className="text-white">{order.proof_code}</b> — ecris-le sur ta preuve papier
+        </div>
+      ) : null}
+      {preuve ? (
+        <input
+          className="v2-input"
+          inputMode="numeric"
+          maxLength={4}
+          placeholder="Code 4 chiffres"
+          value={codePreuve}
+          onChange={(e) => setCodePreuve(e.target.value.replace(/\D/g, ''))}
+          style={{ width: 130 }}
+        />
+      ) : null}
       {preuve ? (
         <Button
           size="sm"
           icon="wallet"
-          disabled={!peutAnnoncer}
+          disabled={!peutAnnoncer || (Boolean(order.proof_code) && codePreuve.length !== 4)}
           loading={occupation}
           onClick={annoncer}
         >

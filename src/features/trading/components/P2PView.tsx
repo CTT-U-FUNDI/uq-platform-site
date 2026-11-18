@@ -6,6 +6,7 @@ import api from '../../../api/client';
 import { BorbCoinIcon3D } from '../../../components/ui/Icons3D';
 import { PublicUserIdentity } from '../../../components/ui/PublicUserIdentity';
 
+import { getPriceAll } from '../../../lib/priceCache';
 export function P2PView() {
   const uq = localStorage.getItem('uq_number') || '';
   const [balance, setBalance] = useState<number | null>(null);
@@ -24,7 +25,7 @@ export function P2PView() {
     setWalletError('');
     try {
       const [priceR, balanceR, walletsR] = await Promise.all([
-        api.get('/api/price/all'),
+        getPriceAll(),
         uq ? api.get(`/api/borb/balance/${uq}`) : Promise.resolve(null),
         uq
           ? api.get(`/api/account/wallets/${uq}`).catch((error: any) => {

@@ -7,6 +7,7 @@
 import { useEffect, useState } from 'react';
 import apiClient from '../../../api/client';
 
+import { getPriceAll } from '../../../lib/priceCache';
 // ====================
 // CATEGORIES DE DEVISES
 // ====================
@@ -184,7 +185,7 @@ export function MultiWalletsSection({ uqNumber, onWalletChange }: Props) {
       .finally(() => setLoading(false));
 
     // Charger le taux USD/BORB
-    apiClient.get('/api/price/all')
+    getPriceAll()
       .then((r) => {
         const data = r.data;
         if (Number.isFinite(data.prices?.borb_usd) && data.prices.borb_usd > 0) {
