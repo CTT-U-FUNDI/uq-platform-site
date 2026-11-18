@@ -116,6 +116,8 @@ export function SoloSaleFlow({ onClose, onPublish, initial, itemId }: SoloSaleFl
   const [erreur, setErreur] = useState<string | null>(null);
   const [devises, setDevises] = useState<string[]>(['USD', 'CDF', 'EUR']);
   const [filtreMedia, setFiltreMedia] = useState('normal');
+  const [enregistrement, setEnregistrement] = useState(false);
+  const recRef = useRef<MediaRecorder | null>(null);
   const [cropCarre, setCropCarre] = useState(false);
   const [deviseOuverte, setDeviseOuverte] = useState(false);
   const [gpsEnCours, setGpsEnCours] = useState(false);
@@ -216,13 +218,20 @@ export function SoloSaleFlow({ onClose, onPublish, initial, itemId }: SoloSaleFl
   }, [majDraft]);
 
   const capturerVideo = useCallback(() => {
+    // Stop : l'utilisateur decide quand finir (max 60s de securite)
+    if (recRef.current && recRef.current.state !== 'inactive') {
+      recRef.current.stop();
+      return;
+    }
     const stream = (videoRef.current?.srcObject as MediaStream | null);
     if (!stream) { setErreur('Camera non prete.'); return; }
     const mime = MediaRecorder.isTypeSupported('video/webm;codecs=vp9') ? 'video/webm;codecs=vp9' : 'video/webm';
     const rec = new MediaRecorder(stream, { mimeType: mime });
+    recRef.current = rec;
     const chunks: Blob[] = [];
     rec.ondataavailable = (e) => { if (e.data.size) chunks.push(e.data); };
     rec.onstop = () => {
+      setEnregistrement(false);
       const blob = new Blob(chunks, { type: mime });
       if (blob.size < 1000) { setErreur('Video trop courte.'); return; }
       const reader = new FileReader();
@@ -230,7 +239,8 @@ export function SoloSaleFlow({ onClose, onPublish, initial, itemId }: SoloSaleFl
       reader.readAsDataURL(blob);
     };
     rec.start();
-    setTimeout(() => { if (rec.state !== 'inactive') rec.stop(); }, 15000);
+    setEnregistrement(true);
+    setTimeout(() => { if (rec.state !== 'inactive') rec.stop(); }, 60000);
   }, [majDraft]);
 
   const capturerPhoto = useCallback(() => {
@@ -439,9 +449,14 @@ export function SoloSaleFlow({ onClose, onPublish, initial, itemId }: SoloSaleFl
               <Icon name="camera" size={28} />
               <span>Prendre une photo</span>
             </button>
-            <button type="button" className="solo-flow__photo-btn" onClick={capturerVideo}>
-              <Icon name="video" size={28} />
-              <span>Prendre une video</span>
+            {enregistrement && (
+              <div className="solo-flow__rec-indicator">
+                <span className="solo-flow__rec-dot" /> REC — appuie pour arreter
+              </div>
+            )}
+            <button type="button" className="solo-flow__photo-btn" onClick={capturerVideo} data-on={enregistrement}>
+              <Icon name={enregistrement ? 'x' : 'video'} size={28} />
+              <span>{enregistrement ? 'Arreter la video' : 'Prendre une video'}</span>
             </button>
             <label className="solo-flow__photo-btn">
               <Icon name="image" size={28} />
