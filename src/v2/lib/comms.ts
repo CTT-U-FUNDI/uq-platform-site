@@ -1,11 +1,13 @@
 import apiClient from '../../api/client';
+import { signatureUq } from '../../lib/deviceKey';
 
 /**
  * UQ Mail + UQ SMS — routes /api/mail/* et /api/sms/* de la plateforme.
  * Lecture : GET simples (adresse réelle, boîtes, messages, statuts).
- * Écriture (envoi, mark-read) : POST signés Ed25519 (domaine UQ_MAIL_V1 /
- * UQ_SMS_V1) — la clé vit dans le wallet BORB, le pont de signature est
- * branché ici quand il sera disponible.
+ * Écriture (envoi, assignation, mark-read) : POST signés Ed25519
+ * (domaines UQ_MAIL_V1 / UQ_SMS_V1) — la clé Ed25519 de l'appareil est
+ * générée par le plugin natif UqCrypto (src/lib/deviceKey.ts). Sur web,
+ * cryptoAppareilDisponible() vaut faux et ces appels échouent proprement.
  */
 
 export interface MailResume {
@@ -79,6 +81,32 @@ export const mailNonLus = (uq: string) =>
     .get<{ status?: string; non_lus?: number }>(`/api/mail/non-lus/${enc(uq)}`)
     .then((r) => r.data.non_lus ?? 0);
 
+/**
+ * POST /api/mail/send — envoi signé Ed25519 (UQ_MAIL_V1).
+ * `to` = adresse réelle (@domaine mail) ou pseudo uq@… résolu côté backend.
+ */
+export const envoyerMail = async (
+  uq: string,
+  message: { to: string; subject: string; body: string },
+) => {
+  const auth = await signatureUq('UQ_MAIL_V1', uq);
+  const r = await apiClient.post<{ status?: string; from?: string; message?: string }>(
+    '/api/mail/send',
+    {
+      uq,
+      to: message.to,
+      subject: message.subject,
+      body: message.body,
+      ...auth,
+    },
+    { validateStatus: () => true },
+  );
+  if (r.status >= 400 || r.data?.status === 'error') {
+    throw new Error(r.data?.message || `Envoi refusé (${r.status})`);
+  }
+  return r.data;
+};
+
 // ── UQ SMS ───────────────────────────────────────────────
 
 export const getSmsStatus = (uq: string) =>
@@ -92,3 +120,41 @@ export const listerSms = (uq: string) =>
       `/api/sms/messages/${enc(uq)}`,
     )
     .then((r) => ({ messages: r.data.messages ?? [], otp_non_lus: r.data.otp_non_lus ?? 0 }));
+
+/** POST /api/sms/assign — attribue un numéro relais (signé UQ_SMS_V1). */
+export const assignerSms = async (uq: string) => {
+  const auth = await signatureUq('UQ_SMS_V1', uq);
+  const r = await apiClient.post<{ status?: string; relay_number?: string; message?: string }>(
+    '/api/sms/assign',
+    { uq, ...auth },
+    { validateStatus: () => true },
+  );
+  if (r.status >= 400 || r.data?.status === 'error') {
+    throw new Error(r.data?.message || `Attribution refusée (${r.status})`);
+  }
+  return r.data;
+};
+
+/** POST /api/sms/release — libère le numéro relais (signé UQ_SMS_V1). */
+export const libererSms = async (uq: string) => {
+  const auth = await signatureUq('UQ_SMS_V1', uq);
+  const r = await apiClient.post<{ status?: string; message?: string }>(
+    '/api/sms/release',
+    { uq, ...auth },
+    { validateStatus: () => true },
+  );
+  if (r.status >= 400 || r.data?.status === 'error') {
+    throw new Error(r.data?.message || `Libération refusée (${r.status})`);
+  }
+  return r.data;
+};
+
+/** POST /api/sms/mark-read — marque un SMS comme lu (signé UQ_SMS_V1). */
+export const marquerSmsLu = async (uq: string, id: number) => {
+  const auth = await signatureUq('UQ_SMS_V1', uq);
+  await apiClient.post(
+    '/api/sms/mark-read',
+    { uq, id, ...auth },
+    { validateStatus: () => true },
+  );
+};

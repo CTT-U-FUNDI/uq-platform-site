@@ -324,6 +324,18 @@ export interface KycStatus {
 
 const unwrap = <T,>(response: { data: T }): T => response.data;
 
+/** URL de base de l'API — nécessaire aux appels pinnés (UqPinnedHttp exige une URL absolue). */
+const apiBase = () => (apiClient.defaults.baseURL || '').replace(/\/$/, '');
+
+/**
+ * POST epingle SSL (OkHttp + CertificatePinner sur Android, fetch sur web).
+ * Reserve aux echanges pre-auth sensibles : identifiants, PIN, finalisation.
+ */
+const pinnedPost = async <T,>(path: string, body: unknown, headers?: Record<string, string>) => {
+  const r = await pinnedRequest(`${apiBase()}${path}`, { method: 'POST', headers, body });
+  return { ...((r.data || {}) as object), httpStatus: r.status } as T & { httpStatus: number };
+};
+
 // ==================== Cache hors-ligne des taux ====================
 //
 // Le téléphone peut perdre le réseau alors que le moteur, lui, a bien capté
@@ -638,38 +650,19 @@ export interface FinalizeResponse {
  * `switchFrom` reproduit l'en-tete X-Switch-From du backend : il n'autorise une
  * session que pour un membre de cercle bascule depuis son proprietaire.
  */
-export const authStep1 = async (uq_number: string, switchFrom?: string) => {
-  const base = (apiClient.defaults.baseURL || '').replace(/\/$/, '');
-  const r = await pinnedRequest(`${base}/api/secure/step1`, {
-    method: 'POST',
-    headers: switchFrom ? { 'X-Switch-From': switchFrom } : {},
-    body: { uq_number },
-  });
-  return { ...(r.data || {}), httpStatus: r.status } as Step1Response & { httpStatus: number };
-};
+export const authStep1 = (uq_number: string, switchFrom?: string) =>
+  pinnedPost<Step1Response>('/api/secure/step1', { uq_number }, switchFrom ? { 'X-Switch-From': switchFrom } : undefined);
 
-export const authStep2 = async (
+export const authStep2 = (
   session_id: string,
   tfa_token: string,
   email: string,
   password: string,
-) => {
-  const base = (apiClient.defaults.baseURL || '').replace(/\/$/, '');
-  const r = await pinnedRequest(`${base}/api/secure/step2`, {
-    method: 'POST',
-    body: { session_id, tfa_token, email, password },
-  });
-  return { ...(r.data || {}), httpStatus: r.status } as Step2Response & { httpStatus: number };
-};
+) =>
+  pinnedPost<Step2Response>('/api/secure/step2', { session_id, tfa_token, email, password });
 
 export const authLoginPin = (session_id: string, tfa_token: string, login_pin: string) =>
-  apiClient
-    .post<Step2Response>(
-      '/api/secure/step-login-pin',
-      { session_id, tfa_token, login_pin },
-      { validateStatus: () => true },
-    )
-    .then((r) => ({ ...r.data, httpStatus: r.status }));
+  pinnedPost<Step2Response>('/api/secure/step-login-pin', { session_id, tfa_token, login_pin });
 
 export const authFinalize = (
   isOwner: boolean,
@@ -677,15 +670,12 @@ export const authFinalize = (
   tfa_token: string,
   credential_id = '',
 ) =>
-  apiClient
-    .post<FinalizeResponse>(
-      isOwner ? '/api/secure/finalize-owner' : '/api/secure/finalize-user',
-      // credential_id : la cle deja enregistree sur CET appareil, si elle existe.
-      // Le serveur s'en sert seulement pour horodater le controle complet.
-      { session_id, tfa_token, credential_id },
-      { validateStatus: () => true },
-    )
-    .then((r) => ({ ...r.data, httpStatus: r.status }));
+  // credential_id : la cle deja enregistree sur CET appareil, si elle existe.
+  // Le serveur s'en sert seulement pour horodater le controle complet.
+  pinnedPost<FinalizeResponse>(
+    isOwner ? '/api/secure/finalize-owner' : '/api/secure/finalize-user',
+    { session_id, tfa_token, credential_id },
+  );
 
 /** Palier de connexion decide par le serveur pour ce numero + cette cle. */
 export interface ResumeResponse {
@@ -709,23 +699,11 @@ export const firebaseToken = () =>
     .then(unwrap);
 
 export const authResume = (uq_number: string, credential_id: string) =>
-  apiClient
-    .post<ResumeResponse>(
-      '/api/auth/resume',
-      { uq_number, credential_id },
-      { validateStatus: () => true },
-    )
-    .then((r) => ({ ...r.data, httpStatus: r.status }));
+  pinnedPost<ResumeResponse>('/api/auth/resume', { uq_number, credential_id });
 
 /** POST /api/secure/forgot-password — reponse volontairement generique. */
 export const authForgotPassword = (uq_number: string) =>
-  apiClient
-    .post<{ status?: string; message?: string }>(
-      '/api/secure/forgot-password',
-      { uq_number },
-      { validateStatus: () => true },
-    )
-    .then((r) => ({ ...r.data, httpStatus: r.status }));
+  pinnedPost<{ status?: string; message?: string }>('/api/secure/forgot-password', { uq_number });
 
 export interface CreateAccountPayload {
   prenom: string;
@@ -772,9 +750,7 @@ export interface CreateAccountResponse {
 }
 
 export const createAccount = (payload: CreateAccountPayload) =>
-  apiClient
-    .post<CreateAccountResponse>('/api/account/create', payload, { validateStatus: () => true })
-    .then((r) => ({ ...r.data, httpStatus: r.status }));
+  pinnedPost<CreateAccountResponse>('/api/account/create', payload);
 
 // ====================
 // Vérification du téléphone, codes à usage unique, porte anti-robot
@@ -2631,13 +2607,7 @@ export interface WebAuthnBeginResponse {
  * un compte deja authentifie.
  */
 export const webauthnRegisterBegin = (uq_number: string) =>
-  apiClient
-    .post<WebAuthnBeginResponse>(
-      '/api/webauthn/register/begin',
-      { uq_number },
-      { validateStatus: () => true },
-    )
-    .then((r) => ({ ...r.data, httpStatus: r.status }));
+  pinnedPost<WebAuthnBeginResponse>('/api/webauthn/register/begin', { uq_number });
 
 /**
  * POST /api/webauthn/register/complete
@@ -2652,29 +2622,16 @@ export const webauthnRegisterComplete = (payload: {
   credential_id: string;
   device_name?: string;
 }) =>
-  apiClient
-    .post<{
-      status?: string;
-      message?: string;
-      credential_id?: string;
-      device_label?: string;
-      controle_complet_herite?: boolean;
-      httpStatus?: number;
-    }>(
-      '/api/webauthn/register/complete',
-      payload,
-      { validateStatus: () => true },
-    )
-    .then((r) => ({ ...r.data, httpStatus: r.status }));
+  pinnedPost<{
+    status?: string;
+    message?: string;
+    credential_id?: string;
+    device_label?: string;
+    controle_complet_herite?: boolean;
+  }>('/api/webauthn/register/complete', payload);
 
 export const webauthnLoginBegin = (uq_number: string, credential_id = '') =>
-  apiClient
-    .post<WebAuthnBeginResponse>(
-      '/api/webauthn/login/begin',
-      { uq_number, credential_id },
-      { validateStatus: () => true },
-    )
-    .then((r) => ({ ...r.data, httpStatus: r.status }));
+  pinnedPost<WebAuthnBeginResponse>('/api/webauthn/login/begin', { uq_number, credential_id });
 
 /**
  * POST /api/webauthn/login/complete
@@ -2689,32 +2646,22 @@ export const webauthnLoginComplete = (payload: {
   client_data_json: string;
   signature: string;
 }) =>
-  apiClient
-    .post<{
-      status?: string;
-      message?: string;
-      token?: string;
-      uq_number?: string;
-      credential_id?: string;
-      palier?: string;
-      role?: string;
-      email_mot_de_passe_requis?: boolean;
-      httpStatus?: number;
-    }>(
-      '/api/webauthn/login/complete',
-      payload,
-      { validateStatus: () => true },
-    )
-    .then((r) => ({ ...r.data, httpStatus: r.status }));
+  pinnedPost<{
+    status?: string;
+    message?: string;
+    token?: string;
+    uq_number?: string;
+    credential_id?: string;
+    palier?: string;
+    role?: string;
+    email_mot_de_passe_requis?: boolean;
+  }>('/api/webauthn/login/complete', payload);
 
 export const webauthnTransactionBegin = (uq_number: string, transaction_id: string) =>
-  apiClient
-    .post<WebAuthnBeginResponse>(
-      '/api/webauthn/transaction/begin',
-      { uq_number, transaction_id },
-      { validateStatus: () => true },
-    )
-    .then((r) => ({ ...r.data, httpStatus: r.status }));
+  pinnedPost<WebAuthnBeginResponse>('/api/webauthn/transaction/begin', {
+    uq_number,
+    transaction_id,
+  });
 
 export const webauthnTransactionComplete = (payload: {
   uq_number: string;
@@ -2725,22 +2672,16 @@ export const webauthnTransactionComplete = (payload: {
   client_data_json: string;
   signature: string;
 }) =>
-  apiClient
-    .post<{ status?: string; message?: string; validated?: boolean; httpStatus?: number }>(
-      '/api/webauthn/transaction/complete',
-      payload,
-      { validateStatus: () => true },
-    )
-    .then((r) => ({ ...r.data, httpStatus: r.status }));
+  pinnedPost<{ status?: string; message?: string; validated?: boolean }>(
+    '/api/webauthn/transaction/complete',
+    payload,
+  );
 
 export const webauthnList = () =>
-  apiClient
-    .post<{ status?: string; credentials?: { credential_id: string; device_name?: string }[] }>(
-      '/api/webauthn/list',
-      {},
-      { validateStatus: () => true },
-    )
-    .then((r) => ({ ...r.data, httpStatus: r.status }));
+  pinnedPost<{ status?: string; credentials?: { credential_id: string; device_name?: string }[] }>(
+    '/api/webauthn/list',
+    {},
+  );
 
 export const getKycStatus = () =>
   apiClient.get<KycStatus>('/api/kyc/status').then(unwrap).catch(() => null);

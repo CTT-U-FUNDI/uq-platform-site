@@ -16,9 +16,17 @@ export async function pinnedRequest(
 ): Promise<{ status: number; data: any }> {
   const method = opts.method || 'GET';
   const bodyStr = opts.body !== undefined ? JSON.stringify(opts.body) : undefined;
+  // Bearer JWT comme apiFetch : les routes authentifiees (WebAuthn…) restent
+  // couvertes par le pinning sur Android.
+  const token = localStorage.getItem('uq_token');
+  const headers: Record<string, string> = {
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    'Content-Type': 'application/json',
+    ...(opts.headers || {}),
+  };
   if (Capacitor.isNativePlatform()) {
     try {
-      const r = await UqPinnedHttp.request({ url, method, headers: opts.headers, body: bodyStr });
+      const r = await UqPinnedHttp.request({ url, method, headers, body: bodyStr });
       let data: any = null;
       try { data = JSON.parse(r.body); } catch { data = r.body; }
       return { status: r.status, data };
@@ -29,7 +37,7 @@ export async function pinnedRequest(
   }
   const resp = await fetch(url, {
     method,
-    headers: { 'Content-Type': 'application/json', ...(opts.headers || {}) },
+    headers,
     body: bodyStr,
   });
   const data = await resp.json().catch(() => null);

@@ -2,17 +2,31 @@
 // MailScreen — UQ Mail : boîte de réception, envoyés, brouillons
 // ============================================================================
 //
-// Lit les routes /api/mail/* de la plateforme. L'envoi et le marquage « lu »
-// exigent une signature Ed25519 (clé du wallet BORB) — le formulaire de
-// composition est affiché mais l'envoi reste désactivé tant que le pont de
-// signature n'est pas branché côté client.
+// Lit les routes /api/mail/* de la plateforme. L'envoi est signé Ed25519
+// (domaine UQ_MAIL_V1) par la clé de l'appareil — plugin natif UqCrypto,
+// donc disponible sur Android uniquement ; sur web l'envoi reste désactivé.
 
 import { useState } from 'react';
-import { Card, Hint, List, Loader, Row, ScreenHeader, SectionTitle, Button } from '../components/Ui';
+import {
+  Card,
+  Field,
+  Hint,
+  Input,
+  List,
+  Loader,
+  Row,
+  ScreenHeader,
+  SectionTitle,
+  Sheet,
+  Textarea,
+  Button,
+} from '../components/Ui';
 import { Icon } from '../components/Icon';
 import { useSession } from '../lib/session';
 import { useAsync, usePolling } from '../lib/hooks';
+import { cryptoAppareilDisponible } from '../../lib/deviceKey';
 import {
+  envoyerMail,
   getMailAdresse,
   lireMail,
   listerMails,
@@ -43,9 +57,13 @@ function formatDate(ts: number): string {
 }
 
 export function MailScreen({ onBack }: { onBack?: () => void }) {
-  const { uq } = useSession();
+  const { uq, toast } = useSession();
   const [dossier, setDossier] = useState<Dossier>('inbox');
   const [ouvert, setOuvert] = useState<MailComplet | null>(null);
+  const [composition, setComposition] = useState(false);
+  const [envoi, setEnvoi] = useState({ to: '', subject: '', body: '' });
+  const [envoiEnCours, setEnvoiEnCours] = useState(false);
+  const cryptoOk = cryptoAppareilDisponible();
 
   const adresse = useAsync(() => getMailAdresse(uq), [uq], { enabled: Boolean(uq) });
   const boite = useAsync(() => listerMails(uq, dossier), [uq, dossier], { enabled: Boolean(uq) });
@@ -57,6 +75,22 @@ export function MailScreen({ onBack }: { onBack?: () => void }) {
       setOuvert(complet);
     } catch {
       setOuvert({ ...m, folder: dossier, body_text: '' });
+    }
+  };
+
+  const envoyer = async () => {
+    if (!uq || envoiEnCours) return;
+    setEnvoiEnCours(true);
+    try {
+      await envoyerMail(uq, envoi);
+      toast('Message envoyé.', 'success');
+      setEnvoi({ to: '', subject: '', body: '' });
+      setComposition(false);
+      if (dossier === 'sent') void boite.reload();
+    } catch (e) {
+      toast(e instanceof Error ? e.message : 'Envoi impossible.', 'error');
+    } finally {
+      setEnvoiEnCours(false);
     }
   };
 
@@ -218,13 +252,63 @@ export function MailScreen({ onBack }: { onBack?: () => void }) {
       )}
 
       <div style={{ marginTop: 16 }}>
-        <Button disabled title="L'envoi requiert la signature du wallet — bientôt disponible">
+        <Button
+          disabled={!cryptoOk}
+          title={
+            cryptoOk
+              ? undefined
+              : 'L\u2019envoi signé nécessite l\u2019app Android (clé de l\u2019appareil)'
+          }
+          onClick={() => setComposition(true)}
+        >
           <Icon name="send" size={17} /> Écrire un message
         </Button>
         <div className="v2-muted" style={{ fontSize: 12, marginTop: 8, textAlign: 'center' }}>
-          L'envoi sera activé avec la clé du wallet BORB.
+          {cryptoOk
+            ? 'L\u2019envoi est signé Ed25519 par la clé de cet appareil.'
+            : 'L\u2019envoi est disponible dans l\u2019app Android.'}
         </div>
       </div>
+
+      <Sheet
+        open={composition}
+        onClose={() => setComposition(false)}
+        title="Nouveau message"
+        subtitle={adresse.data?.adresse || undefined}
+        footer={
+          <Button
+            block
+            loading={envoiEnCours}
+            disabled={!envoi.to.trim() || !envoi.subject.trim() || !envoi.body.trim()}
+            onClick={envoyer}
+          >
+            <Icon name="send" size={17} /> Envoyer
+          </Button>
+        }
+      >
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+          <Field label="Destinataire">
+            <Input
+              value={envoi.to}
+              onChange={(e) => setEnvoi({ ...envoi, to: e.target.value })}
+              placeholder="destinataire@domaine"
+            />
+          </Field>
+          <Field label="Objet">
+            <Input
+              value={envoi.subject}
+              onChange={(e) => setEnvoi({ ...envoi, subject: e.target.value })}
+            />
+          </Field>
+          <Field label="Message">
+            <Textarea
+              value={envoi.body}
+              onChange={(e) => setEnvoi({ ...envoi, body: e.target.value })}
+              rows={7}
+            />
+          </Field>
+        </div>
+      </Sheet>
     </div>
   );
 }
