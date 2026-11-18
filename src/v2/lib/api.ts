@@ -1,4 +1,5 @@
 import apiClient, { apiFetch, apiUrl } from '../../api/client';
+import { pinnedRequest } from '../../lib/uqPinned';
 import { attendreAuth, chatIdEntre, lireMessages, envoyerMessage } from '../../services/firestore';
 import type { SeriesPeriod } from './charts';
 import type { MiniSite as VitrineSite } from './site-model';
@@ -637,33 +638,29 @@ export interface FinalizeResponse {
  * `switchFrom` reproduit l'en-tete X-Switch-From du backend : il n'autorise une
  * session que pour un membre de cercle bascule depuis son proprietaire.
  */
-export const authStep1 = (uq_number: string, switchFrom?: string) =>
-  apiClient
-    .post<Step1Response>(
-      '/api/secure/step1',
-      { uq_number },
-      {
-        validateStatus: () => true,
-        headers: switchFrom ? { 'X-Switch-From': switchFrom } : undefined,
-      },
-    )
-    .then((r) => ({ ...r.data, httpStatus: r.status }));
+export const authStep1 = async (uq_number: string, switchFrom?: string) => {
+  const base = (apiClient.defaults.baseURL || '').replace(/\/$/, '');
+  const r = await pinnedRequest(`${base}/api/secure/step1`, {
+    method: 'POST',
+    headers: switchFrom ? { 'X-Switch-From': switchFrom } : {},
+    body: { uq_number },
+  });
+  return { ...(r.data || {}), httpStatus: r.status } as Step1Response & { httpStatus: number };
+};
 
-export const authStep2 = (
+export const authStep2 = async (
   session_id: string,
   tfa_token: string,
   email: string,
   password: string,
-) =>
-  apiClient
-    .post<Step2Response>(
-      '/api/secure/step2',
-      // L'email saisi est compare au compte cote serveur : il fait partie des
-      // identifiants, ce n'est pas un champ decoratif.
-      { session_id, tfa_token, email, password },
-      { validateStatus: () => true },
-    )
-    .then((r) => ({ ...r.data, httpStatus: r.status }));
+) => {
+  const base = (apiClient.defaults.baseURL || '').replace(/\/$/, '');
+  const r = await pinnedRequest(`${base}/api/secure/step2`, {
+    method: 'POST',
+    body: { session_id, tfa_token, email, password },
+  });
+  return { ...(r.data || {}), httpStatus: r.status } as Step2Response & { httpStatus: number };
+};
 
 export const authLoginPin = (session_id: string, tfa_token: string, login_pin: string) =>
   apiClient

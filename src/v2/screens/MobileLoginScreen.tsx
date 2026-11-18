@@ -623,46 +623,52 @@ export function MobileLoginScreen({ onCreateAccount }: Props) {
 
 const labelStyle: React.CSSProperties = {
   display: 'block',
-  fontSize: 12,
+  fontSize: 12.5,
   fontWeight: 600,
-  letterSpacing: '0.04em',
+  letterSpacing: '0.06em',
   textTransform: 'uppercase',
-  opacity: 0.55,
-  marginBottom: 8,
+  color: '#8CD4FF',
+  marginBottom: 10,
+  opacity: 0.9,
 };
 
 const inputStyle: React.CSSProperties = {
   width: '100%',
-  padding: '14px 16px',
-  borderRadius: 14,
-  border: '1px solid rgba(255,255,255,0.16)',
-  background: 'rgba(255,255,255,0.05)',
-  backdropFilter: 'blur(12px)',
-  WebkitBackdropFilter: 'blur(12px)',
-  color: 'inherit',
+  padding: '16px 18px',
+  borderRadius: 16,
+  border: '1.5px solid rgba(76,194,255,0.25)',
+  background: 'rgba(13,20,32,0.72)',
+  backdropFilter: 'blur(16px) saturate(1.2)',
+  WebkitBackdropFilter: 'blur(16px) saturate(1.2)',
+  color: '#f3f6fb',
   fontSize: 16,
+  fontWeight: 500,
   outline: 'none',
   boxSizing: 'border-box',
+  transition: 'border-color 0.2s, box-shadow 0.2s, transform 0.1s',
+  boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.05), 0 4px 20px rgba(0,0,0,0.25)',
 };
 
 const primaryBtn: React.CSSProperties = {
   width: '100%',
-  marginTop: 18,
-  padding: '15px',
-  borderRadius: 14,
-  border: '1px solid rgba(255,255,255,0.18)',
-  background: 'linear-gradient(135deg, rgba(0,103,192,0.9), rgba(0,164,239,0.9))',
+  marginTop: 20,
+  padding: '16px',
+  borderRadius: 16,
+  border: 'none',
+  background: 'linear-gradient(135deg, #0078D4 0%, #00A4EF 55%, #4CC2FF 100%)',
   backdropFilter: 'blur(14px) saturate(1.3)',
   WebkitBackdropFilter: 'blur(14px) saturate(1.3)',
-  boxShadow: '0 6px 24px rgba(0,164,239,0.35), inset 0 1px 0 rgba(255,255,255,0.18)',
+  boxShadow: '0 8px 28px rgba(0,120,212,0.4), inset 0 1px 0 rgba(255,255,255,0.25)',
   color: '#fff',
   fontSize: 16,
   fontWeight: 700,
+  letterSpacing: '0.02em',
   cursor: 'pointer',
+  transition: 'transform 0.12s, box-shadow 0.2s, opacity 0.2s',
 };
 
 const glassInput: React.CSSProperties = {
-  boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.06), 0 4px 16px rgba(0,0,0,0.2)',
+  boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.07), 0 6px 24px rgba(0,0,0,0.3), 0 0 0 1px rgba(76,194,255,0.12)',
 };
 
 const iconBtn: React.CSSProperties = {

@@ -12,7 +12,6 @@ import { PageLoaderWrapper } from './components/ui/PageLoaderWrapper';
 import PlayerPage from './pages/PlayerPage';
 import ProfilePage from './pages/ProfilePage';
 import TradingScreen from './features/trading/pages/TradingScreen';
-import ChatScreen from './features/chat/pages/ChatScreen';
 import { MesClients } from './features/escrow/MesClients';
 import { EscrowChat } from './features/escrow/EscrowChat';
 import { EscrowFollow } from './features/escrow/EscrowFollow';
@@ -282,7 +281,7 @@ function AppInner() {
         loadingMessage="Ouverture du Chat..."
         loadingSubMessage="Chiffrement des messages"
       >
-        <ChatScreen onBack={goToDashboard} />
+        <div className="p-6 text-white">Chat indisponible dans cette interface.</div>
       </PageLoaderWrapper>
     );
   }

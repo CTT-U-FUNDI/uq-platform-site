@@ -37,6 +37,59 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
+// ===== Mode hors-ligne : cache lecture seule =====
+// Les GET sont mis en cache ; sans reseau on sert le cache (lecture seule,
+// aucune operation hors-ligne). Au retour reseau, 'uq:online' est diffuse
+// pour que les ecrans rafraichissent + notifications.
+const CACHE_PREFIX = 'uq_cache:';
+const isOfflineErr = (e: any) => !e?.response; // pas de reponse serveur = reseau
+
+api.interceptors.response.use(
+  (res) => {
+    try {
+      if (res.config.method === 'get' && res.data != null) {
+        localStorage.setItem(CACHE_PREFIX + res.config.url, JSON.stringify(res.data));
+      }
+    } catch { /* quota */ }
+    return res;
+  },
+  (err) => {
+    const url = err?.config?.url;
+    if (err?.config?.method === 'get' && url && isOfflineErr(err)) {
+      try {
+        const raw = localStorage.getItem(CACHE_PREFIX + url);
+        if (raw != null) {
+          // Reponse synthétique : donnees cachees + drapeau offline
+          const data = JSON.parse(raw);
+          return Promise.resolve({
+            ...err.config && { config: err.config },
+            data: typeof data === 'object' && data !== null ? { ...data, _offline: true } : { _offline: true, data },
+            status: 200,
+            statusText: 'OK (cache)',
+            headers: {},
+            config: err.config,
+          });
+        }
+      } catch { /* cache corrompu */ }
+    }
+    return Promise.reject(err);
+  },
+);
+
+// Retour reseau -> evenement pour refresh + notif
+if (typeof window !== 'undefined') {
+  window.addEventListener('online', () => {
+    window.dispatchEvent(new CustomEvent('uq:online'));
+    try {
+      const { showToast } = require('../v2/lib/toast') as any;
+      showToast?.('Connexion rétablie — synchronisation…');
+    } catch { /* toast optionnel */ }
+  });
+  window.addEventListener('offline', () => {
+    window.dispatchEvent(new CustomEvent('uq:offline'));
+  });
+}
+
 export function hasToken(): boolean { return Boolean(localStorage.getItem('uq_token')); }
 export function getToken(): string | null { return localStorage.getItem('uq_token'); }
 

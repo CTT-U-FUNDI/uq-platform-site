@@ -115,6 +115,8 @@ export function SoloSaleFlow({ onClose, onPublish, initial, itemId }: SoloSaleFl
   const [busy, setBusy] = useState(false);
   const [erreur, setErreur] = useState<string | null>(null);
   const [devises, setDevises] = useState<string[]>(['USD', 'CDF', 'EUR']);
+  const [filtreMedia, setFiltreMedia] = useState('normal');
+  const [cropCarre, setCropCarre] = useState(false);
   const [deviseOuverte, setDeviseOuverte] = useState(false);
   const [gpsEnCours, setGpsEnCours] = useState(false);
   const [pinOpen, setPinOpen] = useState(false);
@@ -213,6 +215,24 @@ export function SoloSaleFlow({ onClose, onPublish, initial, itemId }: SoloSaleFl
     );
   }, [majDraft]);
 
+  const capturerVideo = useCallback(() => {
+    const stream = (videoRef.current?.srcObject as MediaStream | null);
+    if (!stream) { setErreur('Camera non prete.'); return; }
+    const mime = MediaRecorder.isTypeSupported('video/webm;codecs=vp9') ? 'video/webm;codecs=vp9' : 'video/webm';
+    const rec = new MediaRecorder(stream, { mimeType: mime });
+    const chunks: Blob[] = [];
+    rec.ondataavailable = (e) => { if (e.data.size) chunks.push(e.data); };
+    rec.onstop = () => {
+      const blob = new Blob(chunks, { type: mime });
+      if (blob.size < 1000) { setErreur('Video trop courte.'); return; }
+      const reader = new FileReader();
+      reader.onload = () => majDraft({ photo: 'video:' + String(reader.result || ''), etape: 4 });
+      reader.readAsDataURL(blob);
+    };
+    rec.start();
+    setTimeout(() => { if (rec.state !== 'inactive') rec.stop(); }, 15000);
+  }, [majDraft]);
+
   const capturerPhoto = useCallback(() => {
     const v = videoRef.current;
     if (!v || !v.videoWidth) {
@@ -236,6 +256,32 @@ export function SoloSaleFlow({ onClose, onPublish, initial, itemId }: SoloSaleFl
     },
     [majDraft],
   );
+
+  const FILTERS: Record<string, string> = {
+    normal: 'none',
+    clair: 'brightness(1.15) contrast(1.05)',
+    sombre: 'brightness(0.85) contrast(1.1)',
+    vintage: 'sepia(0.35) contrast(1.05) brightness(1.02)',
+  };
+
+  const appliquerMedia = useCallback(() => {
+    const src = draft.photo;
+    if (!src || src.startsWith('video:')) return;
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      let w = img.width, h = img.height, sx = 0, sy = 0, sw = w, sh = h;
+      if (cropCarre && w > h) { sw = h; sx = (w - h) / 2; }
+      else if (cropCarre && h > w) { sh = w; sy = (h - w) / 2; }
+      canvas.width = sw; canvas.height = sh;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+      ctx.filter = FILTERS[filtreMedia] || 'none';
+      ctx.drawImage(img, sx, sy, sw, sh, 0, 0, sw, sh);
+      majDraft({ photo: canvas.toDataURL('image/jpeg', 0.88) });
+    };
+    img.src = src;
+  }, [draft.photo, filtreMedia, cropCarre, majDraft]);
 
   const publier = useCallback(
     async (pin: string): Promise<string | void> => {
@@ -330,7 +376,7 @@ export function SoloSaleFlow({ onClose, onPublish, initial, itemId }: SoloSaleFl
       {/* Camera floue en fond (ecrans 1-3) */}
       {(draft.etape === 1 || draft.etape === 2 || draft.etape === 3) && (
         <>
-          <video ref={videoRef} className="solo-flow__cam" autoPlay muted playsInline />
+          <video ref={videoRef} className={draft.etape === 3 ? "solo-flow__cam solo-flow__cam--net" : "solo-flow__cam"} autoPlay muted playsInline />
           <div className="solo-flow__overlay" />
         </>
       )}
@@ -393,6 +439,10 @@ export function SoloSaleFlow({ onClose, onPublish, initial, itemId }: SoloSaleFl
               <Icon name="camera" size={28} />
               <span>Prendre une photo</span>
             </button>
+            <button type="button" className="solo-flow__photo-btn" onClick={capturerVideo}>
+              <Icon name="video" size={28} />
+              <span>Prendre une video</span>
+            </button>
             <label className="solo-flow__photo-btn">
               <Icon name="image" size={28} />
               <span>Importer une photo</span>
@@ -411,6 +461,41 @@ export function SoloSaleFlow({ onClose, onPublish, initial, itemId }: SoloSaleFl
 
         {draft.etape === 4 && (
           <div className="solo-flow__form">
+            {draft.photo && !draft.photo.startsWith('video:') && (
+              <div className="solo-flow__media-editeur">
+                <div className="solo-flow__media-apercu">
+                  <img
+                    src={draft.photo}
+                    alt="Apercu"
+                    style={{ filter: FILTERS[filtreMedia] || 'none' }}
+                  />
+                </div>
+                <div className="solo-flow__media-filtres">
+                  {Object.keys(FILTERS).map((f) => (
+                    <button
+                      key={f}
+                      type="button"
+                      className="solo-flow__media-filtre"
+                      data-on={filtreMedia === f}
+                      onClick={() => setFiltreMedia(f)}
+                    >
+                      {f}
+                    </button>
+                  ))}
+                  <button
+                    type="button"
+                    className="solo-flow__media-filtre"
+                    data-on={cropCarre}
+                    onClick={() => setCropCarre((c) => !c)}
+                  >
+                    {cropCarre ? 'Crop ON' : 'Crop carre'}
+                  </button>
+                  <button type="button" className="solo-flow__media-filtre" onClick={appliquerMedia}>
+                    Appliquer
+                  </button>
+                </div>
+              </div>
+            )}
             <input
               className="solo-flow__input"
               placeholder="Titre de l'annonce"

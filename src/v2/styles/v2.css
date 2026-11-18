@@ -5929,7 +5929,7 @@ button.v2-hint:active {
   font-weight: 600;
   cursor: pointer;
   backdrop-filter: blur(8px);
-  transition: all 0.2s;
+  transition: transform, opacity, background, border-color 0.2s;
   min-height: 76px;
 }
 .solo-flow__cat svg { width: 26px; height: 26px; }
@@ -5970,7 +5970,8 @@ button.v2-hint:active {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: blur(16px) brightness(0.5);
+  filter: blur(12px) brightness(0.5);
+  transition: filter 0.3s ease;
   transform: scale(1.1);
   z-index: 0;
 }
@@ -6106,7 +6107,7 @@ button.v2-hint:active {
   font: inherit;
   cursor: pointer;
   backdrop-filter: blur(10px);
-  transition: all 0.2s;
+  transition: transform, opacity, background, border-color 0.2s;
   width: 100%;
 }
 
@@ -6186,7 +6187,7 @@ button.v2-hint:active {
   font-weight: 600;
   cursor: pointer;
   backdrop-filter: blur(8px);
-  transition: all 0.2s;
+  transition: transform, opacity, background, border-color 0.2s;
 }
 .solo-flow__cat:active { transform: scale(0.95); }
 .solo-flow__cat[data-on="true"] { background: #fff; color: #0D121B; border-color: #fff; }
@@ -6386,3 +6387,23 @@ button.v2-hint:active {
   background: linear-gradient(90deg, transparent, rgba(232,17,35,0.7), rgba(255,105,180,0.7), transparent);
   pointer-events: none;
 }
+
+/* Camera nette quand on choisit la photo/ video (etape 3) */
+.solo-flow__cam--net {
+  filter: none;
+  opacity: 1;
+}
+
+/* Editeur media : filtres + crop (etape 4) */
+.solo-flow__media-editeur { display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; }
+.solo-flow__media-apercu { border-radius: 18px; overflow: hidden; border: 1px solid rgba(255,255,255,.25); }
+.solo-flow__media-apercu img { width: 100%; display: block; max-height: 320px; object-fit: cover; }
+.solo-flow__media-filtres { display: flex; flex-wrap: wrap; gap: 8px; }
+.solo-flow__media-filtre { padding: 9px 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,.22); background: rgba(255,255,255,.08); color: #fff; font: inherit; font-size: 12.5px; font-weight: 650; cursor: pointer; }
+.solo-flow__media-filtre[data-on="true"] { background: rgba(0,120,212,.5); border-color: rgba(76,194,255,.6); }
+
+/* Perf : rendre uniquement les items visibles du flux */
+.shop-card, .video-card, [class*="card"] { content-visibility: auto; contain-intrinsic-size: auto 280px; }
+/* Lissage global */
+* { -webkit-tap-highlight-color: transparent; }
+.uq-offline-banner{position:sticky;top:0;z-index:60;padding:8px 14px;background:linear-gradient(90deg,rgba(232,17,35,.85),rgba(255,45,85,.75));color:#fff;font-size:12.5px;font-weight:650;text-align:center;backdrop-filter:blur(10px);letter-spacing:.02em}

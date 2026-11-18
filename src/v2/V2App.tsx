@@ -78,6 +78,7 @@ function Shell() {
   useLearningSync(authenticated ? uq : '');
 
   const [tab, setTab] = useState<Tab>('feed');
+  const [horsLigne, setHorsLigne] = useState(!navigator.onLine);
   const [overlay, setOverlay] = useState<Overlay>(null);
   const [creating, setCreating] = useState(
     () => new URLSearchParams(window.location.search).get('ecran') === 'creation',
@@ -157,6 +158,14 @@ function Shell() {
         );
       });
   }, [authenticated]);
+
+  useEffect(() => {
+    const on = () => { setHorsLigne(false); window.location.reload(); };
+    const off = () => setHorsLigne(true);
+    window.addEventListener('uq:online', on);
+    window.addEventListener('uq:offline', off);
+    return () => { window.removeEventListener('uq:online', on); window.removeEventListener('uq:offline', off); };
+  }, []);
 
   // Lien profond ?feed=video : affiche le flux vidéo à la place du flux Zando.
   useEffect(() => {
@@ -432,6 +441,9 @@ function Shell() {
   return (
     <div className="v2-root" data-theme={theme} data-fontsize={fontScale}>
       <div className="v2-frame">
+        {horsLigne && (
+          <div className="uq-offline-banner">Mode hors-ligne — lecture seule, synchro au retour réseau</div>
+        )}
         {!ready ? (
           <div className="v2-body">
             <Loader label="Ouverture de la session…" />
