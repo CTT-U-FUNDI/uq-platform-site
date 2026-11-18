@@ -73,11 +73,16 @@ export function ProfileSwitchSheet({ open, onClose, target, onDone }: ProfileSwi
   const read = (key: string) => (typeof window === 'undefined' ? '' : localStorage.getItem(key) || '');
 
   /** Numero deja connu pour le profil vise ('' si le terminal ne le connait pas). */
-  const recallTarget = () =>
-    (target === 'owner'
+  const recallTarget = () => {
+    const memo = (target === 'owner'
       ? read(OWNER_UQ_KEY) || read('uq_switched_from')
       : read(PROFIL2_UQ_KEY)
     ).toUpperCase();
+    // Le lien owner<->profil2 est fixe cote backend : ces UQ ne changent jamais.
+    // Fallback si localStorage a ete vide (reinstall, clear data, nouvel appareil).
+    if (memo) return memo;
+    return target === 'owner' ? 'UQ-996697110' : 'UQ-732337351';
+  };
 
   useEffect(() => {
     if (!open) return;

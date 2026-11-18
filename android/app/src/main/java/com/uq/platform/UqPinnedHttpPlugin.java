@@ -49,7 +49,9 @@ public class UqPinnedHttpPlugin extends Plugin {
 
             Request.Builder rb = new Request.Builder().url(url);
             if (headersObj != null) {
-                for (String k : headersObj.keys()) {
+                java.util.Iterator<String> it = headersObj.keys();
+                while (it.hasNext()) {
+                    String k = it.next();
                     try { rb.header(k, String.valueOf(headersObj.get(k))); } catch (Exception ignored) {}
                 }
             }
