@@ -1115,6 +1115,20 @@ export function ProfileScreen({
           </div>
 
           <div className="v2-label" style={{ marginTop: 16 }}>
+            Langue
+          </div>
+          <div style={{ marginTop: 8 }}>
+            <Segmented
+              value={accountPreferences.language === 'en' ? 'en' : 'fr'}
+              onChange={(v) => void saveAccountPreferences({ language: v })}
+              options={[
+                { value: 'fr', label: 'Français' },
+                { value: 'en', label: 'English' },
+              ]}
+            />
+          </div>
+
+          <div className="v2-label" style={{ marginTop: 16 }}>
             Devise d’affichage
           </div>
           <div style={{ marginTop: 8 }}>
