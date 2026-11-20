@@ -1,4 +1,17 @@
-<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Contact — UQ Platform</title><link rel="icon" type="image/svg+xml" href="./assets/uq-logo.jpg"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="./site.css"></head><body><header class="hd" id="hd">
+<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Contact — UQ Platform</title><link rel="icon" type="image/svg+xml" href="./assets/uq-logo.svg"><link rel="stylesheet" href="./assets/fonts/fonts.css"><link rel="stylesheet" href="./site.css"><meta property="og:type" content="website">
+<meta property="og:site_name" content="UQZ">
+<meta property="og:title" content="Contact — UQ Platform">
+<meta property="og:description" content="Ufundi Quotidienne Zando — l'écosystème UQ qui connecte l'Afrique.">
+<meta property="og:url" content="https://uqplatform.com/contact.html">
+<meta property="og:image" content="https://uqplatform.com/assets/img/hero.jpg">
+<meta property="og:locale" content="fr_FR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Contact — UQ Platform">
+<meta name="twitter:description" content="Ufundi Quotidienne Zando — l'écosystème UQ qui connecte l'Afrique.">
+<meta name="twitter:image" content="https://uqplatform.com/assets/img/hero.jpg">
+<link rel="canonical" href="https://uqplatform.com/contact.html">
+<meta name="theme-color" content="#0a0e14">
+</head><body><header class="hd" id="hd">
   <a class="logo" href="./index.html"><img src="./assets/uq-logo.jpg" alt="UQZ"> UQZ</a>
   <nav class="nav"><ul>
     <li><a href="./index.html">Accueil</a></li>
@@ -7,6 +20,7 @@
     <li><a href="./chat.html">Chat &amp; Mail</a></li>
     <li><a href="./studio.html">Studio</a></li>
   </ul></nav>
+  <a class="hd-login" href="./login.html">Se connecter</a>
   <a class="hd-cta" href="./signup.html">Créer un compte</a>
   <button class="burger" onclick="uqMenu(this)" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
   <div class="menu"><ul>
@@ -20,6 +34,7 @@
     <li><a href="./signup.html">Créer un compte</a></li>
     <li><a href="./contact.html">Contact</a></li>
     <li><a class="hd-cta" href="./signup.html">Créer un compte</a></li>
+  <li><a href="./login.html">Se connecter</a></li>
   </ul></div>
 </header><div class="page"><div class="content rgb"><a class="back" href="./index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Retour à l'accueil</a><h1>Contact</h1><p class="meta">Parlons de votre projet — réponse sous 48h.</p><form onsubmit="event.preventDefault();envoyer()"><div class="fg"><label>Nom</label><input id="fn" required></div><div class="fg"><label>Email</label><input id="fe" type="email" required></div><div class="fg"><label>Sujet</label><select id="fs"><option>Partenariat</option><option>Presse</option><option>Bêta privée</option><option>Autre</option></select></div><div class="fg"><label>Message</label><textarea id="fm2" required></textarea></div><button class="btn btn-p btn-lg" style="width:100%;justify-content:center">Envoyer</button><p class="fmsg" id="fmsg"></p></form><section class="contrib">
   <div class="contrib-ico"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.55v-2.15c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.75 2.69 1.25 3.34.95.1-.74.4-1.25.72-1.53-2.55-.29-5.23-1.28-5.23-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.41-2.69 5.38-5.25 5.67.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.55A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"/></svg></div>
@@ -55,7 +70,7 @@
     </ul></div>
   </div>
   <div class="fbot"><span>© 2026 UQZ — Tous droits réservés.</span><span>Ufundi · Quotidienne · Zando</span> <span class="soc-row"><a class="soc wa" href="https://whatsapp.com/channel/0029VbE7qRM4Y9li1CRPup24" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.5 0 1.47 1.07 2.9 1.22 3.1.15.2 2.1 3.2 5.1 4.49.71.31 1.27.49 1.7.63.72.23 1.37.2 1.88.12.58-.09 1.76-.72 2.01-1.42.25-.7.25-1.29.17-1.42-.07-.13-.27-.2-.57-.35M12.05 21.8h-.01a9.77 9.77 0 0 1-4.98-1.37l-.36-.21-3.7.97.99-3.61-.24-.37a9.77 9.77 0 0 1-1.5-5.2c0-5.4 4.4-9.8 9.82-9.8a9.76 9.76 0 0 1 6.93 2.88 9.76 9.76 0 0 1 2.87 6.93c0 5.42-4.4 9.8-9.8 9.8m8.37-18.17A11.72 11.72 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.9c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.9 11.9 0 0 0 5.68 1.45h.01c6.55 0 11.89-5.34 11.89-11.9 0-3.18-1.24-6.16-3.5-8.4"/></svg></a><a class="soc yt" href="https://www.youtube.com/@UQZ_ZANDO" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.5A3.02 3.02 0 0 0 .5 6.19C0 8.07 0 12 0 12s0 3.93.5 5.81a3.02 3.02 0 0 0 2.12 2.14c1.88.5 9.38.5 9.38.5s7.5 0 9.38-.5a3.02 3.02 0 0 0 2.12-2.14C24 15.93 24 12 24 12s0-3.93-.5-5.81zM9.55 15.57V8.43L15.82 12l-6.27 3.57z"/></svg></a></span></div>
-</footer><script>const hd=document.getElementById("hd");addEventListener("scroll",()=>hd&&hd.classList.toggle("sc",scrollY>40),{passive:true});</script><script>async function envoyer(){const m=document.getElementById("fmsg");m.textContent="Envoi…";try{const r=await fetch("https://api.uqplatform.com/api/contact",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({nom:fn.value,email:fe.value,message:fm2.value})});m.textContent=r.ok?"Envoyé — réponse sous 48h":"Erreur"}catch(e){m.textContent="Écrivez à contact@uqplatform.com"}}</script><script>
+</footer><script>const hd=document.getElementById("hd");addEventListener("scroll",()=>hd&&hd.classList.toggle("sc",scrollY>40),{passive:true});</script><script>async function envoyer(){const m=document.getElementById("fmsg");m.textContent="Envoi…";try{const r=await fetch("https://api.uqplatform.com/api/contact",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({nom:fn.value,email:fe.value,sujet:fs.value,message:fm2.value})});if(r.ok){m.textContent="Envoyé — réponse sous 48h"}else{throw new Error("HTTP "+r.status)}}catch(e){m.innerHTML='Serveur injoignable — écris directement à <a href="mailto:contact@uqplatform.com?subject='+encodeURIComponent('Contact UQZ — '+fs.value)+'&body='+encodeURIComponent(fn.value+' ('+fe.value+')\n\n'+fm2.value)+'">contact@uqplatform.com</a>'}}</script><script>
 function uqMenu(b){const m=document.querySelector('.menu');m.classList.toggle('on');b.setAttribute('aria-expanded',m.classList.contains('on'));}
 document.addEventListener('click',e=>{const m=document.querySelector('.menu');if(m&&m.classList.contains('on')&&!e.target.closest('.hd'))m.classList.remove('on')});
 addEventListener('scroll',()=>{const m=document.querySelector('.menu');if(m)m.classList.remove('on')},{passive:true});

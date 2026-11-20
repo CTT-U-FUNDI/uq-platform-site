@@ -1,0 +1,38 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Page introuvable — UQZ</title><meta name="description" content="Cette page n'existe pas — retournez à l'accueil UQZ."><link rel="icon" type="image/svg+xml" href="./assets/uq-logo.svg"><link rel="stylesheet" href="./assets/fonts/fonts.css"><link rel="stylesheet" href="./site.css"><meta property="og:type" content="website"><meta property="og:site_name" content="UQZ"><meta property="og:title" content="Page introuvable — UQZ"><meta property="og:description" content="Cette page n'existe pas — retournez à l'accueil UQZ."><meta property="og:url" content="https://uqplatform.com/404.html"><meta property="og:image" content="https://uqplatform.com/assets/img/hero.jpg"><meta property="og:locale" content="fr_FR"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Page introuvable — UQZ"><meta name="twitter:description" content="Cette page n'existe pas — retournez à l'accueil UQZ."><meta name="twitter:image" content="https://uqplatform.com/assets/img/hero.jpg"><meta name="theme-color" content="#0a0e14"></head><body><header class="hd" id="hd">
+  <a class="logo" href="./index.html"><img src="./assets/uq-logo.svg" alt="UQZ"> UQZ</a>
+  <nav class="nav"><ul>
+    <li><a href="./index.html">Accueil</a></li>
+    <li><a href="./zando.html">Zando</a></li>
+    <li><a href="./borb.html">Wallet</a></li>
+    <li><a href="./chat.html">Chat &amp; Mail</a></li>
+    <li><a href="./studio.html">Studio</a></li>
+  </ul></nav>
+  <a class="hd-login" href="./login.html">Se connecter</a>
+  <a class="hd-cta" href="./signup.html">Créer un compte</a>
+  <button class="burger" onclick="uqMenu(this)" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  <div class="menu"><ul>
+    <li><a href="./index.html">Accueil</a></li>
+    <li><a href="./zando.html">Zando</a></li>
+    <li><a href="./borb.html">UQ Wallet</a></li>
+    <li><a href="./auth.html">UQ Auth</a></li>
+    <li><a href="./chat.html">UQ Chat &amp; Mail</a></li>
+    <li><a href="./studio.html">UQ Studio</a></li>
+    <li><a href="./trading.html">UQ Trading</a></li>
+    <li><a href="./signup.html">Créer un compte</a></li>
+    <li><a href="./contact.html">Contact</a></li>
+    <li><a href="./login.html">Se connecter</a></li>
+    <li class="hd-cta" href="./signup.html">Créer un compte</a></li>
+  </ul></div>
+</header>
+<div class="page"><div class="content" style="text-align:center;padding-top:120px">
+  <div class="eyebrow">Erreur 404</div>
+  <h1>Page introuvable</h1>
+  <p class="meta" style="max-width:480px;margin:0 auto 30px">Cette page n'existe pas ou a été déplacée. L'accueil UQZ vous attend.</p>
+  <a class="btn btn-p btn-lg" href="./index.html">Retour à l'accueil</a>
+</div></div>
+<footer><div class="fcols"><div class="fbrand"><a class="logo" href="./index.html"><img src="./assets/uq-logo.svg" alt="UQZ"> UQZ</a><p>Ufundi Quotidienne Zando — l'écosystème UQ qui connecte l'Afrique.</p></div></div><div class="fbot"><span>© 2026 UQZ</span></div></footer>
+<script>const hd=document.getElementById('hd');addEventListener('scroll',()=>hd&&hd.classList.toggle('sc',scrollY>40),{passive:true});
+function uqMenu(b){const m=document.querySelector('.menu');if(m){m.classList.toggle('on');b.setAttribute('aria-expanded',m.classList.contains('on'))}}
+document.addEventListener('click',e=>{const m=document.querySelector('.menu'),b=document.querySelector('.burger');if(m&&m.classList.contains('on')&&!m.contains(e.target)&&!b.contains(e.target))m.classList.remove('on')});</script>
+<script src="./theme.js" defer></script>
+</body></html>
