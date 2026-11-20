@@ -103,7 +103,7 @@ export const CHAMPS_CREATION = [
     ],
   },
   {
-    etape: 2, titre: 'Naissance', guide: 'Utilisé uniquement pour la vérification d\u2019âge et le KYC.',
+    etape: 2, titre: 'Naissance', guide: 'Utilisé pour vérifier ta majorité (18 ans minimum — voir les CGU) et le KYC.',
     champs: [
       { nom: 'date_naissance', label: 'Date de naissance', type: 'date', requis: true },
       { nom: 'lieu_naissance', label: 'Lieu de naissance', type: 'text', requis: true },
