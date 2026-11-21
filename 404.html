@@ -34,5 +34,6 @@
 <script>const hd=document.getElementById('hd');addEventListener('scroll',()=>hd&&hd.classList.toggle('sc',scrollY>40),{passive:true});
 function uqMenu(b){const m=document.querySelector('.menu');if(m){m.classList.toggle('on');b.setAttribute('aria-expanded',m.classList.contains('on'))}}
 document.addEventListener('click',e=>{const m=document.querySelector('.menu'),b=document.querySelector('.burger');if(m&&m.classList.contains('on')&&!m.contains(e.target)&&!b.contains(e.target))m.classList.remove('on')});</script>
+<script src="./site-sections.js" defer></script>
 <script src="./theme.js" defer></script>
 </body></html>

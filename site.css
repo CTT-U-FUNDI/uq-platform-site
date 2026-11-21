@@ -189,6 +189,15 @@ footer{border-top:1px solid var(--line);padding:56px 40px 32px;background:#000}
 .mail .msg.ok{display:block;background:rgba(16,124,16,.15);border:1px solid rgba(16,124,16,.4);color:#7ee787}
 .mail .msg.err{display:block;background:rgba(255,69,58,.12);border:1px solid rgba(255,69,58,.4);color:#ff9d97}
 
+/* NAVIGATION PAR SECTIONS (pages détail) */
+.page:has(> .pnav){display:flex;justify-content:center;gap:36px;align-items:flex-start}
+.page > .pnav{position:sticky;top:88px;flex:none;width:230px;display:flex;flex-direction:column;gap:6px;padding:12px;background:var(--glass);border:1px solid var(--line);border-radius:16px;backdrop-filter:blur(12px);max-height:calc(100vh - 110px);overflow-y:auto}
+.page > .pnav button{font-family:inherit;font-size:.82rem;font-weight:500;color:var(--dim);background:transparent;border:1px solid transparent;padding:10px 14px;border-radius:10px;cursor:pointer;text-align:left;transition:.2s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.page > .pnav button:hover{color:#fff;background:rgba(255,255,255,.07)}
+.page > .pnav button.on{color:#fff;background:var(--blue);border-color:var(--blue)}
+.page:has(> .pnav) > .content{flex:1 1 720px;max-width:720px;margin:0}
+.psec[hidden]{display:none}
+
 /* RÉVÉLATION */
 .rv{opacity:0;transform:translateY(26px);filter:brightness(.3) blur(6px);transition:opacity var(--rv-dur) var(--spring),transform var(--rv-dur) var(--spring),filter calc(var(--rv-dur) + .1s) var(--spring)}
 .rv.on{opacity:1;transform:none;filter:none}
@@ -218,6 +227,12 @@ footer{border-top:1px solid var(--line);padding:56px 40px 32px;background:#000}
   .mail .row2{grid-template-columns:1fr}
   .content{padding:48px 22px}
   .mail{padding:48px 22px}
+  .page:has(> .pnav){display:block}
+  .page > .pnav{position:static;width:auto;flex-direction:row;overflow-x:auto;overflow-y:hidden;gap:8px;padding:10px;margin:0 20px 18px;border-radius:14px;scrollbar-width:none}
+  .page > .pnav::-webkit-scrollbar{display:none}
+  .page > .pnav button{flex:none;padding:9px 14px;font-size:.8rem;border:1px solid var(--line2);border-radius:99px;background:rgba(255,255,255,.05)}
+  .page > .pnav button.on{background:var(--blue);border-color:var(--blue)}
+  .page:has(> .pnav) > .content{max-width:none;margin:0}
 }
 @media(max-width:480px){
   .pillars{grid-template-columns:1fr}
